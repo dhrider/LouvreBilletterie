@@ -124,7 +124,7 @@ $minorProblems = $symfonyRequirements->getFailedRecommendations();
         <div id="content">
             <div class="header clear-fix">
                 <div class="header-logo">
-                    <img src="../src/Louvre/BilletterieBundle/Resources/public/image/logo_symfony.png" alt="Symfony" />
+                    <img src="bundles/framework/images/logo_symfony.png" alt="Symfony" />
                 </div>
 
                 <div class="search">
