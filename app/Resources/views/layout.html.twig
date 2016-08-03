@@ -1,0 +1,46 @@
+{# app/Ressources/views/layout.html.twig #}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width-device-width, initial-scale-1">
+        <title>{% block title %}Musée Louvre{% endblock %}</title>
+        {% block stylesheet %}
+            <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+            <link rel="stylesheet" href="{{ asset('bundles/louvrebilletterie/css/style.css') }}" type="text/css" />
+        {% endblock %}
+        {% block javascripts %}
+            {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+            <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        {% endblock %}
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            <div class="header">
+                <div class="row">
+                    <div class="col-lg-12"><img id="logo" src="{{ asset('bundles/louvrebilletterie/image/louvre_logo_frise.png') }}"/></div>
+                </div>
+            </div>
+            <nav class="navbar">
+                <div class="container-fluid">
+                    <ul class="nav navbar-nav">
+                        <li><a class="col-sm-4" href="{{ path('louvre_billetterie_homepage') }}">ACCUEIL</a></li>
+                        <li><a class="col-sm-4" href="{{ path('louvre_billetterie_achat') }}">ACHETEZ DES BILLETS</a></li>
+                        <li><a class="col-sm-4" href="{{ path('louvre_billetterie_apropos') }}">A PROPOS</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <div id="content" class="col-lg-12">
+                {% block body %}
+                {% endblock %}
+            </div>
+
+            <footer>
+                <p id="copyright" class="col-md-12">COPYRIGHT LE LOUVRE - 2016</p>
+            </footer>
+        </div>
+    </body>
+</html>

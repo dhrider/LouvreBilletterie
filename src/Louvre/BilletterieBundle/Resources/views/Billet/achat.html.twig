@@ -1,0 +1,29 @@
+{# src/Louvre/BilletterieBundle/Ressources/views/Billet/achat.html.twig#}
+
+{% extends "::layout.html.twig" %}
+
+{% block body %}
+    <div class="container col-md-offset-2 col-md-8">
+        <ul class="nav nav-tabs">
+            <li class="nav col-md-3 active"><a href="#jour" data-toggle="tab">Jour de la visite</a></li>
+            <li class="nav col-md-3"><a href="#billet" data-toggle="tab">Vos billets</a></li>
+            <li class="nav col-md-3"><a href="#coordonnees" data-toggle="tab">Vos coordonnées</a></li>
+            <li class="nav col-md-3"><a href="#paiement" data-toggle="tab">Paiement</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane active" id="jour">
+                <h3>CALENDRIER</h3>
+            </div>
+            <div class="tab-pane active" id="billet">
+                <h3>BILLET</h3>
+            </div>
+            <div class="tab-pane active" id="coordonnees">git
+                <h3>ADRESSE</h3>
+            </div>
+            <div class="tab-pane active" id="paiement">
+                <h3>PAYER</h3>
+            </div>
+        </div>
+    </div>
+{% endblock %}

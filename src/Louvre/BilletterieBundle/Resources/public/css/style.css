@@ -1,0 +1,35 @@
+#logo {
+    width: 100%;
+    overflow: hidden;
+}
+
+.navbar {
+    background-color: #777777;
+    margin-bottom: 0;
+}
+
+a {
+    color: black;
+}
+
+#content {
+    background-color: #DDDDDD;
+}
+
+h1{
+    text-align: center;
+}
+
+p {
+    text-align: justify;
+}
+
+#copyright {
+    text-align: center;
+    background-color: #777777;
+}
+
+.imageHome {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

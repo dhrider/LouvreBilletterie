@@ -1,0 +1,13 @@
+# src/Louvre/BilletterieBundle/Ressources/config/routing.yml
+
+louvre_billetterie_homepage:
+    path:     /home
+    defaults: { _controller: LouvreBilletterieBundle:Billet:index }
+
+louvre_billetterie_achat:
+    path:    /achat
+    defaults: { _controller: LouvreBilletterieBundle:Billet:achat }
+
+louvre_billetterie_apropos:
+    path:    /apropos
+    defaults: { _controller: LouvreBilletterieBundle:Billet:apropos }
