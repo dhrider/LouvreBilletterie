@@ -5,6 +5,4 @@ louvre_billetterie:
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
-adesigns_calendar:
-  resource: "@ADesignsCalendarBundle/Resources/config/routing.xml"
 
