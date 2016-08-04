@@ -31,7 +31,8 @@
         "symfony/assetic-bundle": "^2.8",
         "leafo/scssphp": "~0.6",
         "patchwork/jsqueeze": "~1.0",
-        "friendsofsymfony/jsrouting-bundle": "^1.6"
+        "friendsofsymfony/jsrouting-bundle": "^1.6",
+        "adesigns/calendar-bundle": "^1.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
