@@ -8,6 +8,15 @@
     margin-bottom: 0;
 }
 
+.navbar-nav {
+    width: 100%;
+}
+
+.navbar-nav>li{
+    text-align: center;
+    float:none;
+}
+
 a {
     color: black;
 }
@@ -32,4 +41,20 @@ p {
 .imageHome {
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+.img-responsive {
+    margin: 0 auto;
+}
+
+.colonneHomepage {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+#corpsAchat {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    height: 400px;
+    background-color: #eeeeee;
 }
