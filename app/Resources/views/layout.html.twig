@@ -9,15 +9,12 @@
         {% block stylesheet %}
             <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
             <link rel="stylesheet" href="{{ asset('bundles/louvrebilletterie/css/style.css') }}" type="text/css" />
-            <link rel="stylesheet" href="{{ asset('bundles/adesignscalendar/css/fullcalendar/fullcalendar.css') }}" />
         {% endblock %}
         {% block javascripts %}
             {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
             <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
             <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-            <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/jquery/jquery-1.8.2.min.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/calendar-settings.js') }}"></script>
+
         {% endblock %}
     </head>
 
@@ -31,9 +28,9 @@
             <nav class="navbar">
                 <div class="container-fluid">
                     <ul class="nav navbar-nav">
-                        <li><a class="col-sm-4" href="{{ path('louvre_billetterie_homepage') }}">ACCUEIL</a></li>
-                        <li><a class="col-sm-4" href="{{ path('louvre_billetterie_achat') }}">ACHETEZ DES BILLETS</a></li>
-                        <li><a class="col-sm-4" href="{{ path('louvre_billetterie_apropos') }}">A PROPOS</a></li>
+                        <li><a class="col-sm-4 navigationPage" href="{{ path('louvre_billetterie_homepage') }}">ACCUEIL</a></li>
+                        <li><a class="col-sm-4 navigationPage" href="{{ path('louvre_billetterie_achat') }}">ACHETEZ DES BILLETS</a></li>
+                        <li><a class="col-sm-4 navigationPage" href="{{ path('louvre_billetterie_apropos') }}">A PROPOS</a></li>
                     </ul>
                 </div>
             </nav>
