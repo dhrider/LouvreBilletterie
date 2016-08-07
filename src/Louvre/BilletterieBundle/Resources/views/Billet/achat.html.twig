@@ -17,14 +17,10 @@
                 <br/>
                 <label for="date">Date de la visite :</label>
                 <input type="text" id="datepicker" class="datepicker">
-                <br/>
-                <button type="button" class="btn btn-default" id="btnSuivantBillet" href="#">Suivant</button>
             </div>
             <div class="tab-pane" id="billet">
                 <br/>
                 <h4>BILLET</h4>
-                <button type="button" class="btn btn-default" id="btnPrecedentJour" href="#">Précedent</button>
-                <button type="button" class="btn btn-default" id="btnSuivantCoordonnees" href="#">Suivant</button>
             </div>
             <div class="tab-pane" id="coordonnees">
                 <br/>
@@ -49,15 +45,14 @@
                         </div>
                     </div>
                 </form>
-                <button type="button" class="btn btn-default" id="btnPrecedentBillet" href="#">Précedent</button>
-                <button type="button" class="btn btn-default" id="btnSuivantPaiement" href="#">Suivant</button>
             </div>
             <div class="tab-pane" id="paiement">
                 <br/>
                 <h3>PAYER</h3>
-                <button type="button" class="btn btn-default" id="btnPrecedentCoordonnees" href="#">Précedent</button>
-                <button type="button" class="btn btn-default" id="btnPayer" href="#">Suivant</button>
+
             </div>
+            <button type="button" class="btn btn-default" id="btnPrecedentCoordonnees" href="#">Précedent</button>
+            <button type="button" class="btn btn-default pull-right" id="btnPayer" href="#">Suivant</button>
         </div>
     </div>
     <script>
@@ -72,21 +67,13 @@
                 $('#tab a[href="#coordonnees"]').tab('show');
             })
 
-            $('#btnSuivantPaiement').click(function () {
-                $('#tab a[href="#paiement"]').tab('show');
-            })
 
-            $('#btnPrecedentJour').click(function () {
-                $('#tab a[href="#jour"]').tab('show');
-            })
 
-            $('#btnPrecedentBillet').click(function () {
-                $('#tab a[href="#billet"]').tab('show');
-            })
-
-            $('#btnPrecedentCoordonnees').click(function () {
-                $('#tab a[href="#coordonnees"]').tab('show');
-            })
+            /*$('.pull-down').each(function() {
+                var $this=$(this);
+                $this.css('margin-top', $('#corpsAchat').height()-$this.height());
+                console.log($this);
+            });*/
         });
     </script>
 {% endblock %}
