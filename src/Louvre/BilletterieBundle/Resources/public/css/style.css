@@ -56,4 +56,9 @@ p {
     margin-top: 50px;
     margin-bottom: 50px;
     background-color: #eeeeee;
+    height: 400px;
+}
+
+.tab-content {
+    height: 358px;
 }
