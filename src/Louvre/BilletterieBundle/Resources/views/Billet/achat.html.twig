@@ -17,10 +17,56 @@
                 <label for="date">Date de la visite :</label>
                 <input type="text" id="datepicker" class="datepicker">
             </div>
+
             <div class="tab-pane" id="billet">
                 <br/>
-                <h4>BILLET</h4>
+                <h4>Billet(s) pour le : </h4><span></span>
+                <label><em>Renseigner les informations du billet :</em></label>
+                <div class="table-responsive">
+                    <table class="table table-borderded">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Pays</th>
+                                <th>Date de Naissance</th>
+                                <th>Type de billet</th>
+                                <th>Tarif réduit</th>
+                                <th>Prix</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="text" id="nomBillet">
+                                </td>
+                                <td>
+                                    <input type="text" id="prenomBillet">
+                                </td>
+                                <td>
+                                    <input type="hidden" data-role="country-selector" value="FRA" />
+                                </td>
+                                <td>
+                                    <input type="date" id="naissanceBillet">
+                                </td>
+                                <td>
+                                    <select type="form-control" id="typeBillet">
+                                        <option value="journee">Journée</option>
+                                        <option value="demiJournee">Demi-journée</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="reduitBillet">
+                                </td>
+                                <td>
+                                    <p id="prixBillet">xx €</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+
             <div class="tab-pane" id="coordonnees">
                 <br/>
                 <h4 id="titreCoordonnees">Vos coordonnées :</h4>
@@ -45,12 +91,13 @@
                     </div>
                 </form>
             </div>
+
             <div class="tab-pane" id="paiement">
                 <br/>
                 <h3>PAYER</h3>
             </div>
         </div>
-        <button type="button" class="btn btn-default" id="btnPrecedent" href="#" >Précédent</button>
+        <button type="button" class="btn btn-default" id="btnPrecedent" href="#" style="display: none">Précédent</button>
         <button type="button" class="btn btn-default pull-right" id="btnSuivant" href="#">Suivant</button>
     </div>
     <script>
@@ -59,6 +106,7 @@
 
             $('#btnSuivant').click(function () {
                 $('.nav-tabs > .active').next('li').find('a').trigger('click');
+                $('#btnPrecedent').show();
             });
 
             $('#btnPrecedent').click(function () {
