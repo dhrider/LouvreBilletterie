@@ -62,3 +62,15 @@ p {
 .tab-content {
     height: 358px;
 }
+
+#nomBillet, #prenomBillet, #paysBillet, #naissanceBillet, #typeBillet {
+    height: 26px;
+}
+
+#paysBillet {
+    width: 50px;
+}
+
+table {
+    table-layout: fixed;
+}
