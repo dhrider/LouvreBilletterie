@@ -2,7 +2,6 @@
 
 {% extends "::layout.html.twig" %}
 
-
 {% block body %}
     <div class="container col-md-offset-2 col-md-8" id="corpsAchat">
         <ul class="nav nav-tabs" id="tab">
@@ -49,31 +48,22 @@
             <div class="tab-pane" id="paiement">
                 <br/>
                 <h3>PAYER</h3>
-
             </div>
-            <button type="button" class="btn btn-default" id="btnPrecedentCoordonnees" href="#">Précedent</button>
-            <button type="button" class="btn btn-default pull-right" id="btnPayer" href="#">Suivant</button>
         </div>
+        <button type="button" class="btn btn-default" id="btnPrecedent" href="#" >Précédent</button>
+        <button type="button" class="btn btn-default pull-right" id="btnSuivant" href="#">Suivant</button>
     </div>
     <script>
         $(function() {
             $('.datepicker').datepicker();
 
-            $('#btnSuivantBillet').click(function () {
-                $('#tab a[href="#billet"]').tab('show');
-            })
+            $('#btnSuivant').click(function () {
+                $('.nav-tabs > .active').next('li').find('a').trigger('click');
+            });
 
-            $('#btnSuivantCoordonnees').click(function () {
-                $('#tab a[href="#coordonnees"]').tab('show');
-            })
-
-
-
-            /*$('.pull-down').each(function() {
-                var $this=$(this);
-                $this.css('margin-top', $('#corpsAchat').height()-$this.height());
-                console.log($this);
-            });*/
+            $('#btnPrecedent').click(function () {
+                $('.nav-tabs > .active').prev('li').find('a').trigger('click');
+            });
         });
     </script>
 {% endblock %}
