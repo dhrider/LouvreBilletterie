@@ -56,21 +56,49 @@ p {
     margin-top: 50px;
     margin-bottom: 50px;
     background-color: #eeeeee;
-    height: 400px;
+    height: 500px;
 }
 
 .tab-content {
-    height: 358px;
+    height: 458px;
 }
 
-#nomBillet, #prenomBillet, #paysBillet, #naissanceBillet, #typeBillet {
-    height: 26px;
+.table-responsive {
+    width: auto;
 }
 
-#paysBillet {
-    width: 50px;
+#tableBillet>tr {
+    text-align: center;
 }
 
-table {
-    table-layout: fixed;
+.champsBillet {
+    display: inline-block;
+}
+
+#detailBillet input, select {
+    height: 23px;
+    width: 95%;
+}
+
+input[type=checkbox] {
+    transform: scale(0.5);
+    vertical-align: middle;
+}
+
+#detailBillet label {
+    display: block;
+    text-align: center;
+    font-size: x-small;
+    margin-bottom: 0;
+    margin-top: 10px;
+}
+
+.col-md-2 {
+    margin: 0;
+    padding: 0;
+}
+
+#coordonnees label {
+    display: inline-block;
+    vertical-align: middle;
 }
