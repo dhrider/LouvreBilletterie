@@ -98,7 +98,10 @@ input[type=checkbox] {
     padding: 0;
 }
 
-#coordonnees label {
+.form-inline label, input {
     display: inline-block;
-    vertical-align: middle;
+}
+
+#coordonnees label {
+    height: 34px;
 }

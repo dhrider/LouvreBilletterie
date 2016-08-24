@@ -109,24 +109,21 @@
             <div class="tab-pane" id="coordonnees">
                 <br/>
                 <h4 id="titreCoordonnees">Vos coordonnées :</h4>
-                <form role="form" class="form-horizontal">
-                    <div class="form-group">
-                        <label class="control-panel col-sm-2" for="nom">Nom : </label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="nom" placeholder="Entrez votre nom">
-                        </div>
+                <form role="form" class="form-horizontal container-fluid">
+                    <div class="form-inline row col-md-12">
+                        <label class="control-panel col-md-3" for="nom">Nom : </label>
+                        <input type="text" class="form-control" id="nom" placeholder="Entrez votre nom">
+                        <span class="alert-danger" id="erreurNom" hidden="hidden"> * Veuillez entrer votre nom</span>
                     </div>
-                    <div class="form-group">
-                        <label class="control-panel col-sm-2" for="prenom">Prénom : </label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="prenom" placeholder="Entrez votre prénom">
-                        </div>
+                    <div class="form-inline row col-md-12">
+                        <label class="control-panel col-md-3" for="prenom">Prénom : </label>
+                        <input type="text" class="form-control" id="prenom" placeholder="Entrez votre prénom">
+                        <span class="alert-danger" id="erreurPrenom" hidden="hidden"> * Veuillez entrer un prénom</span>
                     </div>
-                    <div class="form-group">
-                        <label class="control-panel col-sm-2" for="email">E-mail : </label>
-                        <div class="col-sm-10">
-                            <input type="email" class="form-control" id="email" placeholder="Entrez votre E-mail">
-                        </div>
+                    <div class="form-inline row col-md-12">
+                        <label class="control-panel col-md-3" for="email">E-mail : </label>
+                        <input type="email" class="form-control" id="email" placeholder="Entrez votre E-mail">
+                        <span class="alert-danger" id="erreurEmail" hidden="hidden"> * Veuillez entrez un Email valide</span>
                     </div>
                 </form>
             </div>
@@ -142,15 +139,17 @@
     </div>
     <script>
         $(document).ready(function() {
-            // Vérification du choix de la date de visite
-            /*$('[data-toggle="tab"]').click(function (e) {
+            // Vérification des champs input
+            $('[data-toggle="tab"]').click(function (e) {
+                // On vérifie que la date est choisie
                 if ($('#dateVisite')[0].value === ""){
-                    $('#erreurDate')[0].innerHTML = " * Veuillez entrer un date";
+                    $('#erreurDate')[0].innerHTML = "  * Veuillez entrer un date";
                     e.preventDefault();
                     return false;
-            }
-            });*/
+                }
+            });
 
+            // On efface le message d'erreur date quand on revient sur l'onglet
             $('#dateVisite').click(function () {
                 $('#erreurDate')[0].innerHTML = "";
             });

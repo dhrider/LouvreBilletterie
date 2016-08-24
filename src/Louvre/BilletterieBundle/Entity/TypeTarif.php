@@ -22,16 +22,14 @@ class TypeTarif
     private $id;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id_type_billet", type="integer")
+     * @ORM\ManyToOne(targetEntity="Louvre\BilletterieBundle\Entity\TypeBillet")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $idTypeBillet;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id_tarif", type="integer")
+     * @ORM\ManyToOne(targetEntity="Louvre\BilletterieBundle\Entity\Tarif")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $idTarif;
 
@@ -46,14 +44,8 @@ class TypeTarif
         return $this->id;
     }
 
-    /**
-     * Set idTypeBillet
-     *
-     * @param integer $idTypeBillet
-     *
-     * @return TypeTarif
-     */
-    public function setIdTypeBillet($idTypeBillet)
+
+    public function setIdTypeBillet(TypeBillet $idTypeBillet)
     {
         $this->idTypeBillet = $idTypeBillet;
 
@@ -70,14 +62,8 @@ class TypeTarif
         return $this->idTypeBillet;
     }
 
-    /**
-     * Set idTarif
-     *
-     * @param integer $idTarif
-     *
-     * @return TypeTarif
-     */
-    public function setIdTarif($idTarif)
+
+    public function setIdTarif(Tarif $idTarif)
     {
         $this->idTarif = $idTarif;
 

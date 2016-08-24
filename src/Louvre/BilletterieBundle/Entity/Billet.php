@@ -60,6 +60,8 @@ class Billet
      * @var int
      *
      * @ORM\Column(name="id_type_tarif", type="smallint")
+     * @ORM\ManyToOne(targetEntity="Louvre\BilletterieBundle\Entity\Billet")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $idTypeTarif;
 
@@ -194,26 +196,15 @@ class Billet
         return $this->dateNaissance;
     }
 
-    /**
-     * Set idTypeTarif
-     *
-     * @param integer $idTypeTarif
-     *
-     * @return Billet
-     */
-    public function setIdTypeTarif($idTypeTarif)
+    
+    public function setIdTypeTarif(TypeTarif $idTypeTarif)
     {
         $this->idTypeTarif = $idTypeTarif;
 
         return $this;
     }
 
-    /**
-     * Get idTypeTarif
-     *
-     * @return int
-     */
-    public function getIdTypeTarif()
+        public function getIdTypeTarif()
     {
         return $this->idTypeTarif;
     }
