@@ -12,22 +12,35 @@ class LoadTarif implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         $tarifs = array(
-            'normal' => 16,
-            'enfant' => 8,
-            'senior' => 12,
-            'réduit' => 10,
-            'famille' => 35
+            array('normal','journee',16),
+            array('normal','demi',8),
+            array('enfant','journee',8),
+            array('enfant','demi',4),
+            array('senior','journee',12),
+            array('senior','demi',6),
+            array('reduit','journee',10),
+            array('reduit','demi',5),
+            array('famille','journee',35),
+            array('famille','demi',17.5)
         );
-
-        foreach ($tarifs as $cle => $valeur) {
+        
+        foreach ($tarifs as $tarif) {
             $newTarif = new Tarif();
             
-            $newTarif->setNom($cle);
-            $newTarif->setMontant($valeur);
-            
-            $manager->persist($newTarif);            
+            foreach ($tarif as $cle => $valeur) {
+                if ($cle === 0) {
+                    $newTarif->setNom($valeur);
+                }
+                elseif ($cle === 1) {
+                    $newTarif->setType($valeur);
+                }
+                else {
+                    $newTarif->setMontant($valeur);
+                }  
+            }
+            $manager->persist($newTarif);
         }
-        
+
         $manager->flush();
     }
 }
