@@ -22,87 +22,17 @@
                 <br/>
 
                 <h4 id="dateChoisie">Billet(s) pour le : </h4>
-                <label><em>Renseigner les informations du billet :</em></label>
 
-                <div class="row table-bordered">
-                    <div class="col-md-12" id="detailBillet">
-                    <div class="champsBillet col-md-2" id="nomBillet">
-                        <label for="nom">Nom</label>
-                        <input type="text" id="inputNomBillet">
+                <div class="container-fluid">
+                    <div class="col-md-6">
+                        <label><em>Renseigner les informations du billet :</em></label>
+                        <div class="well">
+                            {{ form(form) }}
+                        </div>
                     </div>
-
-                    <div class="champsBillet col-md-2" id="prenomBillet">
-                        <label for="prenom">Prénom</label>
-                        <input type="text" id="inputPrenomBillet">
+                    <div class="col-md-6">
+                        <label><em>Récapitulatif des billet :</em></label>
                     </div>
-
-                    <div class="champsBillet col-md-2" id="paysBillet">
-                        <label for="pays">Pays</label>
-                        <select type="text" id="selectPaysBillet">
-                            <option selected="selected" id="FR">France</option>
-                        </select>
-                    </div>
-
-                    <div class="champsBillet col-md-2" id="naissanceBillet">
-                        <label for="naissance">Date de naissance</label>
-                        <input class="datepicker" type="datepicker" id="inputNaissanceBillet">
-                    </div>
-
-                    <div class="champsBillet col-md-2" id="typeBillet">
-                        <label for="type">Durée</label>
-                        <select type="text" id="selectTypeBillet">
-                            <option selected="selected" id="journee">Journée</option>
-                            <option id="demiJournee">Demi-journée</option>
-                        </select>
-                    </div>
-
-                    <div class="champsBillet col-md-1" id="reduitBillet">
-                        <label for="reduit">Réduit</label>
-                        <input type="checkbox" id="inputReduitBillet">
-                    </div>
-
-                    <div class="champsBillet col-md-1" id="tarifBillet">
-                        <label for="tarif">Tarif</label>
-                        <input type="text" id="inputTarifBillet" disabled="disabled">
-                    </div>
-                </div>
-                </div>
-
-                <button class="btn btn-default pull-right">Enregistrer le billet</button>
-
-                <br/>
-                <br/>
-                <br/>
-
-                <label><em>Récapitulatif des billet :</em></label>
-
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="tableRecapBillets">
-                        <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Prénom</th>
-                            <th>Pays</th>
-                            <th>Date de Naissance</th>
-                            <th>Type de billet</th>
-                            <th>Tarif réduit</th>
-                            <th>Prix</th>
-                            <th>Supprimer</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td for="nom"></td>
-                            <td for="prénom"></td>
-                            <td for="pays"></td>
-                            <td for="dateNaissance"></td>
-                            <td for="typeBillet"></td>
-                            <td for="tarifReduit"></td>
-                            <td for="prix"></td>
-                            <td for="supprimer"></td>
-                        </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
 

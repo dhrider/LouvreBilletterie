@@ -38,6 +38,7 @@ class LoadTarif implements FixtureInterface
                     $newTarif->setMontant($valeur);
                 }  
             }
+
             $manager->persist($newTarif);
         }
 
