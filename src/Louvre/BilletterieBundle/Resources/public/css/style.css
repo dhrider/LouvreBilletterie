@@ -105,3 +105,7 @@ input[type=checkbox] {
 #coordonnees label {
     height: 34px;
 }
+
+.datepicker {
+    margin-top: 60px;
+}
