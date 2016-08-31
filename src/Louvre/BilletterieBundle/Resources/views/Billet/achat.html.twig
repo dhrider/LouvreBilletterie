@@ -27,7 +27,12 @@
                     <div class="col-md-6">
                         <label><em>Renseigner les informations du billet :</em></label>
                         <div class="well">
-                            {{ form(form) }}
+                            <div id="Billets" data-prototype="{{ form_widget(form.billets.vars.prototype)|e }}">
+                                {% for billet in form.billets %}
+                                    {{ form_widget(billet) }}
+                                {% endfor %}
+                            </div>
+                            <a class="btn btn-primary add-billet" href="#">Ajouter un nouveau billet</a>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -136,6 +141,15 @@
                     $('#btnSuivant')[0].innerText = "Suivant"; // On change le texte du bouton
                 }
             });
+
+            $('.add-billet').click(function (e) {
+                e.preventDefault();
+                var billets = $('#Billets');
+                var billet = billets.data('prototype');
+                var newBillet = $('<div></div>').html(billet);
+
+                newBillet.appendTo(billets);
+            })
         })
     </script>
 {% endblock %}

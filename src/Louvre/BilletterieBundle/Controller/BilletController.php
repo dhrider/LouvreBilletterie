@@ -4,15 +4,9 @@
 namespace Louvre\BilletterieBundle\Controller;
 
 use Louvre\BilletterieBundle\Entity\Billet;
-use Louvre\BilletterieBundle\Form\BilletType;
+use Louvre\BilletterieBundle\Entity\Reservation;
+use Louvre\BilletterieBundle\Form\ReservationType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class BilletController extends Controller
 {
@@ -24,7 +18,10 @@ class BilletController extends Controller
     public function achatAction()
     {
         $billet = new Billet();
-        $form = $this->get('form.factory')->create(BilletType::class, $billet);
+        $reservation = new Reservation();
+        $reservation->addBillet($billet);
+
+        $form = $this->get('form.factory')->create(ReservationType::class, $reservation);
 
         return $this->render('LouvreBilletterieBundle:Billet:achat.html.twig', array(
             'form' => $form->createView()

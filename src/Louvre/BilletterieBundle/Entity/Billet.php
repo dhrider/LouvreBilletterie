@@ -57,10 +57,10 @@ class Billet
     private $dateNaissance;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Louvre\BilletterieBundle\Entity\Tarif")
+     * @ORM\ManyToOne(targetEntity="Louvre\BilletterieBundle\Entity\Tarif", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $idTarif;
+    private $tarif;
 
     
     /**
@@ -194,16 +194,16 @@ class Billet
     }
 
     
-    public function setIdTarif(Tarif $idTarif)
+    public function setTarif(Tarif $tarif)
     {
-        $this->idTarif = $idTarif;
+        $this->tarif = $tarif;
 
         return $this;
     }
 
-        public function getIdTarif()
+        public function getTarif()
     {
-        return $this->idTarif;
+        return $this->tarif;
     }
 }
 

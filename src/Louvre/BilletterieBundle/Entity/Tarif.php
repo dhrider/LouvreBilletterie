@@ -124,5 +124,16 @@ class Tarif
     {
         return $this->montant;
     }
+    
+    /**
+     * Get display
+     * 
+     * @return string
+     */
+    public function getDisplay()
+    {
+
+        return $this->getNom()." - ".$this->getType()." - ".$this->getMontant()." €";
+    }
 }
 
