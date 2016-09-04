@@ -56,11 +56,10 @@ p {
     margin-top: 50px;
     margin-bottom: 50px;
     background-color: #eeeeee;
-    height: 500px;
 }
 
 .tab-content {
-    height: 458px;
+    height: auto;
 }
 
 .table-responsive {
@@ -107,5 +106,13 @@ input[type=checkbox] {
 }
 
 .datepicker {
-    margin-top: 60px;
+    margin-top: 25px;
+}
+
+.tab-pane {
+    min-height: 350px;
+}
+
+#content {
+    min-height: 550px;
 }

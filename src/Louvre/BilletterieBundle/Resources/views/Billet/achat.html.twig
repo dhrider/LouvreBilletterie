@@ -23,10 +23,10 @@
 
                 <h4 id="dateChoisie">Billet(s) pour le : </h4>
 
-                <div class="container-fluid">
-                    <div class="col-md-6">
+                <div>
+                    <div>
                         <label><em>Renseigner les informations du billet :</em></label>
-                        <div class="well">
+                        <div class="well container-fluid">
                             <div id="Billets" data-prototype="{{ form_widget(form.billets.vars.prototype)|e }}">
                                 {% for billet in form.billets %}
                                     {{ form_widget(billet) }}
@@ -34,9 +34,6 @@
                             </div>
                             <a class="btn btn-primary add-billet" href="#">Ajouter un nouveau billet</a>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label><em>Récapitulatif des billet :</em></label>
                     </div>
                 </div>
             </div>

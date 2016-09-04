@@ -27,14 +27,16 @@ $(document).ready(function() {
     $('.datepicker').datepicker({
         dateFormat: "dd/mm/yy"
     });
-
+    // affichage du datePicker centré
     var largeurContainer = $('.datepicker').width();
     var largeurDatePicker = $('.ui-datepicker').width();
+    var hauteurDatePicker = $('.ui-datepicker').height();
     var leftPos = (largeurContainer - largeurDatePicker) / 2;
     $('.ui-datepicker').css({
         left:leftPos,
         position: 'absolute'
     });
+    $('#dateVisite').css({'height': hauteurDatePicker});
     
     // Gestion du bouton "Suivant"
     $('#btnSuivant').click(function () { // A chaque click du bouton suivant

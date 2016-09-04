@@ -32,9 +32,5 @@ class BilletController extends Controller
     {
         return $this->render('LouvreBilletterieBundle:Billet:apropos.html.twig');
     }
-
-    public function addAction()
-    {
-       
     }
 }
