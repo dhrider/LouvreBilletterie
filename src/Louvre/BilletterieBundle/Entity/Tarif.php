@@ -27,14 +27,7 @@ class Tarif
      * @ORM\Column(name="nom", type="string", length=255)
      */
     private $nom;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="type", type="string", length=255)
-     */
-    private $type;
-
+    
     /**
      * @var int
      *
@@ -78,30 +71,6 @@ class Tarif
     }
 
     /**
-     * Set type
-     * 
-     * @param string $type
-     * 
-     * @return Tarif
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-        
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
      * Set montant
      *
      * @param integer $montant
@@ -133,7 +102,7 @@ class Tarif
     public function getDisplay()
     {
 
-        return $this->getNom()." - ".$this->getType()." - ".$this->getMontant()." €";
+        return $this->getNom()." - ".$this->getMontant()." €";
     }
 }
 

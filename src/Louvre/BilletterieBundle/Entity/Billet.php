@@ -57,10 +57,79 @@ class Billet
     private $dateNaissance;
 
     /**
+     * @var string
+     * 
+     * @ORM\Column(name="type", type="string", length=255)
+     */
+    private $type;
+
+    /**
+     * @var bool
+     * 
+     * @ORM\Column(name="reduit", type="boolean")
+     */
+    private $reduit;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Louvre\BilletterieBundle\Entity\Tarif", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $tarif;
+
+    /**
+     * @var int
+     * 
+     * @ORM\Column(name="montant", type="integer")
+     */
+    private $montant;
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReduit()
+    {
+        return $this->reduit;
+    }
+
+    /**
+     * @param mixed $reduit
+     */
+    public function setReduit($reduit)
+    {
+        $this->reduit = $reduit;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMontant()
+    {
+        return $this->montant;
+    }
+
+    /**
+     * @param mixed $montant
+     */
+    public function setMontant($montant)
+    {
+        $this->montant = $montant;
+    }
 
     
     /**

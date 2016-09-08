@@ -3,7 +3,7 @@
 {% extends "::layout.html.twig" %}
 
 {% block body %}
-    <div class="container-fluid col-md-offset-1 col-md-10" id="corpsAchat">
+    <div class="container-fluid col-md-offset-2 col-md-8" id="corpsAchat">
         <ul class="nav nav-tabs" id="tab">
             <li class="nav col-md-3 active"><a href="#jour" id="ongletJour" data-toggle="tab">Jour de la visite</a></li>
             <li class="nav col-md-3"><a href="#billet" id="ongletBillet" data-toggle="tab">Vos billets</a></li>
@@ -27,9 +27,12 @@
                     <div>
                         <label><em>Renseigner les informations du billet :</em></label>
                         <div class="well container-fluid">
-                            <div id="Billets" data-prototype="{{ form_widget(form.billets.vars.prototype)|e }}">
+                            <div id="Billets" data-prototype="{{ form_widget(form.billets.vars.prototype)|e }}" data-index="0">
                                 {% for billet in form.billets %}
-                                    {{ form_widget(billet) }}
+                                    <div class="billet">
+                                        {{ form_widget(billet) }}
+                                        <a class="btn btn-primary delete-billet" href="#">Supprimer le billet billet</a>
+                                    </div>
                                 {% endfor %}
                             </div>
                             <a class="btn btn-primary add-billet" href="#">Ajouter un nouveau billet</a>
