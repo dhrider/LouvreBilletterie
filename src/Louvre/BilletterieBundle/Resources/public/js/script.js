@@ -1,19 +1,4 @@
 $(document).ready(function() {
-    // Vérification des champs input
-    $('[data-toggle="tab"]').click(function (e) {
-        // On vérifie que la date est choisie
-        if ($('#dateVisite')[0].value === ""){
-            $('#erreurDate')[0].innerHTML = "  * Veuillez entrer un date";
-            e.preventDefault();
-            return false;
-        }
-    });
-
-    // On efface le message d'erreur date quand on revient sur l'onglet
-    $('#dateVisite').click(function () {
-        $('#erreurDate')[0].innerHTML = "";
-    });
-
     // Récupération de la date de visite du 1er => 2ème onglet
     $(document).on( 'shown.bs.tab', 'a', function (e) {
         if ($(e.target)[0].id == 'ongletBillet') {
@@ -22,13 +7,13 @@ $(document).ready(function() {
                 + dateRecup;
         }
     });
-
-    var joursFeries = ["11-1-2016", "11-11-2016"];
+    
+    
+    
 
     // Exclusion des dimanche du datepicker
     function disableSundayTuesdayDatePicker(date) {
         var day = date.getDay();
-
         if (day == 0 || day == 2) {
             return [false];
         }
@@ -43,6 +28,9 @@ $(document).ready(function() {
         dateFormat: "dd/mm/yy",
         beforeShowDay: disableSundayTuesdayDatePicker
     });
+    
+    
+    
 
     // affichage du datePicker centré
     var largeurContainer = $('.datepicker').width();
@@ -54,6 +42,9 @@ $(document).ready(function() {
         position: 'absolute'
     });
     $('#dateVisite').css({'height': hauteurDatePicker});
+    
+    
+    
     
     // Gestion du bouton "Suivant"
     $('#btnSuivant').click(function () { // A chaque click du bouton suivant
@@ -74,7 +65,10 @@ $(document).ready(function() {
             $('#btnSuivant')[0].innerText = "Payer";
         }
     });
-
+    
+    
+    
+    
     // Gestion du bouton "Précédent"
     $('#btnPrecedent').click(function () { // A chaque click du bouton précédent
         // On recherche la balise précédente
@@ -94,6 +88,9 @@ $(document).ready(function() {
         }
     });
 
+    
+    
+    
     // bouton ajouter Billet
     $('.add-billet').click(function (e) {
         e.preventDefault();
@@ -107,10 +104,38 @@ $(document).ready(function() {
         newBillet.appendTo(billets);
     });
 
+    
+    
+    
     // bouton supprimer billet
     $(document).on('click', '.delete-billet', function(e) {
         e.preventDefault();
-        console.log($(e.target).closest('.billet'));
         $(e.target).closest('.billet').remove();
-    })
+    });
+    
+    
+    
+    
+    // variables type de billet et tarif réduit
+    var selectType = "";
+    var selectReduit = false;
+    
+    
+    
+    
+    // affichage du prix du billet dynamique
+    // en fonction du type
+    $(document).on('change', '.choixType', function (e) {
+        e.preventDefault();          
+        if (selectType !== 'selection') {
+            selectType = $(e.target)[0].value;
+            //$('.montantBillet')[0].value =  selectType;
+        }
+    });
+    // en fonction du checkbox "réduit"
+    $(document).on('change', '.choixReduit', function (e) {
+        e.preventDefault();
+        selectReduit = $(e.target)[0].value;
+        console.log(selectReduit);
+    });
 });

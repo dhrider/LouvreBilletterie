@@ -4,6 +4,7 @@ namespace Louvre\BilletterieBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,7 +17,9 @@ class ReservationType extends AbstractType
                 'entry_type' => BilletType::class,
                 'allow_add' => true,
                 'allow_delete' => true
-            ]);
+            ])
+            ->add('submit', SubmitType::class)
+        ;
         
     }
 
