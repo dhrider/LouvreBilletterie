@@ -116,3 +116,7 @@ input[type=checkbox] {
 #content {
     min-height: 550px;
 }
+
+.btn-primary {
+    margin-top: 10px;
+}

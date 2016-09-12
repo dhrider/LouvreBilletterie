@@ -35,6 +35,7 @@
                                     </div>
                                 {% endfor %}
                             </div>
+                            {{ form_widget(form.submit) }}
                             <a class="btn btn-primary add-billet" href="#">Ajouter un nouveau billet</a>
                         </div>
                     </div>
@@ -68,8 +69,5 @@
                 <h3>PAYER</h3>
             </div>
         </div>
-
-        <button type="button" class="btn btn-default" id="btnPrecedent" href="#" style="display: none">Précédent</button>
-        <button type="button" class="btn btn-default pull-right" id="btnSuivant" href="#">Suivant</button>
     </div>
 {% endblock %}

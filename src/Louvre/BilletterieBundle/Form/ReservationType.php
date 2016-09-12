@@ -18,7 +18,12 @@ class ReservationType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true
             ])
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, array(
+                'attr' => array(
+                    'class' => 'btn-primary pull-right'
+                ),
+                'label' => 'Validez le ou les billets'
+            ))
         ;
         
     }
