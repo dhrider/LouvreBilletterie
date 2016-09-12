@@ -3,6 +3,8 @@
 namespace Louvre\BilletterieBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Billet
@@ -25,6 +27,8 @@ class Billet
      * @var \DateTime
      *
      * @ORM\Column(name="date_visite", type="date")
+     *
+     * @Assert\Date()
      */
     private $dateVisite;
 
@@ -32,6 +36,8 @@ class Billet
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
+     *
+     * @Assert\NotBlank()
      */
     private $nom;
 
@@ -39,6 +45,8 @@ class Billet
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=255)
+     *
+     * @Assert\NotBlank()
      */
     private $prenom;
 
@@ -53,6 +61,8 @@ class Billet
      * @var \DateTime
      *
      * @ORM\Column(name="date_naissance", type="date")
+     *
+     * @Assert\Date()
      */
     private $dateNaissance;
 
@@ -60,6 +70,8 @@ class Billet
      * @var string
      * 
      * @ORM\Column(name="type", type="string", length=255)
+     *
+     * @Assert\NotBlank()
      */
     private $type;
 

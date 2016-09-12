@@ -27,6 +27,7 @@
                     <div>
                         <label><em>Renseigner les informations du billet :</em></label>
                         <div class="well container-fluid">
+                            {{ form_start(form) }}
                             <div id="Billets" data-prototype="{{ form_widget(form.billets.vars.prototype)|e }}" data-index="0">
                                 {% for billet in form.billets %}
                                     <div class="billet">
@@ -37,6 +38,7 @@
                             </div>
                             {{ form_widget(form.submit) }}
                             <a class="btn btn-primary add-billet" href="#">Ajouter un nouveau billet</a>
+                            {{ form_end(form) }}
                         </div>
                     </div>
                 </div>

@@ -26,7 +26,11 @@ $(document).ready(function() {
         minDate: new Date(),
         maxDate: new Date(2016, 12, 31),
         dateFormat: "dd/mm/yy",
-        beforeShowDay: disableSundayTuesdayDatePicker
+        beforeShowDay: disableSundayTuesdayDatePicker,
+        onSelect: function () {
+            var ongletActif = $('.nav-tabs > .active').next('li').find('a');
+            ongletActif.trigger('click');
+        }
     });
     
     
@@ -70,4 +74,9 @@ $(document).ready(function() {
         e.preventDefault();
         $(e.target).closest('.billet').remove();
     });
+    
+    
+    
+    
+    
 });

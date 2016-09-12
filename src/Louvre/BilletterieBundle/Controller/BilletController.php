@@ -7,6 +7,7 @@ use Louvre\BilletterieBundle\Entity\Billet;
 use Louvre\BilletterieBundle\Entity\Reservation;
 use Louvre\BilletterieBundle\Form\ReservationType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class BilletController extends Controller
 {
@@ -15,13 +16,20 @@ class BilletController extends Controller
         return $this->render('LouvreBilletterieBundle:Billet:index.html.twig');
     }
     
-    public function achatAction()
+    public function achatAction(Request $request)
     {
         $billet = new Billet();
         $reservation = new Reservation();
         $reservation->addBillet($billet);
 
         $form = $this->get('form.factory')->create(ReservationType::class, $reservation);
+
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                
+            }
+        }
 
         return $this->render('LouvreBilletterieBundle:Billet:achat.html.twig', array(
             'form' => $form->createView()
@@ -32,4 +40,6 @@ class BilletController extends Controller
     {
         return $this->render('LouvreBilletterieBundle:Billet:apropos.html.twig');
     }
+
+
 }
