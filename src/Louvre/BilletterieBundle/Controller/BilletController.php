@@ -25,10 +25,7 @@ class BilletController extends Controller
         $form = $this->get('form.factory')->create(ReservationType::class, $reservation);
 
         if ($request->isMethod('POST')) {
-            $form->handleRequest($request);
-            if ($form->isValid()) {
-                
-            }
+            var_dump($form->get('billets')->getData());
         }
 
         return $this->render('LouvreBilletterieBundle:Billet:achat.html.twig', array(

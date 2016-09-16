@@ -1,14 +1,15 @@
 $(document).ready(function() {
     // Récupération de la date de visite du 1er => 2ème onglet
-    $(document).on( 'shown.bs.tab', 'a', function (e) {
+    /*$(document).on( 'shown.bs.tab', 'a', function (e) {
         if ($(e.target)[0].id == 'ongletBillet') {
             var dateRecup = $(e.relatedTarget).parent().closest('#corpsAchat').find('#dateVisite')[0].value;
             $(e.target).parent().closest('#corpsAchat').find('#dateChoisie')[0].innerHTML = "Billet(s) pour le : "
                 + dateRecup;
+            
         }
-    });
-    
-    
+        
+    });*/
+
     
 
     // Exclusion des dimanche du datepicker
@@ -22,14 +23,19 @@ $(document).ready(function() {
         }
     }
     // initialisation du DatePicker
+    var dateSelectionnee = "";
     $('.datepicker').datepicker({
         minDate: new Date(),
         maxDate: new Date(2016, 12, 31),
         dateFormat: "dd/mm/yy",
         beforeShowDay: disableSundayTuesdayDatePicker,
-        onSelect: function () {
+        onSelect: function (dateText) {
             var ongletActif = $('.nav-tabs > .active').next('li').find('a');
             ongletActif.trigger('click');
+
+            dateSelectionnee = dateText;
+            $('.date').val(dateSelectionnee);
+            $('#dateV').innerText = dateSelectionnee;
         }
     });
     
@@ -59,11 +65,11 @@ $(document).ready(function() {
         var newBillet = $('<div class="billet"></div>').html(billet);
         var btnDelete = $('<a class="btn btn-primary delete-billet" href="#">Supprimer le billet billet</a>');
 
-       
-        newBillet.append(btnDelete);
-
-        newBillet.appendTo(billets);
         
+        newBillet.append(btnDelete);
+        newBillet.appendTo(billets);
+
+        $('.date').val(dateSelectionnee);
     });
 
     
@@ -78,5 +84,6 @@ $(document).ready(function() {
     
     
     
-    
+    // changement du champ Tarif dyamique
+
 });
