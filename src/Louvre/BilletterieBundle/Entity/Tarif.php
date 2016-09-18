@@ -31,9 +31,25 @@ class Tarif
     /**
      * @var int
      *
-     * @ORM\Column(name="montant", type="integer")
+     * @ORM\Column(name="tarif", type="integer")
      */
-    private $montant;
+    private $tarif;
+
+    /**
+     * @return int
+     */
+    public function getTarif()
+    {
+        return $this->tarif;
+    }
+
+    /**
+     * @param int $tarif
+     */
+    public function setTarif($tarif)
+    {
+        $this->tarif = $tarif;
+    }
 
 
     /**
@@ -69,30 +85,6 @@ class Tarif
     {
         return $this->nom;
     }
-
-    /**
-     * Set montant
-     *
-     * @param integer $montant
-     *
-     * @return Tarif
-     */
-    public function setMontant($montant)
-    {
-        $this->montant = $montant;
-
-        return $this;
-    }
-
-    /**
-     * Get montant
-     *
-     * @return int
-     */
-    public function getMontant()
-    {
-        return $this->montant;
-    }
     
     /**
      * Get display
@@ -102,7 +94,7 @@ class Tarif
     public function getDisplay()
     {
 
-        return $this->getNom()." - ".$this->getMontant()." €";
+        return $this->getNom()." - ".$this->getTarif()." €";
     }
 }
 

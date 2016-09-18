@@ -1,17 +1,4 @@
 $(document).ready(function() {
-    // Récupération de la date de visite du 1er => 2ème onglet
-    /*$(document).on( 'shown.bs.tab', 'a', function (e) {
-        if ($(e.target)[0].id == 'ongletBillet') {
-            var dateRecup = $(e.relatedTarget).parent().closest('#corpsAchat').find('#dateVisite')[0].value;
-            $(e.target).parent().closest('#corpsAchat').find('#dateChoisie')[0].innerHTML = "Billet(s) pour le : "
-                + dateRecup;
-            
-        }
-        
-    });*/
-
-    
-
     // Exclusion des dimanche du datepicker
     function disableSundayTuesdayDatePicker(date) {
         var day = date.getDay();
@@ -27,15 +14,14 @@ $(document).ready(function() {
     $('.datepicker').datepicker({
         minDate: new Date(),
         maxDate: new Date(2016, 12, 31),
-        dateFormat: "dd/mm/yy",
+        dateFormat: "dd-mm-yy",
         beforeShowDay: disableSundayTuesdayDatePicker,
         onSelect: function (dateText) {
             var ongletActif = $('.nav-tabs > .active').next('li').find('a');
             ongletActif.trigger('click');
-
             dateSelectionnee = dateText;
             $('.date').val(dateSelectionnee);
-            $('#dateV').innerText = dateSelectionnee;
+            $('#dateV')[0].innerText = dateSelectionnee;
         }
     });
     
@@ -84,6 +70,42 @@ $(document).ready(function() {
     
     
     
-    // changement du champ Tarif dyamique
+    // changement du champ Tarif dynamique
+    // en fonction de la date de naissance
+    $('.naissance').change(function () {
+        var splitDate = ($('.dateVisite')[0].value).split('-');
+        var dateInverse = splitDate.reverse().join('-');
 
+        changeTarif($('.naissance')[0].value, dateInverse);
+    });
+
+    // en fonction du type
+    $('.choixType').change(function () {
+
+    });
+
+    // en fonction du choix reduit
+    $('.choixReduit').change(function () {
+
+    });
+
+    // fonction gérant la requète AJAX
+    function changeTarif(dateN, dateV) {
+        $.ajax({
+            url: 'achat/remplitarif',
+            type: 'POST',
+            data: {naissance: dateN, dateVisite: dateV},
+            dataType: 'json',
+            success: function (reponse) {
+                $.each(reponse, function (index, element) {
+                    //$('.tarif').empty();
+                    $('.tarif').val(element.nom + " - " + element.tarif + " €");
+                });
+                console.log('reponse recu');
+            },
+            error: function () {
+                alert('erreur retour json');
+            }
+        });
+    }
 });
