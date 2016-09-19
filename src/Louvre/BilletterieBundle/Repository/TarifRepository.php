@@ -21,13 +21,11 @@ class TarifRepository extends EntityRepository
     }
 
     public function selectionTarif($type) {
-        $qb = $this
-            ->createQueryBuilder('s')
-            ->select('s.nom', 's.tarif')
-            ->where('s.nom = :pattern')
-            ->setParameter('pattern', $type)
+        $qb = $this->createQueryBuilder('s')
+                   ->select('s.nom', 's.tarif')
+                   ->where('s.nom = :pattern')
+                   ->setParameter('pattern', $type)
         ;
-
 
         return $qb->getQuery()->getArrayResult();
     }

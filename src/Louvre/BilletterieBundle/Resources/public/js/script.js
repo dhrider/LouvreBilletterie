@@ -72,11 +72,10 @@ $(document).ready(function() {
     
     // changement du champ Tarif dynamique
     // en fonction de la date de naissance
-    $('.naissance').change(function () {
+    $(document).on('change', '.naissance', function(e) {
         var splitDate = ($('.dateVisite')[0].value).split('-');
         var dateInverse = splitDate.reverse().join('-');
-
-        changeTarif($('.naissance')[0].value, dateInverse);
+        changeTarif(e.target.value, dateInverse);
     });
 
     // en fonction du type
@@ -90,18 +89,24 @@ $(document).ready(function() {
     });
 
     // fonction gérant la requète AJAX
-    function changeTarif(dateN, dateV) {
+    function changeTarif(dateN, dateV, typ, red) {
         $.ajax({
             url: 'achat/remplitarif',
             type: 'POST',
-            data: {naissance: dateN, dateVisite: dateV},
+            data: {
+                naissance: dateN,
+                dateVisite: dateV,
+                type: typ,
+                reduit: red
+            },
             dataType: 'json',
             success: function (reponse) {
+                console.log(reponse);
                 $.each(reponse, function (index, element) {
-                    //$('.tarif').empty();
                     $('.tarif').val(element.nom + " - " + element.tarif + " €");
+                    //console.log(element);
+                    //$('.tarif').val(element);
                 });
-                console.log('reponse recu');
             },
             error: function () {
                 alert('erreur retour json');
