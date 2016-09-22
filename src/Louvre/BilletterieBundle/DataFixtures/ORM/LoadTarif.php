@@ -15,7 +15,8 @@ class LoadTarif implements FixtureInterface
             array('normal',16),
             array('enfant',8),
             array('senior',12),
-            array('reduit',10)
+            array('reduit',10),
+            array('gratuit', 0)
         );
         
         foreach ($tarifs as $tarif) {
@@ -26,7 +27,7 @@ class LoadTarif implements FixtureInterface
                     $newTarif->setNom($valeur);
                 }
                 else {
-                    $newTarif->setMontant($valeur);
+                    $newTarif->setTarif($valeur);
                 }  
             }
 
