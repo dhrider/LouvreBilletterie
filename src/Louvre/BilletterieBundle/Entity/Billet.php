@@ -89,11 +89,34 @@ class Billet
     private $tarif;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="montant", type="integer")
+     */
+    private $montant;
+
+    /**
      * @return string
      */
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMontant()
+    {
+        return $this->montant;
+    }
+
+    /**
+     * @param int $montant
+     */
+    public function setMontant($montant)
+    {
+        $this->montant = $montant;
     }
 
     /**

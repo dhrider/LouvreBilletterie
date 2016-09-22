@@ -41,6 +41,7 @@ class BilletController extends Controller
         if ($request->isXmlHttpRequest()) {
             $naissance = date_create($request->request->get('naissance'));
             $dateVisite = date_create($request->request->get('dateVisite'));
+            $tarifReduit = $request->request->get('tarifReduit');
 
             $diffDate = date_diff($naissance,$dateVisite);
             $age = $diffDate->y;
