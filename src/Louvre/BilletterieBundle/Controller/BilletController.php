@@ -46,23 +46,28 @@ class BilletController extends Controller
             $diffDate = date_diff($naissance,$dateVisite);
             $age = $diffDate->y;
 
-            if ($age >= 12 && $age < 60) {
-                $tarif = "normal";
-            }
-            elseif ($age >= 4 && $age < 12) {
-                $tarif = "enfant";
+            if ($tarifReduit == "non") {
+                if ($age >= 12 && $age < 60) {
+                    $tarif = "normal";
+                } elseif ($age >= 4 && $age < 12) {
+                    $tarif = "enfant";
+                } elseif ($age >= 60) {
+                    $tarif = "senior";
+                } else {
+                    $tarif = "gratuit";
+                }
             }
             else {
-                $tarif = "senior";
+                $tarif = "reduit";
             }
 
-            if ($tarif != null) {
+            if ($tarif !== "") {
                 $repository = $this
                             ->getDoctrine()
                             ->getManager()
                             ->getRepository('LouvreBilletterieBundle:Tarif')
                 ;
-                 $data = $repository->selectionTarif($tarif);
+                $data = $repository->selectionTarif($tarif);
 
                 return new JsonResponse($data);
             }

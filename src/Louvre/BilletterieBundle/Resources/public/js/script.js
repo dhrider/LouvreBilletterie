@@ -71,8 +71,8 @@ $(document).ready(function() {
         e.preventDefault();
         $(e.target).closest('.billet').remove();
     });
-    
-    
+
+
     
     
     // changement du champ Tarif dynamique
@@ -80,26 +80,38 @@ $(document).ready(function() {
     $(document).on('change', '.naissance', function(e) { // quand on change la date
         var splitDate = ($('.dateVisite')[0].value).split('-');
         var dateInverse = splitDate.reverse().join('-');
-        changeTarifBase(e.target.value, dateInverse, e.target.id);
+        var reduit = "non";
+        var idNaissance = /([0-9])/.exec(e.target.id);
+        changeTarifBase(e.target.value, dateInverse,reduit, e.target.id);
+
+        // on remet le type sur journée quand on change de date de naissance
+        $('.choixType').each(function () {
+            var idType = /([0-9])/.exec($(this)[0].id);
+            if (idType[0] === idNaissance[0]) {
+                $(this).val('journee');
+            }
+        });
+
     });
 
     // en fonction du type
     $(document).on('change', '.choixType', function (e) {
-        var regType = /([0-9])/.exec(e.target.id);
-        console.log(e.target.id);
+        var idType = /([0-9])/.exec(e.target.id);
         if (e.target.value === 'demiJournee') {
             $('.montant').each( function () {
-                var regMontant = /([0-9])/.exec($(this)[0].id);
-                if (regType[0] === regMontant[0]) {
+                var idMontant = /([0-9])/.exec($(this)[0].id);
+                if (idType[0] === idMontant[0]) {
                     var m = $(this).val();
-                    $(this).val(m/2);
+                    if (m !== 0) {
+                        $(this).val(m / 2);
+                    }
                 }
             });
         }
         else {
             $('.montant').each( function () {
-                var regMontant = /([0-9])/.exec($(this)[0].id);
-                if (regType[0] === regMontant[0]) {
+                var idMontant = /([0-9])/.exec($(this)[0].id);
+                if (idType[0] === idMontant[0]) {
                         var m = $(this).val();
                         $(this).val(m*2);
                 }
@@ -108,12 +120,12 @@ $(document).ready(function() {
     });
 
     // en fonction du choix reduit
-    $('.choixReduit').change(function (e) {
+    $(document).on('change', '.choixReduit', function (e) {
 
     });
 
     // fonction gérant la requète AJAX
-    function changeTarifBase(dateN, dateV, reduit, event) {
+    function changeTarifBase(dateN, dateV,reduit, event) {
         $.ajax({
             url: 'achat/remplitarif',
             type: 'POST',
@@ -124,29 +136,25 @@ $(document).ready(function() {
             },
             dataType: 'json',
             success: function (reponse) {
-                var regNaissance = /([0-9])/.exec(event);
+                var idNaissance = /([0-9])/.exec(event);
                 $.each(reponse, function (index, element) {
                     $('.montant').each( function () {
-                        var regTarif = /([0-9])/.exec($(this)[0].id);
-                        if (regTarif[0] === regNaissance[0]) {
+                        var idTarif = /([0-9])/.exec($(this)[0].id);
+                        if (idTarif[0] === idNaissance[0]) {
                             $(this).val(element.tarif);
                         }
                     });
                     $('.tarif').each( function () {
-                        var regTarif = /([0-9])/.exec($(this)[0].id);
-                        if (regTarif[0] === regNaissance[0]) {
+                        var idTarif = /([0-9])/.exec($(this)[0].id);
+                        if (idTarif[0] === idNaissance[0]) {
                             $(this).val(element.nom + " - " + element.tarif + " €");
                         }
                     });
                 });
             },
-            error: function () {
-                alert('erreur');
+            error: function (reponse) {
+                console.log(reponse.responseText);
             }
         });
-    }
-
-    function changeTarifReduit(event) {
-
     }
 });
