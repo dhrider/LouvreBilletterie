@@ -87,12 +87,10 @@ $(document).ready(function() {
     // changement du champ Tarif dynamique
     // en fonction de la date de naissance
     $(document).on('change', '.naissance', function(e) { // quand on change la date
-        console.log(e);
         var splitDate = ($('.dateVisite')[0].value).split('-');
         var dateInverse = splitDate.reverse().join('-');
-        var reduit = "non";
 
-        changeTarifBase(e.target.value, dateInverse,reduit, e.target.id);
+        changeTarifBase(e.target.value, dateInverse, e.target.id);
 
         // on remet le type sur journée quand on change de date de naissance
         $('.choixType').each(function () {
@@ -125,21 +123,50 @@ $(document).ready(function() {
         }
     });
     // en fonction du choix reduit
+    var reduit = "";
     $(document).on('change', '.choixReduit', function (e) {
+        var idReduit = idExtract(e.target.id);
+        var dateV = "";
+        var dateN = "";
+
+        $('.dateVisite').each(function () {
+            if (idReduit === idExtract($(this)[0].id)) {
+                var splitDate = $(this).val().split('-');
+                dateV = splitDate.reverse().join('-');
+            }
+        });
+        $('.naissance').each(function () {
+            if (idReduit === idExtract($(this)[0].id)) {
+                dateN = $(this).val();
+            }
+        });
+
+        // on remet le type sur journée quand on change de date de naissance
+        $('.choixType').each(function () {
+            if (idExtract($(this)[0].id) === idReduit) {
+                $(this).val('journee');
+            }
+        });
+
         if (e.target.checked) {
-
-
+            reduit = "oui";
+            changerTarifReduit(reduit,e.target.id);
+        }
+        else {
+            reduit = "non";
+            changeTarifBase(dateN,dateV,e.target.id);
         }
     });
-    // fonction gérant la requète AJAX
-    function changeTarifBase(dateN, dateV,reduit, event) {
+
+    // fonctions gérant la requète AJAX
+    // pour les tarifs de bases
+    function changeTarifBase(dateN, dateV, event) {
         $.ajax({
             url: 'achat/remplitarif',
             type: 'POST',
             data: {
                 naissance: dateN,
-                dateVisite: dateV,
-                tarifReduit: reduit
+                dateVisite: dateV
             },
             dataType: 'json',
             success: function (reponse) {
@@ -162,6 +189,36 @@ $(document).ready(function() {
             }
         });
     }
+    // pour le tarif réduit
+    function changerTarifReduit(reduit, event) {
+        $.ajax({
+            url: 'achat/remplitarif',
+            type: 'POST',
+            data: {
+                reduit: reduit
+            },
+            dataType: 'json',
+            success: function (reponse) {
+                var idReduit = idExtract(event);
+                $.each(reponse, function (index, element) {
+                    $('.montant').each( function () {
+                        if (idExtract($(this)[0].id) === idReduit) {
+                            $(this).val(element.tarif);
+                        }
+                    });
+                    $('.tarif').each( function () {
+                        if (idExtract($(this)[0].id) === idReduit) {
+                            $(this).val(element.nom + " - " + element.tarif + " €");
+                        }
+                    });
+                });
+            },
+            error: function (reponse) {
+                console.log(reponse.responseText);
+            }
+        });
+    }
+
     // function d'extraction du numéro de l'id du billet
     function idExtract(id) {
         return (/([0-9])/.exec(id))[0];

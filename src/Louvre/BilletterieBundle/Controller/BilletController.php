@@ -41,12 +41,12 @@ class BilletController extends Controller
         if ($request->isXmlHttpRequest()) {
             $naissance = date_create($request->request->get('naissance'));
             $dateVisite = date_create($request->request->get('dateVisite'));
-            $tarifReduit = $request->request->get('tarifReduit');
+            $reduit = $request->request->get('reduit');
 
             $diffDate = date_diff($naissance,$dateVisite);
             $age = $diffDate->y;
 
-            if ($tarifReduit == "non") {
+            if (!$reduit) {
                 if ($age >= 12 && $age < 60) {
                     $tarif = "normal";
                 } elseif ($age >= 4 && $age < 12) {
