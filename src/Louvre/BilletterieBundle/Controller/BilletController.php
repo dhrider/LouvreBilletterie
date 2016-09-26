@@ -46,7 +46,7 @@ class BilletController extends Controller
             $diffDate = date_diff($naissance,$dateVisite);
             $age = $diffDate->y;
 
-            if (!$reduit) {
+            if ($reduit === "non") {
                 if ($age >= 12 && $age < 60) {
                     $tarif = "normal";
                 } elseif ($age >= 4 && $age < 12) {
@@ -58,7 +58,12 @@ class BilletController extends Controller
                 }
             }
             else {
-                $tarif = "reduit";
+                if ($age >= 18 && $age <= 65) {
+                    $tarif = "reduit";
+                }
+                else {
+                    return new Response("Le tarif réduit ne s'applique pas pour votre tranche d'âge");
+                }
             }
 
             if ($tarif !== "") {
@@ -72,9 +77,9 @@ class BilletController extends Controller
                 return new JsonResponse($data);
             }
 
-            return new  Response("Erreur");
+            return new  Response("Aucun tarif valide trouvé");
         }
-        return new  Response("Erreur");
+        return new  Response("Aucun tarif valide trouvé");
     }
 
 

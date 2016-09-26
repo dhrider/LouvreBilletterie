@@ -50,7 +50,7 @@ $(document).ready(function() {
     
     
     // bouton ajouter Billet
-    var compteurBillet = 1;
+    var compteurBillet = 1; // compteur servant à identifier le billet
     // à chaque clique du bouton ajouter billet
     $(document).on('click', '.add-billet', function (e) {
         e.preventDefault();
@@ -62,18 +62,14 @@ $(document).ready(function() {
         var btnDelete = $('<a class="btn btn-primary delete-billet" href="#">Supprimer le billet billet</a>');
         compteurBillet++;
 
-        newBillet.append(btnDelete);
-        newBillet.appendTo(billets);
+        newBillet.append(btnDelete); // on ajoute le bouton supprimer au nouveau billet
+        newBillet.appendTo(billets); // on ajoute le nouveau billet à la liste des billets
 
-        $('.date').val(dateSelectionnee);
+        $('.date').val(dateSelectionnee); // on affecte la date de visite au champ caché
     });
 
-    $('.add-billet').click(function (e) {
 
-    });
 
-    
-    
     
     // bouton supprimer billet
     $(document).on('click', '.delete-billet', function(e) {
@@ -85,12 +81,15 @@ $(document).ready(function() {
     
     
     // changement du champ Tarif dynamique
+    var reduit = "non";
     // en fonction de la date de naissance
     $(document).on('change', '.naissance', function(e) { // quand on change la date
+        // on récupère la date de visite et on l'inverse pour la mettre au format voulu
         var splitDate = ($('.dateVisite')[0].value).split('-');
         var dateInverse = splitDate.reverse().join('-');
 
-        changeTarifBase(e.target.value, dateInverse, e.target.id);
+        // on change le tarif
+        changeTarif(e.target.value, dateInverse,reduit, e.target.id);
 
         // on remet le type sur journée quand on change de date de naissance
         $('.choixType').each(function () {
@@ -103,38 +102,41 @@ $(document).ready(function() {
     // en fonction du type
     $(document).on('change', '.choixType', function (e) {
         var idType = idExtract(e.target.id);
-        if (e.target.value === 'demiJournee') {
+        if (e.target.value === 'demiJournee') { // si on sélectionne demi-journée
             $('.montant').each( function () {
                 if (idType === idExtract($(this)[0].id)) {
                     var m = $(this).val();
+                    // on divise le tarif par 2 si celui-ci ne vaut pas 0 (tarif gratuit)
                     if (m !== 0) {
                         $(this).val(m / 2);
                     }
                 }
             });
         }
-        else {
+        else { // si on sélectionne journée
             $('.montant').each( function () {
                 if (idType === idExtract($(this)[0].id)) {
                         var m = $(this).val();
-                        $(this).val(m*2);
+                        $(this).val(m*2); // on multiplie le tarif par 2
                 }
             });
         }
     });
     // en fonction du choix reduit
-    var reduit = "";
     $(document).on('change', '.choixReduit', function (e) {
         var idReduit = idExtract(e.target.id);
         var dateV = "";
         var dateN = "";
 
+        // les dates récupérées serviront si on décoche la tarif réduit
+        // on stocke la date de visite
         $('.dateVisite').each(function () {
             if (idReduit === idExtract($(this)[0].id)) {
                 var splitDate = $(this).val().split('-');
                 dateV = splitDate.reverse().join('-');
             }
         });
+        // on stocke la date de naissance
         $('.naissance').each(function () {
             if (idReduit === idExtract($(this)[0].id)) {
                 dateN = $(this).val();
@@ -148,76 +150,50 @@ $(document).ready(function() {
             }
         });
 
-        if (e.target.checked) {
+        if (e.target.checked) { // si on coche
             reduit = "oui";
-            changerTarifReduit(reduit,e.target.id);
         }
-        else {
+        else { // si on décoche
             reduit = "non";
-            changeTarifBase(dateN,dateV,e.target.id);
         }
+        changeTarif(dateN,dateV,reduit,e.target.id);
     });
 
     // fonctions gérant la requète AJAX
     // pour les tarifs de bases
-    function changeTarifBase(dateN, dateV, event) {
+    function changeTarif(dateN, dateV,reduit, event) {
         $.ajax({
             url: 'achat/remplitarif',
             type: 'POST',
             data: {
                 naissance: dateN,
-                dateVisite: dateV
-            },
-            dataType: 'json',
-            success: function (reponse) {
-                var idNaissance = idExtract(event);
-                $.each(reponse, function (index, element) {
-                    $('.montant').each( function () {
-                        if (idExtract($(this)[0].id) === idNaissance) {
-                            $(this).val(element.tarif);
-                        }
-                    });
-                    $('.tarif').each( function () {
-                        if (idExtract($(this)[0].id) === idNaissance) {
-                            $(this).val(element.nom + " - " + element.tarif + " €");
-                        }
-                    });
-                });
-            },
-            error: function (reponse) {
-                console.log(reponse.responseText);
-            }
-        });
-    }
-    // pour le tarif réduit
-    function changerTarifReduit(reduit, event) {
-        $.ajax({
-            url: 'achat/remplitarif',
-            type: 'POST',
-            data: {
+                dateVisite: dateV,
                 reduit: reduit
             },
             dataType: 'json',
             success: function (reponse) {
-                var idReduit = idExtract(event);
+                var idBillet = idExtract(event);
                 $.each(reponse, function (index, element) {
                     $('.montant').each( function () {
-                        if (idExtract($(this)[0].id) === idReduit) {
+                        if (idExtract($(this)[0].id) === idBillet) {
                             $(this).val(element.tarif);
                         }
                     });
                     $('.tarif').each( function () {
-                        if (idExtract($(this)[0].id) === idReduit) {
+                        if (idExtract($(this)[0].id) === idBillet) {
                             $(this).val(element.nom + " - " + element.tarif + " €");
                         }
                     });
                 });
             },
             error: function (reponse) {
-                console.log(reponse.responseText);
+                alert(reponse.responseText);
             }
         });
     }
+
+
+
 
     // function d'extraction du numéro de l'id du billet
     function idExtract(id) {
