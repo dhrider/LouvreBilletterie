@@ -26,6 +26,14 @@ class BilletController extends Controller
 
         $form = $this->get('form.factory')->create(ReservationType::class, $reservation);
 
+        if ($request->isMethod('POST') /*&& $form->handleRequest($request)->isValid()*/) {
+            var_dump($reservation->getBillets()->getValues());
+            /*$em = $this->getDoctrine()->getManager();
+            $em->persist($reservation);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('notice', 'Réservation bien enregistrée.');*/
+        }
 
         return $this->render('LouvreBilletterieBundle:Billet:achat.html.twig', array(
             'form' => $form->createView()
@@ -37,7 +45,8 @@ class BilletController extends Controller
         return $this->render('LouvreBilletterieBundle:Billet:apropos.html.twig');
     }
 
-    public function remplitarifAction(Request $request) {
+    public function remplitarifAction(Request $request)
+    {
         if ($request->isXmlHttpRequest()) {
             $naissance = date_create($request->request->get('naissance'));
             $dateVisite = date_create($request->request->get('dateVisite'));
@@ -58,12 +67,7 @@ class BilletController extends Controller
                 }
             }
             else {
-                if ($age >= 18 && $age <= 65) {
-                    $tarif = "reduit";
-                }
-                else {
-                    return new Response("Le tarif réduit ne s'applique pas pour votre tranche d'âge");
-                }
+                $tarif = "reduit";
             }
 
             if ($tarif !== "") {

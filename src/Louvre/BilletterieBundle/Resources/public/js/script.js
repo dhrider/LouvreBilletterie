@@ -83,7 +83,7 @@ $(document).ready(function() {
     // changement du champ Tarif dynamique
     var reduit = "non";
     // en fonction de la date de naissance
-    $(document).on('change', '.naissance', function(e) { // quand on change la date
+    $(document).on('blur', '.naissance', function(e) { // quand on change la date
         // on récupère la date de visite et on l'inverse pour la mettre au format voulu
         var splitDate = ($('.dateVisite')[0].value).split('-');
         var dateInverse = splitDate.reverse().join('-');

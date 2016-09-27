@@ -12,14 +12,6 @@ use Doctrine\ORM\EntityRepository;
  */
 class TarifRepository extends EntityRepository
 {
-    public function tarifNormal() {
-        return $this
-            ->createQueryBuilder('t')
-            ->where('t.nom = :pattern')
-            ->setParameter('pattern', 'normal')
-        ;
-    }
-
     public function selectionTarif($type) {
         $qb = $this->createQueryBuilder('s')
                    ->select('s.nom', 's.tarif')
