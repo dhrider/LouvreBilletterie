@@ -16,8 +16,7 @@ class ReservationType extends AbstractType
             ->add('billets', CollectionType::class,[
                 'entry_type' => BilletType::class,
                 'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => true
+                'allow_delete' => true
             ])
             ->add('submit', SubmitType::class, array(
                 'attr' => array(

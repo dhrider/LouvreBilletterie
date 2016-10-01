@@ -27,6 +27,22 @@ class Tarif
      * @ORM\Column(name="nom", type="string", length=255)
      */
     private $nom;
+
+    /**
+     * @return string
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * @param string $nom
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+    }
     
     /**
      * @var int
@@ -51,7 +67,6 @@ class Tarif
         $this->tarif = $tarif;
     }
 
-
     /**
      * Get id
      *
@@ -62,39 +77,6 @@ class Tarif
         return $this->id;
     }
 
-    /**
-     * Set nom
-     *
-     * @param string $nom
-     *
-     * @return Tarif
-     */
-    public function setNom($nom)
-    {
-        $this->nom = $nom;
 
-        return $this;
-    }
-
-    /**
-     * Get nom
-     *
-     * @return string
-     */
-    public function getNom()
-    {
-        return $this->nom;
-    }
-    
-    /**
-     * Get display
-     * 
-     * @return string
-     */
-    public function getDisplay()
-    {
-
-        return $this->getNom()." - ".$this->getTarif()." €";
-    }
 }
 

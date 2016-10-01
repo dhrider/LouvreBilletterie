@@ -176,12 +176,12 @@ $(document).ready(function() {
                 $.each(reponse, function (index, element) {
                     $('.montant').each( function () {
                         if (idExtract($(this)[0].id) === idBillet) {
-                            $(this).val(element.tarif);
+                            $(this).val(parseInt(element.tarif));
                         }
                     });
                     $('.tarif').each( function () {
                         if (idExtract($(this)[0].id) === idBillet) {
-                            $(this).val(element.id);
+                            $(this).val(parseInt(element.id));
                         }
                     });
                 });

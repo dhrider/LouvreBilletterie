@@ -274,7 +274,7 @@ class Billet
     }
 
     
-    public function setTarif(Tarif $tarif)
+    public function setTarif($tarif)
     {
         $this->tarif = $tarif;
 
