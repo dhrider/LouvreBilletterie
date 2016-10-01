@@ -181,7 +181,7 @@ $(document).ready(function() {
                     });
                     $('.tarif').each( function () {
                         if (idExtract($(this)[0].id) === idBillet) {
-                            $(this).val(element.nom + " - " + element.tarif + " €");
+                            $(this).val(element.id);
                         }
                     });
                 });

@@ -70,8 +70,7 @@ class BilletType extends AbstractType
                     'class' => 'choixReduit'
                 )
             ))
-            ->add('tarif',          TextType::class, array(
-                'label' => 'Tarif de base',
+            ->add('tarif',          HiddenType::class, array(
                 'attr' => array(
                     'class' => 'tarif'
                 )
