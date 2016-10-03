@@ -35,8 +35,33 @@ class Reservation
 
     /**
      * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Billet", cascade={"persist"})
      */
-    private $billets;
+    protected $billets;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="total", type="integer")
+     */
+    private $total;
+
+    /**
+     * @return int
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    /**
+     * @param int $total
+     */
+    public function setTotal($total)
+    {
+        $this->total = $total;
+    }
 
     public function __construct()
     {

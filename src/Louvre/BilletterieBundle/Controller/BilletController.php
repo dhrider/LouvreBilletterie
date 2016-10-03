@@ -30,15 +30,23 @@ class BilletController extends Controller
         if ($request->isMethod('POST') && $form->isValid()) {
             $dateVisite = date_create($request->request->get('dateVisite'));
             $statut = "reservé";
+            $montantReservation = $request->request->get('reservation')['billets'];
+
+            $total = 0;
+
+            foreach ($montantReservation as $montant) {
+                $total += $montant['montant'];
+            }
 
             $reservation->setDateVisite($dateVisite);
             $reservation->setStatut($statut);
+            $reservation->setTotal($total);
 
-            $em = $this->getDoctrine()->getManager();
+            //var_dump($reservation->getBillets());
+
+            /*$em = $this->getDoctrine()->getManager();
             $em->persist($reservation);
-            $em->flush();
-
-            $request->getSession()->getFlashBag()->add('notice', 'Réservation bien enregistrée.');
+            $em->flush();*/
         }
 
         return $this->render('LouvreBilletterieBundle:Billet:achat.html.twig', array(

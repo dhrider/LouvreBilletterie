@@ -82,6 +82,8 @@ $(document).ready(function() {
     
     // changement du champ Tarif dynamique
     var reduit = "non";
+    var TypeDemiJournee = false;
+    console.log(TypeDemiJournee);
     // en fonction de la date de naissance
     $(document).on('blur', '.naissance', function(e) { // quand on change la date
         // on récupère la date de visite et on l'inverse pour la mettre au format voulu
@@ -90,19 +92,12 @@ $(document).ready(function() {
 
         // on change le tarif
         changeTarif(e.target.value, dateInverse,reduit, e.target.id);
-
-        // on remet le type sur journée quand on change de date de naissance
-        $('.choixType').each(function () {
-            if (idExtract($(this)[0].id) === idExtract(e.target.id)) {
-                $(this).val('journee');
-            }
-        });
-
     });
     // en fonction du type
     $(document).on('change', '.choixType', function (e) {
         var idType = idExtract(e.target.id);
         if (e.target.value === 'demiJournee') { // si on sélectionne demi-journée
+            TypeDemiJournee = true;
             $('.montant').each( function () {
                 if (idType === idExtract($(this)[0].id)) {
                     var m = $(this).val();
@@ -114,6 +109,7 @@ $(document).ready(function() {
             });
         }
         else { // si on sélectionne journée
+            TypeDemiJournee = false;
             $('.montant').each( function () {
                 if (idType === idExtract($(this)[0].id)) {
                         var m = $(this).val();
@@ -121,6 +117,7 @@ $(document).ready(function() {
                 }
             });
         }
+        console.log(TypeDemiJournee);
     });
     // en fonction du choix reduit
     $(document).on('change', '.choixReduit', function (e) {
@@ -143,12 +140,12 @@ $(document).ready(function() {
             }
         });
 
-        // on remet le type sur journée quand on change de date de naissance
+        /*// on remet le type sur journée quand on change de date de naissance
         $('.choixType').each(function () {
             if (idExtract($(this)[0].id) === idReduit) {
                 $(this).val('journee');
             }
-        });
+        });*/
 
         if (e.target.checked) { // si on coche
             reduit = "oui";
@@ -158,6 +155,9 @@ $(document).ready(function() {
         }
         changeTarif(dateN,dateV,reduit,e.target.id);
     });
+
+
+
 
     // fonctions gérant la requète AJAX
     // pour les tarifs de bases
@@ -176,7 +176,12 @@ $(document).ready(function() {
                 $.each(reponse, function (index, element) {
                     $('.montant').each( function () {
                         if (idExtract($(this)[0].id) === idBillet) {
-                            $(this).val(parseInt(element.tarif));
+                            if (!TypeDemiJournee) {
+                                $(this).val(parseInt(element.tarif));
+                            }
+                            else {
+                                $(this).val(parseInt(element.tarif / 2));
+                            }
                         }
                     });
                     $('.tarif').each( function () {

@@ -83,7 +83,7 @@ class Billet
     private $reduit;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Louvre\BilletterieBundle\Entity\Tarif", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Louvre\BilletterieBundle\Entity\Tarif")
      * @ORM\JoinColumn(name="tarif_id", referencedColumnName="id")
      */
     private $tarif;
@@ -94,6 +94,29 @@ class Billet
      * @ORM\Column(name="montant", type="integer")
      */
     private $montant;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Louvre\BilletterieBundle\Entity\Reservation")
+     * @ORM\JoinColumn(name="reservation_id", referencedColumnName="id")
+     */
+    private $reservation;
+
+    /**
+     * @return mixed
+     */
+    public function getReservation()
+    {
+        return $this->reservation;
+    }
+
+    /**
+     * @param mixed $reservation
+     */
+    public function setReservation($reservation)
+    {
+        $this->reservation = $reservation;
+    }
+
 
     /**
      * @return string
