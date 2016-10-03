@@ -10,8 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Validator\Constraints\Date;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 class BilletController extends Controller
 {
@@ -30,29 +28,37 @@ class BilletController extends Controller
         $form->handleRequest($request);
 
         if ($request->isMethod('POST') && $form->isValid()) {
+            // on récupère la date de visite de type string et on la transform en Datetime
             $dateVisite = date_create($request->request->get('reservation')['billets'][0]['dateVisite']);
-            $statut = "reservé";
-            $billetsReservation = $request->request->get('reservation')['billets'];
+            // Variable définisant l'état de la réservation
+            $statut = "due";
+            // on récupère les billets présents dans la requète
+            $billetsRequete = $request->request->get('reservation')['billets'];
 
-            $total = 0;
-
-            foreach ($billetsReservation as $billet) {
-                $total += $billet['montant'];
+            // variable qui stocke le montant total de la réservation
+            $totalReservation = 0;
+            // on boucle das tous les billets
+            foreach ($billetsRequete as $billetRequete) {
+                $totalReservation += $billetRequete['montant']; // pour additionner les montants
             }
 
+            // on affecte les données à la réservation
             $reservation->setDateVisite($dateVisite);
             $reservation->setStatut($statut);
-            $reservation->setTotal($total);
+            $reservation->setTotal($totalReservation);
 
-            $billets = $reservation->getBillets('billets');
+            // on récupère les billets présents dans la réservation
+            $billetsReservation = $reservation->getBillets('billets');
 
-            foreach ($billets as $b) {
-                $date = $b->getDateVisite();
-                $b->setDateVisite(date_create($date));
+            // on boucle dans les billets
+            foreach ($billetsReservation as $billetReservation) {
+                // on récupère la date qui est en format string
+                $date = $billetReservation->getDateVisite();
+                // on Set la date en format Datetime
+                $billetReservation->setDateVisite(date_create($date));
             }
 
-            //var_dump($reservation->getBillets('billets'));
-
+            // On effectue le traitement en base de données
             $em = $this->getDoctrine()->getManager();
             $em->persist($reservation);
             $em->flush();
@@ -71,14 +77,18 @@ class BilletController extends Controller
     public function remplitarifAction(Request $request)
     {
         if ($request->isXmlHttpRequest()) {
+            // récupération des variables envoyées par la requète
             $naissance = date_create($request->request->get('naissance'));
             $dateVisite = date_create($request->request->get('dateVisite'));
             $reduit = $request->request->get('reduit');
 
+            // on calcule la différence entre la date de naissance et la date visite
             $diffDate = date_diff($naissance,$dateVisite);
+            // pour connaître l'âge du visiteur
             $age = $diffDate->y;
 
-            if ($reduit === "non") {
+            // on définit le tarif en fonction de l'âge
+            if ($reduit === "non") { // si "tarif réduit" n'est pas coché
                 if ($age >= 12 && $age < 60) {
                     $tarif = "normal";
                 } elseif ($age >= 4 && $age < 12) {
@@ -89,25 +99,26 @@ class BilletController extends Controller
                     $tarif = "gratuit";
                 }
             }
-            else {
+            else { // si "tarif réduit" est coché
                 $tarif = "reduit";
             }
 
-            if ($tarif !== "") {
+            if ($tarif !== "") { // on vérifie qu'on a bien obtenu un tarif
+                // on récupère le répository
                 $repository = $this
                             ->getDoctrine()
                             ->getManager()
                             ->getRepository('LouvreBilletterieBundle:Tarif')
                 ;
+                // on appelle la fonction de sélection du tarif
                 $data = $repository->selectionTarif($tarif);
 
+                // on renvoi la réponse sous format JSON
                 return new JsonResponse($data);
             }
-
+            // Si aucun tarif n'est trouvé on renvoi une erreur
             return new  Response("Aucun tarif valide trouvé");
         }
         return new  Response("Aucun tarif valide trouvé");
     }
-
-
 }

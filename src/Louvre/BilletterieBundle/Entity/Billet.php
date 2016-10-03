@@ -112,9 +112,9 @@ class Billet
     /**
      * @param mixed $reservation
      */
-    public function setReservation($reservation)
+    public function setReservation(Reservation $reservation)
     {
-        $this->reservation = $reservation;
+        $this->reservation = $reservation->getId();
     }
 
 
