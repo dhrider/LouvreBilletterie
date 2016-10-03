@@ -83,8 +83,8 @@ class Billet
     private $reduit;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Louvre\BilletterieBundle\Entity\Tarif")
-     * @ORM\JoinColumn(name="tarif_id", referencedColumnName="id")
+     * @var int
+     * @ORM\Column(name="tarif", type="integer")
      */
     private $tarif;
 

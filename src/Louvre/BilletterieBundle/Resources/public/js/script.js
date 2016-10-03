@@ -27,7 +27,7 @@ $(document).ready(function() {
             // on récupère la date et on la l'applique au champ caché "date visit" du formulaire
             dateSelectionnee = dateText;
             $('.date').val(dateSelectionnee);
-            $('#dateV')[0].innerText = dateSelectionnee; // on l'affiche au dessus du formulaire
+            $('#dateV')[0].innerText = dateText; // on l'affiche au dessus du formulaire
         }
     });
     
@@ -83,7 +83,6 @@ $(document).ready(function() {
     // changement du champ Tarif dynamique
     var reduit = "non";
     var TypeDemiJournee = false;
-    console.log(TypeDemiJournee);
     // en fonction de la date de naissance
     $(document).on('blur', '.naissance', function(e) { // quand on change la date
         // on récupère la date de visite et on l'inverse pour la mettre au format voulu
@@ -117,7 +116,6 @@ $(document).ready(function() {
                 }
             });
         }
-        console.log(TypeDemiJournee);
     });
     // en fonction du choix reduit
     $(document).on('change', '.choixReduit', function (e) {
@@ -139,13 +137,6 @@ $(document).ready(function() {
                 dateN = $(this).val();
             }
         });
-
-        /*// on remet le type sur journée quand on change de date de naissance
-        $('.choixType').each(function () {
-            if (idExtract($(this)[0].id) === idReduit) {
-                $(this).val('journee');
-            }
-        });*/
 
         if (e.target.checked) { // si on coche
             reduit = "oui";

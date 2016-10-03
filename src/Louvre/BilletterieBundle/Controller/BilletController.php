@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class BilletController extends Controller
 {
@@ -28,25 +30,32 @@ class BilletController extends Controller
         $form->handleRequest($request);
 
         if ($request->isMethod('POST') && $form->isValid()) {
-            $dateVisite = date_create($request->request->get('dateVisite'));
+            $dateVisite = date_create($request->request->get('reservation')['billets'][0]['dateVisite']);
             $statut = "reservé";
-            $montantReservation = $request->request->get('reservation')['billets'];
+            $billetsReservation = $request->request->get('reservation')['billets'];
 
             $total = 0;
 
-            foreach ($montantReservation as $montant) {
-                $total += $montant['montant'];
+            foreach ($billetsReservation as $billet) {
+                $total += $billet['montant'];
             }
 
             $reservation->setDateVisite($dateVisite);
             $reservation->setStatut($statut);
             $reservation->setTotal($total);
 
-            //var_dump($reservation->getBillets());
+            $billets = $reservation->getBillets('billets');
 
-            /*$em = $this->getDoctrine()->getManager();
+            foreach ($billets as $b) {
+                $date = $b->getDateVisite();
+                $b->setDateVisite(date_create($date));
+            }
+
+            //var_dump($reservation->getBillets('billets'));
+
+            $em = $this->getDoctrine()->getManager();
             $em->persist($reservation);
-            $em->flush();*/
+            $em->flush();
         }
 
         return $this->render('LouvreBilletterieBundle:Billet:achat.html.twig', array(
