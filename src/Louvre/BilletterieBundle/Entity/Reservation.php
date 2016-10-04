@@ -36,7 +36,7 @@ class Reservation
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Billet", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Billet", cascade={"persist"}, mappedBy="reservation")
      */
     protected $billets;
 
@@ -125,11 +125,15 @@ class Reservation
      */
     public function setBillets($billets)
     {
-        $this->billets = $billets;
+        foreach ($billets as $billet) {
+            $this->addBillet($billet);
+        }
+
     }
 
     public function addBillet(Billet $billet)
     {
+        $billet->setReservation($this);
         $this->billets[] = $billet;
     }
 

@@ -10,4 +10,7 @@ namespace Louvre\BilletterieBundle\Repository;
  */
 class BilletRepository extends \Doctrine\ORM\EntityRepository
 {
+        public function recupReservation($date) {
+
+        }
 }

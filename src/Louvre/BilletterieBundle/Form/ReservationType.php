@@ -4,6 +4,7 @@ namespace Louvre\BilletterieBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,10 +14,17 @@ class ReservationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('dateVisite',     DateType::class, array(
+                'widget' => 'single_text',
+                'attr' => array(
+                    'class' => 'date dateVisite'
+                )
+            ))
             ->add('billets', CollectionType::class,[
                 'entry_type' => BilletType::class,
                 'allow_add' => true,
-                'allow_delete' => true
+                'allow_delete' => true,
+                'by_reference' => false
             ])
             ->add('submit', SubmitType::class, array(
                 'attr' => array(

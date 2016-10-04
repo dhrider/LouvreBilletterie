@@ -31,7 +31,7 @@ class BilletController extends Controller
             // on récupère la date de visite de type string et on la transform en Datetime
             $dateVisite = date_create($request->request->get('reservation')['billets'][0]['dateVisite']);
             // Variable définisant l'état de la réservation
-            $statut = "due";
+            $statut = "du";
             // on récupère les billets présents dans la requète
             $billetsRequete = $request->request->get('reservation')['billets'];
 
@@ -51,17 +51,19 @@ class BilletController extends Controller
             $billetsReservation = $reservation->getBillets('billets');
 
             // on boucle dans les billets
-            foreach ($billetsReservation as $billetReservation) {
+            /*foreach ($billetsReservation as $billetReservation) {
                 // on récupère la date qui est en format string
                 $date = $billetReservation->getDateVisite();
                 // on Set la date en format Datetime
                 $billetReservation->setDateVisite(date_create($date));
-            }
+            }*/
 
             // On effectue le traitement en base de données
             $em = $this->getDoctrine()->getManager();
             $em->persist($reservation);
             $em->flush();
+
+
         }
 
         return $this->render('LouvreBilletterieBundle:Billet:achat.html.twig', array(
@@ -116,9 +118,34 @@ class BilletController extends Controller
                 // on renvoi la réponse sous format JSON
                 return new JsonResponse($data);
             }
-            // Si aucun tarif n'est trouvé on renvoi une erreur
-            return new  Response("Aucun tarif valide trouvé");
+            else {
+                // Si aucun tarif n'est trouvé on renvoi une erreur
+                return new  Response("Aucun tarif valide trouvé");
+            }
         }
         return new  Response("Aucun tarif valide trouvé");
+    }
+
+    public function recapReservationAction(Request $request) {
+        if ($request->isXmlHttpRequest()) {
+            $date = date_create($request->request->get('dateReservation'));
+
+            if ($date !== "") {
+                $repository = $this
+                    ->getDoctrine()
+                    ->getManager()
+                    ->getRepository('LouvreBilletterieBundle:Billet')
+                ;
+
+                $data = $repository->recupReservation($date);
+
+                return new JsonResponse($data);
+        }
+            else {
+                return new Response('Aucun billet trouvé !');
+            }
+        }
+
+        return new Response('Aucune Réservation trouvée !');
     }
 }
