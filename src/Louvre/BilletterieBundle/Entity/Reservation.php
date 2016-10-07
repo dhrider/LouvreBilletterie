@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Reservation 
 {
+    const STATUTS_DU = "du";
     /**
      * @var int
      *
@@ -57,14 +58,16 @@ class Reservation
 
     /**
      * @param int $total
+     * @ORM\PrePersist
      */
     public function setTotal($total)
     {
-        $this->total = $total;
+        $this->total = $this->getMontant();
     }
 
     public function __construct()
     {
+        $this->statut = self::STATUTS_DU;
         $this->billets = new ArrayCollection();
     }
 
@@ -140,5 +143,16 @@ class Reservation
     public function deleteBillet(Billet $billet)
     {
         $this->billets->removeElement($billet);
+    }
+
+    public function getMontant()
+    {
+        $totalReservation = 0;
+
+        foreach ($this->billets as $billet) {
+            $totalReservation += $billet->getMontant(); // pour additionner les montants
+        }
+
+        return $totalReservation;
     }
 }

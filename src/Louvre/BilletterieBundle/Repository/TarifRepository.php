@@ -19,6 +19,6 @@ class TarifRepository extends EntityRepository
                    ->setParameter('pattern', $type)
         ;
 
-        return $qb->getQuery()->getArrayResult();
+        return $qb->getQuery()->getOneOrNullResult();
     }
 }

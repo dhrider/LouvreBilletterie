@@ -26,7 +26,6 @@ class BilletType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-
             ->add('nom',            TextType::class, array(
                 'attr' => array(
                     'class' => 'nom',

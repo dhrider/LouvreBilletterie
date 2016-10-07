@@ -100,50 +100,26 @@ $(document).ready(function() {
     // en fonction du type
     $(document).on('change', '.choixType', function (e) {
         var idType = idExtract(e.target.id);
+        var montant = $('#reservation_billets_' + idType + '_montant').val();
+
         if (e.target.value === 'demiJournee') { // si on sélectionne demi-journée
             TypeDemiJournee = true;
-            $('.montant').each( function () {
-                if (idType === idExtract($(this)[0].id)) {
-                    var m = $(this).val();
-                    // on divise le tarif par 2 si celui-ci ne vaut pas 0 (tarif gratuit)
-                    if (m !== 0) {
-                        $(this).val(m / 2);
-                    }
-                }
-            });
+            // on divise le tarif par 2 si celui-ci ne vaut pas 0 (tarif gratuit)
+            if (montant !== 0) {
+                $('#reservation_billets_' + idType + '_montant').val(montant / 2);
+            }
         }
         else { // si on sélectionne journée
             TypeDemiJournee = false;
-            $('.montant').each( function () {
-                if (idType === idExtract($(this)[0].id)) {
-                        var m = $(this).val();
-                        $(this).val(m*2); // on multiplie le tarif par 2
-                }
-            });
+            $('#reservation_billets_' + idType + '_montant').val(montant * 2);
         }
     });
 
     // en fonction du choix reduit
     $(document).on('change', '.choixReduit', function (e) {
         var idReduit = idExtract(e.target.id);
-        var dateV = "";
-        var dateN = "";
-
-        // les dates récupérées serviront si on décoche la tarif réduit
-        // on stocke la date de visite
-        $('.dateVisite').each(function () {
-            if (idReduit === idExtract($(this)[0].id)) {
-                var splitDate = $(this).val().split('-');
-                dateV = splitDate.reverse().join('-');
-            }
-        });
-
-        // on stocke la date de naissance
-        $('.naissance').each(function () {
-            if (idReduit === idExtract($(this)[0].id)) {
-                dateN = $(this).val();
-            }
-        });
+        var dateVisite = $('#reservation_dateVisite').val().split('-').reverse().join('-');
+        var dateNaissance = $('#reservation_billets_'+idReduit+'_dateNaissance').val();
 
         if (e.target.checked) { // si on coche
             reduit = "oui";
@@ -152,7 +128,7 @@ $(document).ready(function() {
             reduit = "non";
         }
 
-        changeTarif(dateN,dateV,reduit,e.target.id);
+        changeTarif(dateNaissance,dateVisite,reduit,e.target.id);
     });
 
 
@@ -165,7 +141,7 @@ $(document).ready(function() {
 
             console.log("onglet paiement");
         }
-    })
+    });
 
 
 
@@ -188,23 +164,17 @@ $(document).ready(function() {
             dataType: 'json',
             success: function (reponse) {
                 var idBillet = idExtract(event);
-                $.each(reponse, function (index, element) {
-                    $('.montant').each( function () {
-                        if (idExtract($(this)[0].id) === idBillet) {
-                            if (!TypeDemiJournee) {
-                                $(this).val(parseInt(element.tarif));
-                            }
-                            else {
-                                $(this).val(parseInt(element.tarif / 2));
-                            }
-                        }
-                    });
-                    $('.tarif').each( function () {
-                        if (idExtract($(this)[0].id) === idBillet) {
-                            $(this).val(parseInt(element.id));
-                        }
-                    });
-                });
+                var montant = 0;
+
+                if (!TypeDemiJournee) {
+                    montant = parseInt(reponse.tarif);
+                }
+                else {
+                    montant = parseInt(reponse.tarif / 2);
+                }
+
+                $('#reservation_billets_'+idBillet+'_montant').val(montant);
+                $('#reservation_billets_'+idBillet+'_tarif').val(parseInt(reponse.id));
             },
             error: function (reponse) {
                 alert(reponse.responseText);

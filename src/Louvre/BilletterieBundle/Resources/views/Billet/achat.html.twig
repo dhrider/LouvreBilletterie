@@ -19,17 +19,17 @@
 
             <div class="tab-pane" id="billet">
                 <br/>
-                <h4 id="dateChoisie">Billet(s) pour le : <span class="date" id="dateV"></span> </h4>
+                <h4 id="dateChoisie">Réservation pour le : <span class="date" id="dateV"></span> </h4>
                 <div>
                     <div>
-                        <label><em>Renseigner les informations du billet :</em></label>
                         <div class="well container-fluid">
                             {{ form_start(form) }}
+                            {{ form_row(form.dateVisite) }}
                             <div id="Billets" data-prototype="{{ form_widget(form.billets.vars.prototype)|e }}" data-index="0">
                                 {% for billet in form.billets %}
                                     <div class="billet">
                                         {{ form_widget(billet) }}
-                                        <a class="btn btn-primary delete-billet" href="#">Supprimer le billet billet</a>
+                                        <a class="btn btn-danger delete-billet" href="#">Supprimer le billet billet</a>
                                     </div>
                                 {% endfor %}
                             </div>

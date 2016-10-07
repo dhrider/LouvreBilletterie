@@ -28,42 +28,10 @@ class BilletController extends Controller
         $form->handleRequest($request);
 
         if ($request->isMethod('POST') && $form->isValid()) {
-            // on récupère la date de visite de type string et on la transform en Datetime
-            $dateVisite = date_create($request->request->get('reservation')['billets'][0]['dateVisite']);
-            // Variable définisant l'état de la réservation
-            $statut = "du";
-            // on récupère les billets présents dans la requète
-            $billetsRequete = $request->request->get('reservation')['billets'];
-
-            // variable qui stocke le montant total de la réservation
-            $totalReservation = 0;
-            // on boucle das tous les billets
-            foreach ($billetsRequete as $billetRequete) {
-                $totalReservation += $billetRequete['montant']; // pour additionner les montants
-            }
-
-            // on affecte les données à la réservation
-            $reservation->setDateVisite($dateVisite);
-            $reservation->setStatut($statut);
-            $reservation->setTotal($totalReservation);
-
-            // on récupère les billets présents dans la réservation
-            $billetsReservation = $reservation->getBillets('billets');
-
-            // on boucle dans les billets
-            /*foreach ($billetsReservation as $billetReservation) {
-                // on récupère la date qui est en format string
-                $date = $billetReservation->getDateVisite();
-                // on Set la date en format Datetime
-                $billetReservation->setDateVisite(date_create($date));
-            }*/
-
             // On effectue le traitement en base de données
             $em = $this->getDoctrine()->getManager();
             $em->persist($reservation);
             $em->flush();
-
-
         }
 
         return $this->render('LouvreBilletterieBundle:Billet:achat.html.twig', array(
@@ -117,10 +85,6 @@ class BilletController extends Controller
 
                 // on renvoi la réponse sous format JSON
                 return new JsonResponse($data);
-            }
-            else {
-                // Si aucun tarif n'est trouvé on renvoi une erreur
-                return new  Response("Aucun tarif valide trouvé");
             }
         }
         return new  Response("Aucun tarif valide trouvé");
