@@ -8,6 +8,10 @@ louvre_billetterie_achat:
     path:    /achat
     defaults: { _controller: LouvreBilletterieBundle:Billet:achat }
 
+ #louvre_billetterie_achat_paiment:
+ #   path:    /achat/{id}
+  #  defaults: { _controller: LouvreBilletterieBundle:Billet:achat }
+
 louvre_billetterie_apropos:
     path:    /apropos
     defaults: { _controller: LouvreBilletterieBundle:Billet:apropos }

@@ -29,12 +29,12 @@
                                 {% for billet in form.billets %}
                                     <div class="billet">
                                         {{ form_widget(billet) }}
-                                        <a class="btn btn-danger delete-billet" href="#">Supprimer le billet billet</a>
+                                        <a class="btn btn-danger delete-billet" href="#">Supprimer billet</a>
                                     </div>
                                 {% endfor %}
                             </div>
 
-                            <a class="btn btn-primary add-billet" href="#">Ajouter un nouveau billet</a>
+                            <a class="btn btn-primary add-billet" href="#">Ajouter billet</a>
                             {{ form_end(form) }}
                             {{ form_widget(form.submit) }}
                         </div>

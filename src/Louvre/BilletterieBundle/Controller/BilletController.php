@@ -32,6 +32,10 @@ class BilletController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($reservation);
             $em->flush();
+
+            /*$this->redirect($this->generateUrl('louvre_billetterie_achat_paiment', [
+                    'id' => $reservation->getId()
+                ]). '#paiement');*/
         }
 
         return $this->render('LouvreBilletterieBundle:Billet:achat.html.twig', array(

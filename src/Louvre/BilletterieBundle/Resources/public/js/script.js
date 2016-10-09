@@ -62,7 +62,7 @@ $(document).ready(function() {
         // on définit le numéro du billet qui servira pour l'identifier
         var billet = billets.data('prototype').replace(/__name__/g,(billets.data('index')+compteurBillet));
         var newBillet = $('<div class="billet"></div>').html(billet);
-        var btnDelete = $('<a class="btn btn-primary delete-billet" href="#">Supprimer le billet billet</a>');
+        var btnDelete = $('<a class="btn btn-danger delete-billet" href="#">Supprimer billet</a>');
         compteurBillet++;
 
         newBillet.append(btnDelete); // on ajoute le bouton supprimer au nouveau billet

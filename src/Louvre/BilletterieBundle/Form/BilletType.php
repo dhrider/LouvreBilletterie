@@ -26,6 +26,13 @@ class BilletType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('dateVisite',     DateType::class, array(
+                'widget' => 'single_text',
+                'format' => 'dd-MM-yyyy',
+                'attr' => array(
+                    'class' => 'date dateVisite'
+                )
+            ))
             ->add('nom',            TextType::class, array(
                 'attr' => array(
                     'class' => 'nom',

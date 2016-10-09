@@ -18,6 +18,7 @@ class ReservationType extends AbstractType
             ->add('dateVisite',     DateType::class, array(
                 'widget' => 'single_text',
                 'format' => 'dd-MM-yyyy',
+                'label' => 'Date de réservation',
                 'attr' => array(
                     'class' => 'date dateVisite'
                 )

@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="billet")
  * @ORM\Entity(repositoryClass="Louvre\BilletterieBundle\Repository\BilletRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Billet
 {
@@ -96,7 +97,9 @@ class Billet
     private $montant;
 
     /**
+     * @var Reservation $reservation
      * @ORM\ManyToOne(targetEntity="Louvre\BilletterieBundle\Entity\Reservation", inversedBy="billets")
+     * @ORM\JoinColumn(name="reservation_id", referencedColumnName="id")
      */
     private $reservation;
 

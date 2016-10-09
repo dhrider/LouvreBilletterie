@@ -9,10 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
  * Class Reservation
  * @ORM\Table(name="reservation")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class Reservation 
 {
-    const STATUTS_DU = "du";
+    const STATUTS = "du";
     /**
      * @var int
      *
@@ -57,17 +58,16 @@ class Reservation
     }
 
     /**
-     * @param int $total
      * @ORM\PrePersist
      */
-    public function setTotal($total)
+    public function setTotal()
     {
-        $this->total = $this->getMontant();
+        $this->total = $this->getMontantTotal();
     }
 
     public function __construct()
     {
-        $this->statut = self::STATUTS_DU;
+        $this->statut = self::STATUTS;
         $this->billets = new ArrayCollection();
     }
 
@@ -145,14 +145,13 @@ class Reservation
         $this->billets->removeElement($billet);
     }
 
-    public function getMontant()
+    public function getMontantTotal()
     {
         $totalReservation = 0;
 
         foreach ($this->billets as $billet) {
             $totalReservation += $billet->getMontant(); // pour additionner les montants
         }
-
         return $totalReservation;
     }
 }
