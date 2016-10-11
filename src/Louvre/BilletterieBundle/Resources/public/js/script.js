@@ -140,19 +140,7 @@ $(document).ready(function() {
     ////////////////////////////////////////////////////////////////////////////
 
 
-    function getUrlVar(key){
-        var result = new RegExp(key + "=([^&]*)", "i").exec(window.location.search);
-        return result && result[1] || "";
-    }
 
-    $(window).on('hashchange', function () {
-        var u = getUrlVar('id');
-        console.log(u);
-        if (u !== "") {
-            console.log('je passe dans le click');
-            $('#ongletPaiement').trigger('click');
-        }
-    }).trigger('hashchange');
 
 
     ////////////////////////////////////////////////////////////////////////////
@@ -221,4 +209,9 @@ $(document).ready(function() {
     function idExtract(id) {
         return (/([0-9])/.exec(id))[0];
     }
+});
+
+$(function () {
+    $('#ongletPaiement').tab('show');
+    console.log($('#ongletPaiement').html());
 });
