@@ -35,15 +35,19 @@ $(document).ready(function() {
     });
 
     // affichage du datePicker centré
-    var largeurContainer = $('.datepicker').width();
-    var largeurDatePicker = $('.ui-datepicker').width();
-    var hauteurDatePicker = $('.ui-datepicker').height();
-    var leftPos = (largeurContainer - largeurDatePicker) / 2;
-    $('.ui-datepicker').css({
-        left:leftPos,
-        position: 'absolute'
+    $('#corpsAchat').ready(function () {
+        $('#ongletJour').trigger('click');
+        var largeurContainer = $('.datepicker').width();
+        var largeurDatePicker = $('.ui-datepicker').width();
+        var hauteurDatePicker = $('.ui-datepicker').height();
+        var leftPos = (largeurContainer - largeurDatePicker) / 2;
+        $('.ui-datepicker').css({
+            left:leftPos,
+            position: 'absolute'
+        });
+        $('#dateVisite').css({'height': hauteurDatePicker});
     });
-    $('#dateVisite').css({'height': hauteurDatePicker});
+
     
 
     ////////////////////////////////////////////////////////////////////////////
@@ -118,7 +122,7 @@ $(document).ready(function() {
     // en fonction du choix reduit
     $(document).on('change', '.choixReduit', function (e) {
         var idReduit = idExtract(e.target.id);
-        var dateVisite = $('#reservation_dateVisite').val().split('-').reverse().join('-');
+        var dateVisite = $('#reservation_dateReservation').val().split('-').reverse().join('-');
         var dateNaissance = $('#reservation_billets_'+idReduit+'_dateNaissance').val();
 
         if (e.target.checked) { // si on coche
@@ -136,13 +140,19 @@ $(document).ready(function() {
     ////////////////////////////////////////////////////////////////////////////
 
 
-    $(document).on('click', '.nav-tabs', function (e) {
-        if (e.target.id === "paiement") {
+    function getUrlVar(key){
+        var result = new RegExp(key + "=([^&]*)", "i").exec(window.location.search);
+        return result && result[1] || "";
+    }
 
-            console.log("onglet paiement");
+    $(window).on('hashchange', function () {
+        var u = getUrlVar('id');
+        console.log(u);
+        if (u !== "") {
+            console.log('je passe dans le click');
+            $('#ongletPaiement').trigger('click');
         }
-    });
-
+    }).trigger('hashchange');
 
 
     ////////////////////////////////////////////////////////////////////////////
@@ -177,7 +187,7 @@ $(document).ready(function() {
                 $('#reservation_billets_'+idBillet+'_tarif').val(parseInt(reponse.id));
             },
             error: function (reponse) {
-                alert(reponse.responseText);
+                console.log(reponse.responseText);
             }
         });
     }

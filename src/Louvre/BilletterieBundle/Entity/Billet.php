@@ -97,7 +97,7 @@ class Billet
     private $montant;
 
     /**
-     * @var Reservation $reservation
+     * @var int
      * @ORM\ManyToOne(targetEntity="Louvre\BilletterieBundle\Entity\Reservation", inversedBy="billets")
      * @ORM\JoinColumn(name="reservation_id", referencedColumnName="id")
      */
@@ -113,10 +113,14 @@ class Billet
 
     /**
      * @param mixed $reservation
+     *
+     * @return Billet
      */
     public function setReservation(Reservation $reservation)
     {
-        $this->reservation = $reservation->getId();
+        $this->reservation = $reservation;
+
+        return $this;
     }
 
 

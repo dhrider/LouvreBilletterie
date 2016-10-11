@@ -33,7 +33,7 @@ class Reservation
      * @var \DateTime
      * @ORM\Column(name="dateVisite", type="datetime")
      */
-    private $dateVisite;
+    private $dateReservation;
 
     /**
      * @var ArrayCollection
@@ -58,9 +58,10 @@ class Reservation
     }
 
     /**
+     * @param int $total
      * @ORM\PrePersist
      */
-    public function setTotal()
+    public function setTotal($total)
     {
         $this->total = $this->getMontantTotal();
     }
@@ -100,18 +101,18 @@ class Reservation
     /**
      * @return \DateTime
      */
-    public function getDateVisite()
+    public function getDateReservation()
     {
-        return $this->dateVisite;
+        return $this->dateReservation;
     }
 
     /**
      * @param \DateTime $dateVisite
      * @return Reservation
      */
-    public function setDateVisite(\DateTime $dateVisite)
+    public function setDateReservation(\DateTime $dateVisite)
     {
-        $this->dateVisite = $dateVisite;
+        $this->dateReservation = $dateVisite;
         return $this;
     }
 
@@ -131,7 +132,6 @@ class Reservation
         foreach ($billets as $billet) {
             $this->addBillet($billet);
         }
-
     }
 
     public function addBillet(Billet $billet)

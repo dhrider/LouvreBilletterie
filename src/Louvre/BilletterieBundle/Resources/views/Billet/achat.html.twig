@@ -5,13 +5,13 @@
 {% block body %}
     <div class="container-fluid col-md-offset-2 col-md-8" id="corpsAchat">
         <ul class="nav nav-tabs" id="tab">
-            <li class="nav col-md-4 active"><a href="#jour" id="ongletJour" data-toggle="tab">Jour de la visite</a></li>
+            <li class="nav col-md-4"><a href="#jour" id="ongletJour" data-toggle="tab">Jour de la visite</a></li>
             <li class="nav col-md-4"><a href="#billet" id="ongletBillet" data-toggle="tab">Vos billets</a></li>
-            <li class="nav col-md-4"><a href="#paiement" data-toggle="tab">Paiement</a></li>
+            <li class="nav col-md-4"><a href="#paiement" id="ongletPaiement" data-toggle="tab">Paiement</a></li>
         </ul>
 
         <div class="tab-content">
-            <div class="tab-pane active" id="jour">
+            <div class="tab-pane" id="jour">
                 <br/>
                 <label for="date">Date de la visite :</label>
                 <div id="dateVisite" class="datepicker"></div><span class="alert-danger" id="erreurDate"></span>
@@ -24,7 +24,7 @@
                     <div>
                         <div class="well container-fluid">
                             {{ form_start(form) }}
-                            {{ form_row(form.dateVisite) }}
+                            {{ form_row(form.dateReservation) }}
                             <div id="Billets" data-prototype="{{ form_widget(form.billets.vars.prototype)|e }}" data-index="0">
                                 {% for billet in form.billets %}
                                     <div class="billet">
@@ -36,7 +36,7 @@
 
                             <a class="btn btn-primary add-billet" href="#">Ajouter billet</a>
                             {{ form_end(form) }}
-                            {{ form_widget(form.submit) }}
+                            {{ form_widget(form.submit)}}
                         </div>
                     </div>
                 </div>

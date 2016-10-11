@@ -20,9 +20,7 @@ class BilletController extends Controller
     
     public function achatAction(Request $request)
     {
-        $billet = new Billet();
         $reservation = new Reservation();
-        $reservation->addBillet($billet);
 
         $form = $this->get('form.factory')->create(ReservationType::class, $reservation);
         $form->handleRequest($request);
@@ -33,9 +31,7 @@ class BilletController extends Controller
             $em->persist($reservation);
             $em->flush();
 
-            /*$this->redirect($this->generateUrl('louvre_billetterie_achat_paiment', [
-                    'id' => $reservation->getId()
-                ]). '#paiement');*/
+            return $this->redirect($this->generateUrl('louvre_billetterie_achat', ['id' => $reservation->getId()]));
         }
 
         return $this->render('LouvreBilletterieBundle:Billet:achat.html.twig', array(
