@@ -20,7 +20,7 @@ class BilletController extends Controller
     
     public function achatAction(Request $request)
     {
-        $reservation = new Reservation();
+        $reservation = $this->getReservation($request);
 
         $form = $this->get('form.factory')->create(ReservationType::class, $reservation);
         $form->handleRequest($request);
@@ -92,24 +92,40 @@ class BilletController extends Controller
 
     public function recapReservationAction(Request $request) {
         if ($request->isXmlHttpRequest()) {
-            $date = date_create($request->request->get('dateReservation'));
+            $idReservation = $request->request->get('idReservation');
 
-            if ($date !== "") {
+            if ($idReservation !== "") {
                 $repository = $this
                     ->getDoctrine()
                     ->getManager()
                     ->getRepository('LouvreBilletterieBundle:Billet')
                 ;
 
-                $data = $repository->recupReservation($date);
+                $data = $repository->recupReservation($idReservation);
 
                 return new JsonResponse($data);
-        }
-            else {
-                return new Response('Aucun billet trouvé !');
             }
         }
 
         return new Response('Aucune Réservation trouvée !');
+    }
+
+    private function getReservation(Request $request) {
+        if ($request->attributes->has('id')){
+            $reservation = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('LouvreBilletterieBundle:Reservation')
+                ->find($request->get('id'))
+            ;
+            if (null !== $reservation) {
+                return $reservation;
+            }
+        }
+
+        $reservation = new Reservation();
+        $reservation->addBillet(new Billet());
+
+        return $reservation;
     }
 }

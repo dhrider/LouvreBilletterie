@@ -21,3 +21,7 @@ louvre_billetterie_achat_paiement:
     defaults: { _controller: LouvreBilletterieBundle:Billet:achat }
     requirements:
            id: '\d+'
+
+louvre_billetterie_achat_recapReservation:
+    path:    /achat/recapReservation
+    defaults: { _controller: LouvreBilletterieBundle:Billet:recapReservation }

@@ -125,3 +125,18 @@ input[type=checkbox] {
     margin-top: 10px;
 }
 
+#dateVisite {
+    width: 300px;
+    margin: auto;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid black;
+    text-align: center;
+}
+

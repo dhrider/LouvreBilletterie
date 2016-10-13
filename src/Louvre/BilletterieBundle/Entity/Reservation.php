@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class Reservation
  * @ORM\Table(name="reservation")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Louvre\BilletterieBundle\Repository\ReservationRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class Reservation 
@@ -137,7 +137,9 @@ class Reservation
     public function addBillet(Billet $billet)
     {
         $billet->setReservation($this);
-        $this->billets[] = $billet;
+        if (!$this->billets->contains($billet)) {
+            $this->billets[] = $billet;
+        }
     }
 
     public function deleteBillet(Billet $billet)

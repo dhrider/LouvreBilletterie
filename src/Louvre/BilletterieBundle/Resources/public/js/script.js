@@ -34,19 +34,7 @@ $(document).ready(function() {
         }
     });
 
-    // affichage du datePicker centré
-    $('#corpsAchat').ready(function () {
-        $('#ongletJour').trigger('click');
-        var largeurContainer = $('.datepicker').width();
-        var largeurDatePicker = $('.ui-datepicker').width();
-        var hauteurDatePicker = $('.ui-datepicker').height();
-        var leftPos = (largeurContainer - largeurDatePicker) / 2;
-        $('.ui-datepicker').css({
-            left:leftPos,
-            position: 'absolute'
-        });
-        $('#dateVisite').css({'height': hauteurDatePicker});
-    });
+
 
     
 
@@ -140,7 +128,14 @@ $(document).ready(function() {
     ////////////////////////////////////////////////////////////////////////////
 
 
+    // Affichage de l'onglet paiement après la soumission du formulaire des billets
+    if (window.location.hash == '#ongletPaiement') {
+        $('#ongletPaiement').tab('show');
 
+        var idReservation = (window.location.pathname).toString().match(/\d+/)[0];
+
+        afficheReservation(parseInt(idReservation));
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////
@@ -174,26 +169,28 @@ $(document).ready(function() {
                 $('#reservation_billets_'+idBillet+'_montant').val(montant);
                 $('#reservation_billets_'+idBillet+'_tarif').val(parseInt(reponse.id));
             },
-            error: function (reponse) {
-                console.log(reponse.responseText);
+            error: function () {
+                console.log("Erreur réception du tarif");
             }
         });
     }
 
-    // Récupération de la réservation lors du paiement
-    function recapReservation(dateR, event) {
+    // Affichage du récapitulatif de la réservation dans l'onglet paiement
+    function  afficheReservation(idReservation) {
         $.ajax({
-           url: 'achat/recapReservation',
+            url: 'achat/recapReservation',
             type: 'POST',
             data: {
-               dateReservation: dateR
+                idReservation: idReservation
             },
             dataType: 'json',
-            success: function (reponse) {
-
+            success: function (response) {
+                $.each(response, function (index, element) {
+                    createLigneTableauRecap(element);
+                })
             },
-            error: function (reponse) {
-                alert(reponse.responseText);
+            error: function (response) {
+                console.log(response.text);
             }
         });
     }
@@ -209,9 +206,27 @@ $(document).ready(function() {
     function idExtract(id) {
         return (/([0-9])/.exec(id))[0];
     }
-});
 
-$(function () {
-    $('#ongletPaiement').tab('show');
-    console.log($('#ongletPaiement').html());
+    // function création d'une ligne du tableau de récapitulation des billets
+    var numeroLigne = 1;
+    function createLigneTableauRecap(element) {
+        if (element.reduit == false) {
+            element.reduit = "non";
+        }
+        else {
+            element.reduit = "oui";
+        }
+
+        $('#ligneTableauRecap').append(
+            '<tr>' +
+                '<td>' + numeroLigne     + '</td>' +
+                '<td>' + element.nom     + '</td>' +
+                '<td>' + element.type    + '</td>' +
+                '<td>' + element.reduit  + '</td>' +
+                '<td>' + element.montant + '</td>' +
+            '</tr>'
+        );
+
+        numeroLigne++;
+    }
 });
