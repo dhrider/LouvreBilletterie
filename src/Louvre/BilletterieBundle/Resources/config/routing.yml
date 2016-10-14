@@ -16,12 +16,14 @@ louvre_billetterie_achat_remplitarif:
     path:    /achat/remplitarif
     defaults: { _controller: LouvreBilletterieBundle:Billet:remplitarif }
 
+
+
 louvre_billetterie_achat_paiement:
     path:    /achat/{id}
     defaults: { _controller: LouvreBilletterieBundle:Billet:achat }
     requirements:
            id: '\d+'
 
-louvre_billetterie_achat_recapReservation:
+louvre_billetterie_achat_paiement_recapReservation:
     path:    /achat/recapReservation
     defaults: { _controller: LouvreBilletterieBundle:Billet:recapReservation }

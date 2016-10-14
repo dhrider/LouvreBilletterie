@@ -129,12 +129,13 @@ $(document).ready(function() {
 
 
     // Affichage de l'onglet paiement après la soumission du formulaire des billets
-    if (window.location.hash == '#ongletPaiement') {
-        $('#ongletPaiement').tab('show');
-
-        var idReservation = (window.location.pathname).toString().match(/\d+/)[0];
-
-        afficheReservation(parseInt(idReservation));
+    var idReservation = "";
+    if (window.location.pathname !== "") {
+        idReservation = (window.location.pathname).toString().match(/\d+/)[0];
+        if (idReservation !== "") {
+            $('#ongletPaiement').tab('show');
+            afficheReservation(parseInt(idReservation));
+        }
     }
 
 
@@ -147,7 +148,7 @@ $(document).ready(function() {
     // Récupération des tarifs
     function changeTarif(dateN, dateV,reduit, event) {
         $.ajax({
-            url: 'achat/remplitarif',
+            url: '/achat/remplitarif',
             type: 'POST',
             data: {
                 naissance: dateN,
@@ -178,7 +179,7 @@ $(document).ready(function() {
     // Affichage du récapitulatif de la réservation dans l'onglet paiement
     function  afficheReservation(idReservation) {
         $.ajax({
-            url: 'achat/recapReservation',
+            url: '/achat/recapReservation',
             type: 'POST',
             data: {
                 idReservation: idReservation
@@ -187,7 +188,9 @@ $(document).ready(function() {
             success: function (response) {
                 $.each(response, function (index, element) {
                     createLigneTableauRecap(element);
+
                 })
+                $('#montantTotal').html(total + " €");
             },
             error: function (response) {
                 console.log(response.text);
@@ -209,6 +212,7 @@ $(document).ready(function() {
 
     // function création d'une ligne du tableau de récapitulation des billets
     var numeroLigne = 1;
+    var total = 0;
     function createLigneTableauRecap(element) {
         if (element.reduit == false) {
             element.reduit = "non";
@@ -228,5 +232,6 @@ $(document).ready(function() {
         );
 
         numeroLigne++;
+        total = total + element.montant;
     }
 });
