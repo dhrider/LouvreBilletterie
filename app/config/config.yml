@@ -76,3 +76,14 @@ assetic:
     filters:
         cssrewrite: ~
 
+payum:
+    security:
+        token_storage:
+            Louvre\BilletterieBundle\Entity\PaymentToken: { doctrine: orm }
+
+    storages:
+        Louvre\BilletterieBundle\Entity\Payment: { doctrine: orm }
+
+    gateways:
+        offline:
+            factory: offline
