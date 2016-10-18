@@ -1,7 +1,7 @@
 <?php
-// src/Louvre/BilletterieBundle/Entity/Payment.php
+//src/Louvre/PaymentBundle/Entity/Payment.php
 
-namespace Louvre\BilletterieBundle\Entity;
+namespace Louvre\PaymentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Payum\Core\Model\Payment as BasePayment;

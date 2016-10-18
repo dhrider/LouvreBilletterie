@@ -36,10 +36,11 @@ $(document).ready(function() {
 
 
 
-    
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
+
+
 
 
     // GESTION DE L'AJOUT DE LA SUPPRESSION D'UN BILLET //
@@ -70,8 +71,12 @@ $(document).ready(function() {
     });
 
 
+
+
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
+
+
 
     
     // CHANGEMENT DU TARIF DYNAMIQUE //
@@ -124,9 +129,15 @@ $(document).ready(function() {
     });
 
 
+
+
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
+
+
+
+    // GESTION DU PAIEMENT //
 
     // Affichage de l'onglet paiement après la soumission du formulaire des billets
     var idReservation = "";
@@ -138,9 +149,21 @@ $(document).ready(function() {
         }
     }
 
+    //Gestion du bouton payer
+    $(document).on('click', '#btnPayer' ,function (e) {
+        e.preventDefault();
+        var emailReservation = $('#email').val();
+        console.log(emailReservation);
+        payerReservation(emailReservation, totalReservation, idReservation);
+    });
+
+
+
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
+
+
 
 
     // REQUETES AJAX //
@@ -190,7 +213,27 @@ $(document).ready(function() {
                     createLigneTableauRecap(element);
 
                 })
-                $('#montantTotal').html(total + " €");
+                $('#montantTotal').html(totalReservation + " €");
+            },
+            error: function (response) {
+                console.log(response.text);
+            }
+        });
+    }
+
+    // Envoi du paiement
+    function payerReservation (email, montant, idresa) {
+        $.ajax({
+            url: '/achat/prepare',
+            type: 'POST',
+            data: {
+                email: email,
+                montant: montant,
+                idresa: idresa
+            },
+            dataType: 'json',
+            success: function (response) {
+               console.log(response.text);
             },
             error: function (response) {
                 console.log(response.text);
@@ -199,8 +242,12 @@ $(document).ready(function() {
     }
 
 
+
+
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
+
+
 
 
     // FONCTIONS DIVERSES //
@@ -212,7 +259,7 @@ $(document).ready(function() {
 
     // function création d'une ligne du tableau de récapitulation des billets
     var numeroLigne = 1;
-    var total = 0;
+    var totalReservation = 0;
     function createLigneTableauRecap(element) {
         if (element.reduit == false) {
             element.reduit = "non";
@@ -232,6 +279,6 @@ $(document).ready(function() {
         );
 
         numeroLigne++;
-        total = total + element.montant;
+        totalReservation = totalReservation + element.montant;
     }
 });
