@@ -29,8 +29,10 @@ class BilletType extends AbstractType
             ->add('dateVisite',     DateType::class, array(
                 'widget' => 'single_text',
                 'format' => 'dd-MM-yyyy',
+                'label' => false,
                 'attr' => array(
                     'class' => 'date dateVisite',
+                    'style' => 'display:none'
                 )
             ))
             ->add('nom',            TextType::class, array(
@@ -72,7 +74,7 @@ class BilletType extends AbstractType
                     'class' => 'choixReduit'
                 )
             ))
-            ->add('tarif', null, array(
+            ->add('tarif', HiddenType::class, array(
                 'attr' => array(
                     'class' => 'tarif'
                 )

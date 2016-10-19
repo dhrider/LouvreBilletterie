@@ -34,25 +34,16 @@
                                         {{ form_row(billet.pays) }}
                                         {{ form_row(billet.dateNaissance) }}
                                         {{ form_row(billet.type) }}
+                                        {{ form_row(billet.reduit) }}
                                         <div class="hidden">
                                             {{ form_widget(billet.dateVisite) }}
                                             {{ form_widget(billet.tarif) }}
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-md-5 col-sm-5">
-                                                {{ form_widget(billet.reduit) }}
-                                            </div>
-                                            <div class="col-md-5 col-sm-5">
-                                               <span class="montant" id="{{ billet.vars.id }}_montant"></span>
-                                            </div>
                                         </div>
                                         <a class="btn btn-danger delete-billet btn-sm" href="#">Supprimer billet</a>
                                     </div>
                                 {% endfor %}
                             </div>
-
-                            <a class="btn btn-primary add-billet" href="#">Ajouter billet</a>
-
+                            <a class="btn btn-primary add-billet btn-sm" href="#">Ajouter billet</a>
                             {{ form_end(form) }}
                             {{ form_widget(form.submit)}}
                         </div>
@@ -71,20 +62,14 @@
                                 <label for="email">Votre e-mail : </label>
                                 <input type="email" name="email_reservation" class="form-control" id="email" placeholder="Entrez votre E-mail">
                                 <span class="alert-danger" id="erreurEmail" hidden="hidden"> * Veuillez entrez un Email valide</span>
+                                <h4>Montant total à payer : <span id="montantTotal"></span></h4>
+                                <input id="btnPayer" class="payer pull-left" type="button" value="PAYER">
                             </div>
-                            <br/><br/>
-                            <div id="choixPaiement" class="row">
-                                <label for="paiement">Payer avec STRIPE :</label>
-                            </div>
-                            <br/><br/>
-                            <input id="btnPayer" class="payer pull-left" type="button" value="PAYER">
                         </div>
                     </form>
 
                     <div id="recapPaiement" class="col-md-6">
                         <div class="container-fluid" id="recapReservation">
-                            <h4>Montant total à payer : <span id="montantTotal"></span></h4>
-                            <br/>
                             <h4>Récapitulatif de votre réservation de billet(s) :</h4>
                             <table id="tableauRecapReservation">
                                 <thead>

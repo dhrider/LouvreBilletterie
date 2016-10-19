@@ -4,6 +4,7 @@ namespace Louvre\BilletterieBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Reservation
@@ -41,6 +42,28 @@ class Reservation
      * @ORM\OneToMany(targetEntity="Billet", cascade={"persist"}, mappedBy="reservation")
      */
     protected $billets;
+
+    /**
+     * @var string
+     * @ORM\Column(name="email", type="string")
+     */
+    private $email;
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
 
     /**
      * @var int

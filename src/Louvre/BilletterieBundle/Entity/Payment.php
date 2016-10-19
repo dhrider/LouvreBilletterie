@@ -23,7 +23,7 @@ class Payment extends BasePayment
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Reservation
+     * @ORM\ManyToOne(targetEntity="Reservation", inversedBy="Payment")
      */
     protected $reservation;
 

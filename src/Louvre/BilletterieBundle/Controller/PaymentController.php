@@ -19,15 +19,15 @@ class PaymentController extends Controller
 
         $gatewayName = 'stripe_js';
 
-        $storage = $this->get('payum')->getStorage('Louvre\PaymentBundle\Entity\Payment');
+        $storage = $this->get('payum')->getStorage('Louvre\BilletterieBundle\Entity\Payment');
 
         $payment = $storage->create();
         $payment->setReservation($reservation);
         $payment->setNumber(uniqid());
         $payment->setCurrencyCode('EUR');
         $payment->setTotalAmount($reservation->getMontantTotal()*100); // 1.23 EUR
-        $payment->setDescription('A description');
-        $payment->setClientId('anId');
+        $payment->setDescription('Billet(s) Louvre');
+        $payment->setClientId($reservation->getId());
         $payment->setClientEmail($reservation->getEmail());
 
         $storage->update($payment);

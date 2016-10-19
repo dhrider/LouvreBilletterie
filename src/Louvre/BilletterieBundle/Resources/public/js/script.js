@@ -55,7 +55,7 @@ $(document).ready(function() {
         // on définit le numéro du billet qui servira pour l'identifier
         var billet = billets.data('prototype').replace(/__name__/g,(billets.data('index')+compteurBillet));
         var newBillet = $('<div class="billet"></div>').html(billet);
-        var btnDelete = $('<a class="btn btn-danger delete-billet" href="#">Supprimer billet</a>');
+        var btnDelete = $('<a class="btn btn-danger delete-billet btn-sm" href="#">Supprimer billet</a>');
         compteurBillet++;
 
         newBillet.append(btnDelete); // on ajoute le bouton supprimer au nouveau billet
@@ -94,23 +94,7 @@ $(document).ready(function() {
         changeTarif(e.target.value, dateInverse,reduit, e.target.id);
     });
 
-    // en fonction du type
-    $(document).on('change', '.choixType', function (e) {
-        var idType = idExtract(e.target.id);
-        var montant = $('#reservation_billets_' + idType + '_montant').html();
 
-        if (e.target.value === 'demiJournee') { // si on sélectionne demi-journée
-            TypeDemiJournee = true;
-            // on divise le tarif par 2 si celui-ci ne vaut pas 0 (tarif gratuit)
-            if (montant !== 0) {
-                $('#reservation_billets_' + idType + '_montant').html(montant / 2);
-            }
-        }
-        else { // si on sélectionne journée
-            TypeDemiJournee = false;
-            $('#reservation_billets_' + idType + '_montant').html(montant * 2);
-        }
-    });
 
     // en fonction du choix reduit
     $(document).on('change', '.choixReduit', function (e) {
@@ -140,23 +124,22 @@ $(document).ready(function() {
     // GESTION DU PAIEMENT //
 
     // Affichage de l'onglet paiement après la soumission du formulaire des billets
-    var idReservation = "";
-
     if (window.location.pathname !== "") {
-        idReservation = (window.location.pathname).toString().match(/\d+/)[0];
-        if (idReservation !== "") {
-            $('#ongletPaiement').tab('show');
+        var idReservation = (window.location.pathname).toString().match(/\d+/)[0];
+        //idReservation = (window.location.pathname).toString().match(/\d+/)[0];
+        if (idReservation !== null) {
+            $('#ongletPaiemioent').tab('show');
             afficheReservation(parseInt(idReservation));
         }
     }
 
     //Gestion du bouton payer
-    $(document).on('click', '#btnPayer' ,function (e) {
+    /*$(document).on('click', '#btnPayer' ,function (e) {
         e.preventDefault();
         var emailReservation = $('#email').val();
         console.log(emailReservation);
         payerReservation(emailReservation, totalReservation, idReservation);
-    });
+    });*/
 
 
 

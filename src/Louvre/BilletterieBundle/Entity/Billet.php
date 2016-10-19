@@ -305,7 +305,7 @@ class Billet
     
     public function setTarif(Tarif $tarif)
     {
-        $this->tarif = $tarif;
+        $this->tarif = $tarif->getTarif();
 
         return $this;
     }

@@ -77,11 +77,10 @@ class Tarif
         return $this->id;
     }
 
-    public function __toString()
+    /*public function __toString()
     {
-       //return $this->tarif;
-        return 'toto';
-    }
+       return $this->tarif;
+    }*/
 
 }
 
