@@ -28,8 +28,8 @@ louvre_billetterie_achat_paiement_recapReservation:
 
 louvre_payment_prepare:
     path:    /payment/prepare
-    defaults: { _controller: LouvrePaymentBundle:Payment:prepare }
+    defaults: { _controller: LouvreBilletterieBundle:Payment:prepare }
 
 louvre_payemnt_done:
     path:    /payment/done
-    defaults: { _controller: LouvrePaymentBundle:Payment:done }
+    defaults: { _controller: LouvreBilletterieBundle:Payment:done }

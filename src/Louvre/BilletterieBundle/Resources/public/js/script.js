@@ -97,18 +97,18 @@ $(document).ready(function() {
     // en fonction du type
     $(document).on('change', '.choixType', function (e) {
         var idType = idExtract(e.target.id);
-        var montant = $('#reservation_billets_' + idType + '_montant').val();
+        var montant = $('#reservation_billets_' + idType + '_montant').html();
 
         if (e.target.value === 'demiJournee') { // si on sélectionne demi-journée
             TypeDemiJournee = true;
             // on divise le tarif par 2 si celui-ci ne vaut pas 0 (tarif gratuit)
             if (montant !== 0) {
-                $('#reservation_billets_' + idType + '_montant').val(montant / 2);
+                $('#reservation_billets_' + idType + '_montant').html(montant / 2);
             }
         }
         else { // si on sélectionne journée
             TypeDemiJournee = false;
-            $('#reservation_billets_' + idType + '_montant').val(montant * 2);
+            $('#reservation_billets_' + idType + '_montant').html(montant * 2);
         }
     });
 
@@ -141,6 +141,7 @@ $(document).ready(function() {
 
     // Affichage de l'onglet paiement après la soumission du formulaire des billets
     var idReservation = "";
+
     if (window.location.pathname !== "") {
         idReservation = (window.location.pathname).toString().match(/\d+/)[0];
         if (idReservation !== "") {
@@ -190,7 +191,7 @@ $(document).ready(function() {
                     montant = parseInt(reponse.tarif / 2);
                 }
 
-                $('#reservation_billets_'+idBillet+'_montant').val(montant);
+                $('#reservation_billets_'+idBillet+'_montant').html(montant);
                 $('#reservation_billets_'+idBillet+'_tarif').val(parseInt(reponse.id));
             },
             error: function () {
@@ -224,7 +225,7 @@ $(document).ready(function() {
     // Envoi du paiement
     function payerReservation (email, montant, idresa) {
         $.ajax({
-            url: '/achat/prepare',
+            url: '/payment/prepare',
             type: 'POST',
             data: {
                 email: email,

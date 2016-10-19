@@ -1,7 +1,7 @@
 <?php
-//src/Louvre/PaymentBundle/Entity/PaymentToken.php
+//src/Louvre/BilletterieBundle/Entity/PaymentToken.php
 
-namespace Louvre\PaymentBundle\Entity;
+namespace Louvre\BilletterieBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Payum\Core\Model\Token;

@@ -1,8 +1,9 @@
 <?php
-// src/Louvre/PaymentBundle/Controller/PaymentController.php
+// src/Louvre/BilletterieBundle/Controller/PaymentController.php
 
-namespace Louvre\PaymentBundle\Controller;
+namespace Louvre\BilletterieBundle\Controller;
 
+use Louvre\BilletterieBundle\Entity\Reservation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Payum\Core\Request\GetHumanStatus;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,26 +11,31 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class PaymentController extends Controller
 {
-    public function prepareAction()
+    public function prepareAction(Request $request, Reservation $reservation)
     {
-        $gatewayName = 'offline';
+        $reservation->setEmail($request->request->get('email_reservation'));
+        $this->getDoctrine()->getManager()->persist($reservation);
+        $this->getDoctrine()->getManager()->flush();
 
-        $storage = $this->get('payum')->getStorage('Acme\PaymentBundle\Entity\Payment');
+        $gatewayName = 'stripe_js';
+
+        $storage = $this->get('payum')->getStorage('Louvre\PaymentBundle\Entity\Payment');
 
         $payment = $storage->create();
+        $payment->setReservation($reservation);
         $payment->setNumber(uniqid());
         $payment->setCurrencyCode('EUR');
-        $payment->setTotalAmount(123); // 1.23 EUR
+        $payment->setTotalAmount($reservation->getMontantTotal()*100); // 1.23 EUR
         $payment->setDescription('A description');
         $payment->setClientId('anId');
-        $payment->setClientEmail('foo@example.com');
+        $payment->setClientEmail($reservation->getEmail());
 
         $storage->update($payment);
 
         $captureToken = $this->get('payum')->getTokenFactory()->createCaptureToken(
             $gatewayName,
             $payment,
-            'done' // the route to redirect after capture
+            'louvre_payment_done' // the route to redirect after capture
         );
 
         return $this->redirect($captureToken->getTargetUrl());
@@ -55,13 +61,10 @@ class PaymentController extends Controller
         // you have order and payment status
         // so you can do whatever you want for example you can just print status and payment details.
 
-        return new JsonResponse(array(
-            'status' => $status->getValue(),
-            'payment' => array(
-                'total_amount' => $payment->getTotalAmount(),
-                'currency_code' => $payment->getCurrencyCode(),
-                'details' => $payment->getDetails(),
-            ),
-        ));
+        // mettre à jour la reservation avec le bon status
+        //redirection vers l'onglet confirmation
+
+        $this->redirectToRoute('',['id' => $payment->getReservation()]);
+
     }
 }

@@ -87,3 +87,7 @@ payum:
     gateways:
         offline:
             factory: offline
+        stripe:
+            factory: stripe_js
+            publishable_key: '%stripe_publishable_key%'
+            secret_key: '%stripe_secret_key%'

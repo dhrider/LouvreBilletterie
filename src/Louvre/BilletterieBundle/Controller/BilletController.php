@@ -27,6 +27,7 @@ class BilletController extends Controller
 
         if ($request->isMethod('POST') && $form->isValid()) {
             // On effectue le traitement en base de données
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($reservation);
             $em->flush();

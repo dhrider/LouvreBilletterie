@@ -63,6 +63,17 @@ class Reservation
      */
     public function setTotal($total)
     {
+        foreach ($this->billets as &$billet) {
+
+            $montant = $billet->getTarif()->getTarif();
+
+            if($montant != 0 && $billet->getType() =='demiJournee') {
+                $montant = $montant/2;
+            }
+
+            $billet->setMontant($montant);
+        }
+
         $this->total = $this->getMontantTotal();
     }
 

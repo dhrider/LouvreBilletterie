@@ -85,7 +85,7 @@ class Billet
 
     /**
      * @var int
-     * @ORM\Column(name="tarif", type="integer")
+     * @ORM\ManyToOne(targetEntity="Tarif")
      */
     private $tarif;
 
@@ -303,7 +303,7 @@ class Billet
     }
 
     
-    public function setTarif($tarif)
+    public function setTarif(Tarif $tarif)
     {
         $this->tarif = $tarif;
 
