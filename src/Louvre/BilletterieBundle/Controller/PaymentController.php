@@ -7,7 +7,6 @@ use Louvre\BilletterieBundle\Entity\Reservation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Payum\Core\Request\GetHumanStatus;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class PaymentController extends Controller
 {
@@ -17,7 +16,7 @@ class PaymentController extends Controller
         $this->getDoctrine()->getManager()->persist($reservation);
         $this->getDoctrine()->getManager()->flush();
 
-        $gatewayName = 'stripe_js';
+        $gatewayName = 'stripe';
 
         $storage = $this->get('payum')->getStorage('Louvre\BilletterieBundle\Entity\Payment');
 
@@ -35,7 +34,8 @@ class PaymentController extends Controller
         $captureToken = $this->get('payum')->getTokenFactory()->createCaptureToken(
             $gatewayName,
             $payment,
-            'louvre_payment_done' // the route to redirect after capture
+            'louvre_payment_done', // the route to redirect after capture
+            array('id' => $reservation->getId())
         );
 
         return $this->redirect($captureToken->getTargetUrl());
@@ -47,24 +47,11 @@ class PaymentController extends Controller
 
         $gateway = $this->get('payum')->getGateway($token->getGatewayName());
 
-        // you can invalidate the token. The url could not be requested any more.
-        // $this->get('payum')->getHttpRequestVerifier()->invalidate($token);
-
-        // Once you have token you can get the model from the storage directly.
-        //$identity = $token->getDetails();
-        //$payment = $this->get('payum')->getStorage($identity->getClass())->find($identity);
-
         // or Payum can fetch the model for you while executing a request (Preferred).
         $gateway->execute($status = new GetHumanStatus($token));
         $payment = $status->getFirstModel();
 
-        // you have order and payment status
-        // so you can do whatever you want for example you can just print status and payment details.
 
-        // mettre à jour la reservation avec le bon status
-        //redirection vers l'onglet confirmation
-
-        //$this->redirectToRoute('',['id' => $payment->getReservation()]);
-        return $this->redirect($this->generateUrl('louvre_billetterie_achat_paiement', ['id' => $payment->getReservation()]).'#confirmation');
+        return $this->redirect($this->generateUrl('louvre_billetterie_achat_paiement', ['id' => $payment->getReservation()->getId()]).'#confirmation');
     }
 }

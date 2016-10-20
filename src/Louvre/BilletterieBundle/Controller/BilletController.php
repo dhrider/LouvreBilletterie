@@ -5,7 +5,6 @@ namespace Louvre\BilletterieBundle\Controller;
 
 use Louvre\BilletterieBundle\Entity\Billet;
 use Louvre\BilletterieBundle\Entity\Reservation;
-use Louvre\BilletterieBundle\Form\BilletType;
 use Louvre\BilletterieBundle\Form\ReservationType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -43,7 +42,8 @@ class BilletController extends Controller
         }
 
         return $this->render('LouvreBilletterieBundle:Billet:achat.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'reservation' => $reservation
         ));
     }
     

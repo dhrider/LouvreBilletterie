@@ -89,7 +89,9 @@ $(document).ready(function() {
         }
     }
 
-
+    if (window.location.hash == "#confirmation") {
+        $('#ongletConfirmation').tab('show');
+    }
 
 
 

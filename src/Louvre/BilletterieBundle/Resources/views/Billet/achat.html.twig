@@ -56,7 +56,8 @@
                 <h4>Paiement :</h4>
                 <br/>
                 <div id="corpsPaiement" class="container-fluid col-md-12">
-                    <form method="post" action="{{ path('louvre_payment_prepare') }}">
+                    {% if (reservation.id is not null) %}
+                    <form method="post" action="{{ path('louvre_payment_prepare',{'id' : reservation.id})}}">
                         <div id="choixPaiement" class="col-md-6">
                             <div class="form-inline row">
                                 <label for="email">Votre e-mail : </label>
@@ -67,7 +68,7 @@
                             </div>
                         </div>
                     </form>
-
+                   {% endif %}
                     <div id="recapPaiement" class="col-md-6">
                         <div class="container-fluid" id="recapReservation">
                             <h4>Récapitulatif de votre réservation de billet(s) :</h4>
