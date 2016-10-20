@@ -5,6 +5,7 @@ namespace Louvre\BilletterieBundle\Controller;
 
 use Louvre\BilletterieBundle\Entity\Billet;
 use Louvre\BilletterieBundle\Entity\Reservation;
+use Louvre\BilletterieBundle\Form\BilletType;
 use Louvre\BilletterieBundle\Form\ReservationType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,12 +28,19 @@ class BilletController extends Controller
 
         if ($request->isMethod('POST') && $form->isValid()) {
             // On effectue le traitement en base de données
+            $billets = $reservation->getBillets();
 
+            foreach ($billets as $billet) {
+                $billet->setTarif($this->getTarif($billet));
+            }
+            //var_dump($reservation->getBillets()[0]);
+            //exit;
             $em = $this->getDoctrine()->getManager();
             $em->persist($reservation);
             $em->flush();
 
             return $this->redirect($this->generateUrl('louvre_billetterie_achat_paiement', ['id' => $reservation->getId()]));
+
         }
 
         return $this->render('LouvreBilletterieBundle:Billet:achat.html.twig', array(
@@ -45,7 +53,7 @@ class BilletController extends Controller
         return $this->render('LouvreBilletterieBundle:Billet:apropos.html.twig');
     }
 
-    public function remplitarifAction(Request $request)
+    /*public function remplitarifAction(Request $request)
     {
         if ($request->isXmlHttpRequest()) {
             // récupération des variables envoyées par la requète
@@ -89,7 +97,7 @@ class BilletController extends Controller
             }
         }
         return new  Response("Aucun tarif valide trouvé");
-    }
+    }*/
 
     public function recapReservationAction(Request $request) {
         if ($request->isXmlHttpRequest()) {
@@ -130,5 +138,38 @@ class BilletController extends Controller
         return $reservation;
     }
 
+    private function getTarif(Billet $billet) {
+        $dateVisite = $billet->getDateVisite();
+        $dateNaissance = $billet->getDateNaissance();
+        $reduit = $billet->getReduit();
 
+        $diffDate = date_diff($dateNaissance,$dateVisite);
+        $age = $diffDate->y;
+
+        if ($reduit == false) { // si "tarif réduit" n'est pas coché
+            if ($age >= 12 && $age < 60) {
+                $tarif = "normal";
+            } elseif ($age >= 4 && $age < 12) {
+                $tarif = "enfant";
+            } elseif ($age >= 60) {
+                $tarif = "senior";
+            } else {
+                $tarif = "gratuit";
+            }
+        }
+        else { // si "tarif réduit" est coché
+            $tarif = "reduit";
+        }
+
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('LouvreBilletterieBundle:Tarif');
+
+        // on appelle la fonction de sélection du tarif
+        $data = $repository->selectionTarif($tarif);
+
+        //var_dump($data['tarif']);
+        return $data['tarif'];
+    }
 }

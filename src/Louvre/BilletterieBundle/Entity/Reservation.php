@@ -45,7 +45,7 @@ class Reservation
 
     /**
      * @var string
-     * @ORM\Column(name="email", type="string")
+     * @ORM\Column(name="email", type="string", nullable=true)
      */
     private $email;
 
@@ -88,7 +88,9 @@ class Reservation
     {
         foreach ($this->billets as &$billet) {
 
-            $montant = $billet->getTarif()->getTarif();
+            //var_dump($billet->getTarif());
+            //exit;
+            $montant = $billet->getTarif();
 
             if($montant != 0 && $billet->getType() =='demiJournee') {
                 $montant = $montant/2;

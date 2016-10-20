@@ -72,49 +72,6 @@ $(document).ready(function() {
 
 
 
-
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-
-
-
-    
-    // CHANGEMENT DU TARIF DYNAMIQUE //
-
-    var reduit = "non";
-    var TypeDemiJournee = false;
-
-    // en fonction de la date de naissance
-    $(document).on('blur', '.naissance', function(e) { // quand on change la date
-        // on récupère la date de visite et on l'inverse pour la mettre au format voulu
-        var splitDate = ($('.dateVisite')[0].value).split('-');
-        var dateInverse = splitDate.reverse().join('-');
-
-        // on change le tarif
-        changeTarif(e.target.value, dateInverse,reduit, e.target.id);
-    });
-
-
-
-    // en fonction du choix reduit
-    $(document).on('change', '.choixReduit', function (e) {
-        var idReduit = idExtract(e.target.id);
-        var dateVisite = $('#reservation_dateReservation').val().split('-').reverse().join('-');
-        var dateNaissance = $('#reservation_billets_'+idReduit+'_dateNaissance').val();
-
-        if (e.target.checked) { // si on coche
-            reduit = "oui";
-        }
-        else { // si on décoche
-            reduit = "non";
-        }
-
-        changeTarif(dateNaissance,dateVisite,reduit,e.target.id);
-    });
-
-
-
-
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
@@ -126,21 +83,11 @@ $(document).ready(function() {
     // Affichage de l'onglet paiement après la soumission du formulaire des billets
     if (window.location.pathname !== "") {
         var idReservation = (window.location.pathname).toString().match(/\d+/)[0];
-        //idReservation = (window.location.pathname).toString().match(/\d+/)[0];
         if (idReservation !== null) {
-            $('#ongletPaiemioent').tab('show');
+            $('#ongletPaiement').tab('show');
             afficheReservation(parseInt(idReservation));
         }
     }
-
-    //Gestion du bouton payer
-    /*$(document).on('click', '#btnPayer' ,function (e) {
-        e.preventDefault();
-        var emailReservation = $('#email').val();
-        console.log(emailReservation);
-        payerReservation(emailReservation, totalReservation, idReservation);
-    });*/
-
 
 
 
@@ -151,37 +98,6 @@ $(document).ready(function() {
 
 
     // REQUETES AJAX //
-
-    // Récupération des tarifs
-    function changeTarif(dateN, dateV,reduit, event) {
-        $.ajax({
-            url: '/achat/remplitarif',
-            type: 'POST',
-            data: {
-                naissance: dateN,
-                dateVisite: dateV,
-                reduit: reduit
-            },
-            dataType: 'json',
-            success: function (reponse) {
-                var idBillet = idExtract(event);
-                var montant = 0;
-
-                if (!TypeDemiJournee) {
-                    montant = parseInt(reponse.tarif);
-                }
-                else {
-                    montant = parseInt(reponse.tarif / 2);
-                }
-
-                $('#reservation_billets_'+idBillet+'_montant').html(montant);
-                $('#reservation_billets_'+idBillet+'_tarif').val(parseInt(reponse.id));
-            },
-            error: function () {
-                console.log("Erreur réception du tarif");
-            }
-        });
-    }
 
     // Affichage du récapitulatif de la réservation dans l'onglet paiement
     function  afficheReservation(idReservation) {

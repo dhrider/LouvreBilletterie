@@ -85,7 +85,7 @@ class Billet
 
     /**
      * @var int
-     * @ORM\ManyToOne(targetEntity="Tarif")
+     *
      */
     private $tarif;
 
@@ -302,15 +302,21 @@ class Billet
         return $this->dateNaissance;
     }
 
-    
-    public function setTarif(Tarif $tarif)
+    /**
+     * @param int $tarif
+     * @return Billet
+     */
+    public function setTarif($tarif)
     {
-        $this->tarif = $tarif->getTarif();
+        $this->tarif = $tarif;
 
         return $this;
     }
 
-        public function getTarif()
+    /**
+     * @return int
+     */
+    public function getTarif()
     {
         return $this->tarif;
     }
