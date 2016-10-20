@@ -64,7 +64,7 @@ class PaymentController extends Controller
         // mettre à jour la reservation avec le bon status
         //redirection vers l'onglet confirmation
 
-        $this->redirectToRoute('',['id' => $payment->getReservation()]);
-
+        //$this->redirectToRoute('',['id' => $payment->getReservation()]);
+        return $this->redirect($this->generateUrl('louvre_billetterie_achat_paiement', ['id' => $payment->getReservation()]).'#confirmation');
     }
 }

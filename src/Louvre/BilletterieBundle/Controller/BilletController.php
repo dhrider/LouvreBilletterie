@@ -33,8 +33,7 @@ class BilletController extends Controller
             foreach ($billets as $billet) {
                 $billet->setTarif($this->getTarif($billet));
             }
-            //var_dump($reservation->getBillets()[0]);
-            //exit;
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($reservation);
             $em->flush();
@@ -52,52 +51,6 @@ class BilletController extends Controller
     {
         return $this->render('LouvreBilletterieBundle:Billet:apropos.html.twig');
     }
-
-    /*public function remplitarifAction(Request $request)
-    {
-        if ($request->isXmlHttpRequest()) {
-            // récupération des variables envoyées par la requète
-            $naissance = date_create($request->request->get('naissance'));
-            $dateVisite = date_create($request->request->get('dateVisite'));
-            $reduit = $request->request->get('reduit');
-
-            // on calcule la différence entre la date de naissance et la date visite
-            $diffDate = date_diff($naissance,$dateVisite);
-            // pour connaître l'âge du visiteur
-            $age = $diffDate->y;
-
-            // on définit le tarif en fonction de l'âge
-            if ($reduit === "non") { // si "tarif réduit" n'est pas coché
-                if ($age >= 12 && $age < 60) {
-                    $tarif = "normal";
-                } elseif ($age >= 4 && $age < 12) {
-                    $tarif = "enfant";
-                } elseif ($age >= 60) {
-                    $tarif = "senior";
-                } else {
-                    $tarif = "gratuit";
-                }
-            }
-            else { // si "tarif réduit" est coché
-                $tarif = "reduit";
-            }
-
-            if ($tarif !== "") { // on vérifie qu'on a bien obtenu un tarif
-                // on récupère le répository
-                $repository = $this
-                            ->getDoctrine()
-                            ->getManager()
-                            ->getRepository('LouvreBilletterieBundle:Tarif')
-                ;
-                // on appelle la fonction de sélection du tarif
-                $data = $repository->selectionTarif($tarif);
-
-                // on renvoi la réponse sous format JSON
-                return new JsonResponse($data);
-            }
-        }
-        return new  Response("Aucun tarif valide trouvé");
-    }*/
 
     public function recapReservationAction(Request $request) {
         if ($request->isXmlHttpRequest()) {
@@ -169,7 +122,6 @@ class BilletController extends Controller
         // on appelle la fonction de sélection du tarif
         $data = $repository->selectionTarif($tarif);
 
-        //var_dump($data['tarif']);
         return $data['tarif'];
     }
 }

@@ -12,10 +12,6 @@ louvre_billetterie_apropos:
     path:    /apropos
     defaults: { _controller: LouvreBilletterieBundle:Billet:apropos }
 
-louvre_billetterie_achat_remplitarif:
-    path:    /achat/remplitarif
-    defaults: { _controller: LouvreBilletterieBundle:Billet:remplitarif }
-
 louvre_billetterie_achat_paiement:
     path:    /achat/{id}
     defaults: { _controller: LouvreBilletterieBundle:Billet:achat }
