@@ -41,7 +41,7 @@ class PaymentController extends Controller
         return $this->redirect($captureToken->getTargetUrl());
     }
 
-    public function doneAction(Request $request)
+    public function doneAction(Request $request, Reservation $reservation)
     {
         $token = $this->get('payum')->getHttpRequestVerifier()->verify($request);
 
@@ -51,6 +51,9 @@ class PaymentController extends Controller
         $gateway->execute($status = new GetHumanStatus($token));
         $payment = $status->getFirstModel();
 
+        $reservation->setStatut($reservation::STATUS_PAYER);
+        $this->getDoctrine()->getManager()->persist($reservation);
+        $this->getDoctrine()->getManager()->flush();
 
         return $this->redirect($this->generateUrl('louvre_billetterie_achat_paiement', ['id' => $payment->getReservation()->getId()]).'#confirmation');
     }

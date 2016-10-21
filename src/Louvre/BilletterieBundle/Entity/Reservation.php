@@ -14,7 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Reservation 
 {
-    const STATUTS = "du";
+    const STATUTS_DU = "du";
+    const STATUS_PAYER = "payer";
     /**
      * @var int
      *
@@ -104,7 +105,7 @@ class Reservation
 
     public function __construct()
     {
-        $this->statut = self::STATUTS;
+        $this->statut = self::STATUTS_DU;
         $this->billets = new ArrayCollection();
     }
 
