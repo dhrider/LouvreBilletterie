@@ -125,26 +125,6 @@ $(document).ready(function() {
         });
     }
 
-    // Envoi du paiement
-    function payerReservation (email, montant, idresa) {
-        $.ajax({
-            url: '/payment/prepare',
-            type: 'POST',
-            data: {
-                email: email,
-                montant: montant,
-                idresa: idresa
-            },
-            dataType: 'json',
-            success: function (response) {
-               console.log(response.text);
-            },
-            error: function (response) {
-                console.log(response.text);
-            }
-        });
-    }
-
 
 
 
@@ -155,11 +135,6 @@ $(document).ready(function() {
 
 
     // FONCTIONS DIVERSES //
-
-    // function d'extraction du numéro de l'id du billet
-    function idExtract(id) {
-        return (/([0-9])/.exec(id))[0];
-    }
 
     // function création d'une ligne du tableau de récapitulation des billets
     var numeroLigne = 1;

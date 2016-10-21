@@ -55,6 +55,20 @@ class PaymentController extends Controller
         $this->getDoctrine()->getManager()->persist($reservation);
         $this->getDoctrine()->getManager()->flush();
 
+        $email = \Swift_Message::newInstance()
+            ->setSubject('Test')
+            ->setFrom('Louvre@test.com')
+            ->setTo('p_bordmann@orange.fr')
+            ->setBody(
+                $this->renderView(
+                    '@LouvreBilletterie/emailBillet.html.twig'
+                )
+            )
+        ;
+
+        $this->get('mailer')->send($email);
+
+
         return $this->redirect($this->generateUrl('louvre_billetterie_achat_paiement', ['id' => $payment->getReservation()->getId()]).'#confirmation');
     }
 }

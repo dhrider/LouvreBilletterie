@@ -63,10 +63,10 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: "%mailer_transport%"
-    host:      "%mailer_host%"
-    username:  "%mailer_user%"
-    password:  "%mailer_password%"
+    transport: smtp
+    host:      smtp.orange.fr
+    username:  p_bordmann
+    password:  4663ck6
     spool:     { type: memory }
 
 # app/config/config.yml
