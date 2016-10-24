@@ -3,6 +3,7 @@
 
 namespace Louvre\BilletterieBundle\Controller;
 
+use Louvre\BilletterieBundle\Entity\Billet;
 use Louvre\BilletterieBundle\Entity\Reservation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Payum\Core\Request\GetHumanStatus;
@@ -41,7 +42,7 @@ class PaymentController extends Controller
         return $this->redirect($captureToken->getTargetUrl());
     }
 
-    public function doneAction(Request $request, Reservation $reservation)
+    public function doneAction(Request $request, Reservation $reservation, Billet $billets)
     {
         $token = $this->get('payum')->getHttpRequestVerifier()->verify($request);
 
@@ -55,19 +56,42 @@ class PaymentController extends Controller
         $this->getDoctrine()->getManager()->persist($reservation);
         $this->getDoctrine()->getManager()->flush();
 
-        $email = \Swift_Message::newInstance()
-            ->setSubject('Test')
-            ->setFrom('Louvre@test.com')
-            ->setTo('p_bordmann@orange.fr')
-            ->setBody(
-                $this->renderView(
-                    '@LouvreBilletterie/emailBillet.html.twig'
-                )
-            )
+        $billets = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('LouvreBilletterieBundle:Billet')
+            ->recupReservation($reservation->getId())
         ;
 
-        $this->get('mailer')->send($email);
+        $path = __DIR__.'/../../../../web/upload/reservation_numero_'.$reservation->getId().'.pdf';
 
+        $this->get('knp_snappy.pdf')->generateFromHtml(
+            $this->render(
+                '@LouvreBilletterie/pdfBillet.html.twig',
+                array(
+                    'reservation' => $reservation
+                )
+            ),
+            $path
+        );
+
+        $email =  \Swift_Message::newInstance()
+                ->setSubject('Test')
+                ->setFrom('Louvre@test.com')
+                ->setTo('p_bordmann@orange.fr')
+                ->setContentType('text/html')
+                ->setBody($this->render('@LouvreBilletterie/emailBillet.html.twig',array(
+                        'reservation' => $reservation,
+                        'billets' => $billets
+                        )
+                    )
+                )
+        ;
+
+        /* @var \Swift_Message $email */
+        $email->attach(\Swift_Attachment::fromPath($path));
+
+        $this->get('mailer')->send($email);
 
         return $this->redirect($this->generateUrl('louvre_billetterie_achat_paiement', ['id' => $payment->getReservation()->getId()]).'#confirmation');
     }

@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Payum\Bundle\PayumBundle\PayumBundle(),
+            new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

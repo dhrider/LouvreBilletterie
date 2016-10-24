@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "839d1718e6ea2da84bea2e305554b883",
-    "content-hash": "d9c44e0f33205477f3af2267366e60b5",
+    "hash": "985272e5d4a9cd1c773fc78b41eaf626",
+    "content-hash": "ab08b8f81bc75e3173165a1dd1a51e1f",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -1333,6 +1333,128 @@
             "time": "2015-03-30 12:49:45"
         },
         {
+            "name": "knplabs/knp-snappy",
+            "version": "0.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KnpLabs/snappy.git",
+                "reference": "44f7a9b37d5686fd7db4c1e9569a802a5d16923f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KnpLabs/snappy/zipball/44f7a9b37d5686fd7db4c1e9569a802a5d16923f",
+                "reference": "44f7a9b37d5686fd7db4c1e9569a802a5d16923f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "symfony/process": "~2.3|~3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.7"
+            },
+            "suggest": {
+                "h4cc/wkhtmltoimage-amd64": "Provides wkhtmltoimage-amd64 binary for Linux-compatible machines, use version `~0.12` as dependency",
+                "h4cc/wkhtmltoimage-i386": "Provides wkhtmltoimage-i386 binary for Linux-compatible machines, use version `~0.12` as dependency",
+                "h4cc/wkhtmltopdf-amd64": "Provides wkhtmltopdf-amd64 binary for Linux-compatible machines, use version `~0.12` as dependency",
+                "h4cc/wkhtmltopdf-i386": "Provides wkhtmltopdf-i386 binary for Linux-compatible machines, use version `~0.12` as dependency",
+                "wemersonjanuario/wkhtmltopdf-windows": "Provides wkhtmltopdf executable for Windows, use version `~0.12` as dependency"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Knp\\Snappy": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "KnpLabs Team",
+                    "homepage": "http://knplabs.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://github.com/KnpLabs/snappy/contributors"
+                }
+            ],
+            "description": "PHP5 library allowing thumbnail, snapshot or PDF generation from a url or a html page. Wrapper for wkhtmltopdf/wkhtmltoimage.",
+            "homepage": "http://github.com/KnpLabs/snappy",
+            "keywords": [
+                "knp",
+                "knplabs",
+                "pdf",
+                "snapshot",
+                "thumbnail",
+                "wkhtmltopdf"
+            ],
+            "time": "2015-11-17 13:16:27"
+        },
+        {
+            "name": "knplabs/knp-snappy-bundle",
+            "version": "v1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KnpLabs/KnpSnappyBundle.git",
+                "reference": "efda38a2f9eb47830eb2a7642541abaaf5a1d34f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KnpLabs/KnpSnappyBundle/zipball/efda38a2f9eb47830eb2a7642541abaaf5a1d34f",
+                "reference": "efda38a2f9eb47830eb2a7642541abaaf5a1d34f",
+                "shasum": ""
+            },
+            "require": {
+                "knplabs/knp-snappy": "~0.1",
+                "php": ">=5.3.2",
+                "symfony/finder": "~2.3|~3.0",
+                "symfony/framework-bundle": "~2.3|~3.0",
+                "symfony/validator": "~2.3|~3.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Knp\\Bundle\\SnappyBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "KnpLabs Team",
+                    "homepage": "http://knplabs.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://github.com/KnpLabs/KnpSnappyBundle/contributors"
+                }
+            ],
+            "description": "Easily create PDF and images in Symfony2 by converting Twig/HTML templates.",
+            "homepage": "http://github.com/KnpLabs/KnpSnappyBundle",
+            "keywords": [
+                "bundle",
+                "knp",
+                "knplabs",
+                "pdf",
+                "snappy"
+            ],
+            "time": "2015-11-11 17:40:14"
+        },
+        {
             "name": "kriswallsmith/assetic",
             "version": "v1.3.2",
             "source": {
@@ -1928,106 +2050,6 @@
                 "payment"
             ],
             "time": "2016-09-12 19:02:13"
-        },
-        {
-            "name": "payum/payum-bundle",
-            "version": "2.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Payum/PayumBundle.git",
-                "reference": "f215446821d8fb380ec05c72580b9117c488cb7d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Payum/PayumBundle/zipball/f215446821d8fb380ec05c72580b9117c488cb7d",
-                "reference": "f215446821d8fb380ec05c72580b9117c488cb7d",
-                "shasum": ""
-            },
-            "require": {
-                "payum/core": "^1.3.7",
-                "php": "^5.5.0|^7.0",
-                "symfony/form": "~2.8|~3.0",
-                "symfony/framework-bundle": "~2.8|~3.0",
-                "symfony/validator": "~2.8|~3.0"
-            },
-            "require-dev": {
-                "doctrine/orm": "~2.5",
-                "ext-curl": "*",
-                "ext-pdo_sqlite": "*",
-                "ext-soap": "*",
-                "fp/klarna-invoice": "0.1.*",
-                "klarna/checkout": "~1|~2.0",
-                "omnipay/dummy": "~2.0",
-                "omnipay/paypal": "~2.0",
-                "omnipay/stripe": "~2.0",
-                "paypal/rest-api-sdk-php": "0.5.*",
-                "payum/jms-payment-bridge": "^1@dev",
-                "payum/omnipay-bridge": "^1@dev",
-                "payum/payum": "^1.3.7@dev",
-                "php-http/guzzle6-adapter": "^1",
-                "phpunit/phpunit": "~4.0",
-                "sonata-project/admin-bundle": "~2.4@dev",
-                "stripe/stripe-php": "~1.0",
-                "symfony/browser-kit": "~2.8|~3.0",
-                "symfony/class-loader": "~2.8|~3.0",
-                "symfony/expression-language": "~2.8|~3.0",
-                "symfony/phpunit-bridge": "~2.8|~3.0",
-                "symfony/security-acl": "~2.8|~3.0",
-                "twig/twig": "~1.16|~2.0"
-            },
-            "suggest": {
-                "sonata-project/admin-bundle": "~2.4 If you want to configure payments in the backend."
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Payum\\Bundle\\PayumBundle\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Community contributions",
-                    "homepage": "https://github.com/Payum/PayumBundle/contributors"
-                },
-                {
-                    "name": "Kotlyar Maksim",
-                    "email": "kotlyar.maksim@gmail.com"
-                },
-                {
-                    "name": "Payum project",
-                    "homepage": "http://payum.org/"
-                }
-            ],
-            "description": "Rich payment solutions for symfony2. Paypal, payex, authorize.net, be2bill, omnipay, recurring payments, instant notifications and many more",
-            "homepage": "http://payum.org",
-            "keywords": [
-                "authorize.net",
-                "be2bill",
-                "instant notifications",
-                "klarna",
-                "offline",
-                "omnipay",
-                "payex",
-                "payment",
-                "paypal",
-                "paypal express checkout",
-                "paypal pro checkout",
-                "recurring payment",
-                "stripe",
-                "stripe checkout",
-                "stripe.js",
-                "symfony"
-            ],
-            "time": "2016-09-16 10:56:48"
         },
         {
             "name": "payum/stripe",
@@ -3303,16 +3325,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v3.1.3",
+            "version": "v3.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "4478f047409028dc6e3ab320590f1247fec7a850"
+                "reference": "65ca9e4fbdb34f6d463ef77898ca583b101a4162"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/4478f047409028dc6e3ab320590f1247fec7a850",
-                "reference": "4478f047409028dc6e3ab320590f1247fec7a850",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/65ca9e4fbdb34f6d463ef77898ca583b101a4162",
+                "reference": "65ca9e4fbdb34f6d463ef77898ca583b101a4162",
                 "shasum": ""
             },
             "require": {
@@ -3330,6 +3352,9 @@
             "conflict": {
                 "phpdocumentor/reflection-docblock": "<3.0",
                 "phpdocumentor/type-resolver": "<0.2.0"
+            },
+            "provide": {
+                "psr/cache-implementation": "1.0"
             },
             "replace": {
                 "symfony/asset": "self.version",
@@ -3352,6 +3377,7 @@
                 "symfony/framework-bundle": "self.version",
                 "symfony/http-foundation": "self.version",
                 "symfony/http-kernel": "self.version",
+                "symfony/inflector": "self.version",
                 "symfony/intl": "self.version",
                 "symfony/ldap": "self.version",
                 "symfony/monolog-bridge": "self.version",
@@ -3435,7 +3461,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2016-07-30 09:31:00"
+            "time": "2016-09-03 15:28:43"
         },
         {
             "name": "twbs/bootstrap",
@@ -3592,6 +3618,106 @@
     ],
     "packages-dev": [
         {
+            "name": "payum/payum-bundle",
+            "version": "2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Payum/PayumBundle.git",
+                "reference": "f215446821d8fb380ec05c72580b9117c488cb7d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Payum/PayumBundle/zipball/f215446821d8fb380ec05c72580b9117c488cb7d",
+                "reference": "f215446821d8fb380ec05c72580b9117c488cb7d",
+                "shasum": ""
+            },
+            "require": {
+                "payum/core": "^1.3.7",
+                "php": "^5.5.0|^7.0",
+                "symfony/form": "~2.8|~3.0",
+                "symfony/framework-bundle": "~2.8|~3.0",
+                "symfony/validator": "~2.8|~3.0"
+            },
+            "require-dev": {
+                "doctrine/orm": "~2.5",
+                "ext-curl": "*",
+                "ext-pdo_sqlite": "*",
+                "ext-soap": "*",
+                "fp/klarna-invoice": "0.1.*",
+                "klarna/checkout": "~1|~2.0",
+                "omnipay/dummy": "~2.0",
+                "omnipay/paypal": "~2.0",
+                "omnipay/stripe": "~2.0",
+                "paypal/rest-api-sdk-php": "0.5.*",
+                "payum/jms-payment-bridge": "^1@dev",
+                "payum/omnipay-bridge": "^1@dev",
+                "payum/payum": "^1.3.7@dev",
+                "php-http/guzzle6-adapter": "^1",
+                "phpunit/phpunit": "~4.0",
+                "sonata-project/admin-bundle": "~2.4@dev",
+                "stripe/stripe-php": "~1.0",
+                "symfony/browser-kit": "~2.8|~3.0",
+                "symfony/class-loader": "~2.8|~3.0",
+                "symfony/expression-language": "~2.8|~3.0",
+                "symfony/phpunit-bridge": "~2.8|~3.0",
+                "symfony/security-acl": "~2.8|~3.0",
+                "twig/twig": "~1.16|~2.0"
+            },
+            "suggest": {
+                "sonata-project/admin-bundle": "~2.4 If you want to configure payments in the backend."
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Payum\\Bundle\\PayumBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Community contributions",
+                    "homepage": "https://github.com/Payum/PayumBundle/contributors"
+                },
+                {
+                    "name": "Kotlyar Maksim",
+                    "email": "kotlyar.maksim@gmail.com"
+                },
+                {
+                    "name": "Payum project",
+                    "homepage": "http://payum.org/"
+                }
+            ],
+            "description": "Rich payment solutions for symfony2. Paypal, payex, authorize.net, be2bill, omnipay, recurring payments, instant notifications and many more",
+            "homepage": "http://payum.org",
+            "keywords": [
+                "authorize.net",
+                "be2bill",
+                "instant notifications",
+                "klarna",
+                "offline",
+                "omnipay",
+                "payex",
+                "payment",
+                "paypal",
+                "paypal express checkout",
+                "paypal pro checkout",
+                "recurring payment",
+                "stripe",
+                "stripe checkout",
+                "stripe.js",
+                "symfony"
+            ],
+            "time": "2016-09-16 10:56:48"
+        },
+        {
             "name": "sensio/generator-bundle",
             "version": "v3.0.7",
             "source": {
@@ -3701,7 +3827,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "swiftmailer/swiftmailer": 0
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
