@@ -63,34 +63,34 @@ class PaymentController extends Controller
             ->recupReservation($reservation->getId())
         ;
 
-        $path = __DIR__.'/../../../../web/upload/reservation_numero_'.$reservation->getId().'.pdf';
+        $pdfPath = __DIR__.'/../../../../web/upload/reservation_numero_'.$reservation->getId().'.pdf';
+        $imagePath = __DIR__.'/../../../../web/bundles/louvrebilletterie/image/';
 
         $this->get('knp_snappy.pdf')->generateFromHtml(
-            $this->render(
-                '@LouvreBilletterie/pdfBillet.html.twig',
-                array(
-                    'reservation' => $reservation
-                )
-            ),
-            $path
-        );
+            $this->renderView('@LouvreBilletterie/pdfBillet.html.twig',array(
+                'reservation' => $reservation,
+                'billets' => $billets
+                )),$pdfPath);
 
         $email =  \Swift_Message::newInstance()
                 ->setSubject('Test')
                 ->setFrom('Louvre@test.com')
                 ->setTo('p_bordmann@orange.fr')
                 ->setContentType('text/html')
-                ->setBody($this->render('@LouvreBilletterie/emailBillet.html.twig',array(
-                        'reservation' => $reservation,
-                        'billets' => $billets
-                        )
-                    )
-                )
         ;
 
         /* @var \Swift_Message $email */
-        $email->attach(\Swift_Attachment::fromPath($path));
+        $email  ->attach(\Swift_Attachment::fromPath($pdfPath));
+        $image = $email->embed(\Swift_Image::fromPath($imagePath.'louvre_logo_frise.png'));
 
+        /* @var \Swift_Mime_MimePart $email */
+        $email->setBody($this->renderView('@LouvreBilletterie/emailBillet.html.twig'
+            ,array(
+                'reservation' => $reservation,
+                'logo' => $image))
+        );
+
+        /* @var \Swift_Message $email */
         $this->get('mailer')->send($email);
 
         return $this->redirect($this->generateUrl('louvre_billetterie_achat_paiement', ['id' => $payment->getReservation()->getId()]).'#confirmation');
