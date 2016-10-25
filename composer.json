@@ -42,7 +42,8 @@
         "symfony/config": "^3.1",
         "symfony/http-kernel": "^3.1",
         "symfony/dependency-injection": "^3.1",
-        "symfony/swiftmailer-bundle": "2.3.11"
+        "symfony/swiftmailer-bundle": "2.3.11",
+        "endroid/qrcode-bundle": "^2.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

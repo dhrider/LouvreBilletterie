@@ -25,7 +25,7 @@ class PaymentController extends Controller
         $payment->setReservation($reservation);
         $payment->setNumber(uniqid());
         $payment->setCurrencyCode('EUR');
-        $payment->setTotalAmount($reservation->getMontantTotal()*100); // 1.23 EUR
+        $payment->setTotalAmount($reservation->getMontantTotal()*100);
         $payment->setDescription('Billet(s) Louvre');
         $payment->setClientId($reservation->getId());
         $payment->setClientEmail($reservation->getEmail());
@@ -42,7 +42,7 @@ class PaymentController extends Controller
         return $this->redirect($captureToken->getTargetUrl());
     }
 
-    public function doneAction(Request $request, Reservation $reservation, Billet $billets)
+    public function doneAction(Request $request, Reservation $reservation)
     {
         $token = $this->get('payum')->getHttpRequestVerifier()->verify($request);
 
@@ -63,14 +63,18 @@ class PaymentController extends Controller
             ->recupReservation($reservation->getId())
         ;
 
-        $pdfPath = __DIR__.'/../../../../web/upload/reservation_numero_'.$reservation->getId().'.pdf';
+        $pdfPath = __DIR__.'/../../../../web/upload/reservation_'.$reservation->getId().'.pdf';
         $imagePath = __DIR__.'/../../../../web/bundles/louvrebilletterie/image/';
 
-        $this->get('knp_snappy.pdf')->generateFromHtml(
-            $this->renderView('@LouvreBilletterie/pdfBillet.html.twig',array(
-                'reservation' => $reservation,
-                'billets' => $billets
-                )),$pdfPath);
+        $pdfHtml = $this->renderView('@LouvreBilletterie/pdfBillet.html.twig',array(
+            'reservation' => $reservation,
+            'billets' => $billets
+        ));
+
+
+
+        $this->get('knp_snappy.pdf')->generateFromHtml($pdfHtml,$pdfPath);
+
 
         $email =  \Swift_Message::newInstance()
                 ->setSubject('Test')

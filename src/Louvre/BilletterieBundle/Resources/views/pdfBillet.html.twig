@@ -1,11 +1,35 @@
 <html>
-    <h1>Votre réservation de billet(s) :</h1>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="{{ absolute_url(asset('bundles/louvrebilletterie/css/pdf.css')) }}" >
+    </head>
 
-    <h3>Réservation N° {{ reservation.id }}</h3>
+    <body>
+        <h1>Votre réservation de billet(s) :</h1>
+        <h3>Reservation n° {{ reservation.id }}</h3>
 
-    <div>
-        billets.nom
-    </div>
+        {% for billet in billets %}
+            <div id="conteneur">
+                <div class="element" id="infos">
+                    <h3>Billet numéro : {{ billet.id }}</h3>
+                    <span><strong>Date d'entrée :</strong> </span><br>
+                    <span><strong>Validite du billet :</strong> {{ billet.type }}</span><br>
+                    <span><strong>Au nom de :</strong> {{ billet.nom }} {{ billet.prenom }}</span><br>
+                    {% if billet.reduit == 0 %}
+                        <span><strong>Bénéficie d'un tarif réduit :</strong> NON</span><br>
+                    {% else %}
+                        <span><strong>Bénéficie d'un tarif réduit :</strong> OUI</span><br>
+                    {% endif %}
+                    <span><strong>Prix de l'entree :</strong> {{ billet.montant }} €</span>
+                    <br/> <br/>
+                </div>
+                <div class="element" id="qrCode">
+                    <img src="{{ absolute_url(qrcode_url(billet.id)) }}"/>
+                </div>
+            </div>
+        {% endfor %}
+
+    </body>
 </html>
 
 

@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Payum\Bundle\PayumBundle\PayumBundle(),
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
+            new Endroid\Bundle\QrCodeBundle\EndroidQrCodeBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
