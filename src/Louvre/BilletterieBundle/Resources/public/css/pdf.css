@@ -1,21 +1,45 @@
 #conteneur {
     width: auto;
+    height: 150px;
     border: 2px solid black;
     padding: 10px;
     margin-bottom: 10px;
 }
 
-#infos {
+#logo {
     display: inline-block;
-    width: 80%;
+    vertical-align: center;
+}
+
+#img_logo {
+    width: 100px;
+}
+
+
+table {
+    display: inline-block;
+    width: 65%;
+    margin-top: 0;
+}
+
+th {
+    height: 20px;
+}
+
+th, td {
+    width: 250px;
+}
+
+td {
+    text-align: center;
 }
 
 #qrCode {
     display: inline-block;
-    width: 10%;
-    margin-left: 20px;
+    margin: 0;
 }
 
-span {
-    margin-bottom: 5px;
+#qr_image {
+    width: 80%;
 }
+

@@ -61,7 +61,7 @@ $(document).ready(function() {
         newBillet.append(btnDelete); // on ajoute le bouton supprimer au nouveau billet
         newBillet.appendTo(billets); // on ajoute le nouveau billet à la liste des billets
 
-        $('.date').val(dateSelectionnee); // on affecte la date de visite au champ caché
+
     });
 
     // bouton supprimer billet

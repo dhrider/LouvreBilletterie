@@ -27,10 +27,11 @@ class BilletController extends Controller
 
         if ($request->isMethod('POST') && $form->isValid()) {
             // On effectue le traitement en base de données
-            $billets = $reservation->getBillets();
 
-            foreach ($billets as $billet) {
+
+            foreach ($reservation->getBillets() as &$billet) {
                 $billet->setTarif($this->getTarif($billet));
+                dump($billet);
             }
 
             $em = $this->getDoctrine()->getManager();
@@ -92,7 +93,7 @@ class BilletController extends Controller
     }
 
     private function getTarif(Billet $billet) {
-        $dateVisite = $billet->getDateVisite();
+        $dateVisite = $billet->getReservation()->getDateReservation();
         $dateNaissance = $billet->getDateNaissance();
         $reduit = $billet->getReduit();
 

@@ -51,6 +51,20 @@ class Reservation
     private $email;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="total", type="integer")
+     */
+
+    private $total;
+
+    public function __construct()
+    {
+        $this->statut = self::STATUTS_DU;
+        $this->billets = new ArrayCollection();
+    }
+
+    /**
      * @return mixed
      */
     public function getEmail()
@@ -67,13 +81,6 @@ class Reservation
     }
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="total", type="integer")
-     */
-    private $total;
-
-    /**
      * @return int
      */
     public function getTotal()
@@ -83,31 +90,15 @@ class Reservation
 
     /**
      * @param int $total
-     * @ORM\PrePersist
      */
     public function setTotal($total)
     {
-        foreach ($this->billets as &$billet) {
-
-            //var_dump($billet->getTarif());
-            //exit;
-            $montant = $billet->getTarif();
-
-            if($montant != 0 && $billet->getType() =='demiJournee') {
-                $montant = $montant/2;
-            }
-
-            $billet->setMontant($montant);
-        }
-
-        $this->total = $this->getMontantTotal();
+        $this->total = $total;
     }
 
-    public function __construct()
-    {
-        $this->statut = self::STATUTS_DU;
-        $this->billets = new ArrayCollection();
-    }
+
+
+
 
     /**
      * @return int

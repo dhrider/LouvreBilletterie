@@ -20,7 +20,7 @@
 
             <div class="tab-pane" id="billet">
                 <br/>
-                <h4 id="dateChoisie">Réservation pour le : <span class="date" id="dateV"></span> </h4>
+                <h4 id="dateChoisie">Réservation pour le : <span class="date" id="dateV">{{ form.vars.value.dateReservation | date('d/m/Y') }}</span> </h4>
                 <div>
                     <div>
                         <div class="well container-fluid">
@@ -35,10 +35,6 @@
                                         {{ form_row(billet.dateNaissance) }}
                                         {{ form_row(billet.type) }}
                                         {{ form_row(billet.reduit) }}
-                                        <div class="hidden">
-                                            {{ form_widget(billet.dateVisite) }}
-                                            {{ form_widget(billet.tarif) }}
-                                        </div>
                                         <a class="btn btn-danger delete-billet btn-sm" href="#">Supprimer billet</a>
                                     </div>
                                 {% endfor %}

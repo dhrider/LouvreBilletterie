@@ -24,14 +24,7 @@ class Billet
      */
     private $id;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_visite", type="date")
-     *
-     * @Assert\Date()
-     */
-    private $dateVisite;
+
 
     /**
      * @var string
@@ -182,29 +175,7 @@ class Billet
         return $this->id;
     }
 
-    /**
-     * Set dateVisite
-     *
-     * @param \DateTime $dateVisite
-     *
-     * @return Billet
-     */
-    public function setDateVisite($dateVisite)
-    {
-        $this->dateVisite = $dateVisite;
 
-        return $this;
-    }
-
-    /**
-     * Get dateVisite
-     *
-     * @return \DateTime
-     */
-    public function getDateVisite()
-    {
-        return $this->dateVisite;
-    }
 
     /**
      * Set nom

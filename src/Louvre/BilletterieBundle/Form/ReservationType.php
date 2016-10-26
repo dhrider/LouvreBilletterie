@@ -21,7 +21,7 @@ class ReservationType extends AbstractType
                 'label' => false,
                 'attr' => array(
                     'class' => 'date dateVisite',
-                    'style' => 'display:none'
+                    'style' => 'visibility:hidden'
                 )
             ))
             ->add('billets', CollectionType::class,[

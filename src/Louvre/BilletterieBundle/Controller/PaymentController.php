@@ -75,7 +75,7 @@ class PaymentController extends Controller
 
         $this->get('knp_snappy.pdf')->generateFromHtml($pdfHtml,$pdfPath);
 
-
+        /* @var \Swift_Message $email */
         $email =  \Swift_Message::newInstance()
                 ->setSubject('Test')
                 ->setFrom('Louvre@test.com')
@@ -83,18 +83,18 @@ class PaymentController extends Controller
                 ->setContentType('text/html')
         ;
 
-        /* @var \Swift_Message $email */
-        $email  ->attach(\Swift_Attachment::fromPath($pdfPath));
+
+        $email->attach(\Swift_Attachment::fromPath($pdfPath));
         $image = $email->embed(\Swift_Image::fromPath($imagePath.'louvre_logo_frise.png'));
 
-        /* @var \Swift_Mime_MimePart $email */
+
         $email->setBody($this->renderView('@LouvreBilletterie/emailBillet.html.twig'
             ,array(
                 'reservation' => $reservation,
                 'logo' => $image))
         );
 
-        /* @var \Swift_Message $email */
+
         $this->get('mailer')->send($email);
 
         return $this->redirect($this->generateUrl('louvre_billetterie_achat_paiement', ['id' => $payment->getReservation()->getId()]).'#confirmation');
