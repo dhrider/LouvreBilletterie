@@ -90,15 +90,12 @@ class Reservation
 
     /**
      * @param int $total
+     * @ORM\prePersist
      */
     public function setTotal($total)
     {
         $this->total = $total;
     }
-
-
-
-
 
     /**
      * @return int
@@ -173,15 +170,5 @@ class Reservation
     public function deleteBillet(Billet $billet)
     {
         $this->billets->removeElement($billet);
-    }
-
-    public function getMontantTotal()
-    {
-        $totalReservation = 0;
-
-        foreach ($this->billets as $billet) {
-            $totalReservation += $billet->getMontant(); // pour additionner les montants
-        }
-        return $totalReservation;
     }
 }

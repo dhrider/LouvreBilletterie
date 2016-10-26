@@ -10,30 +10,31 @@ class ReservationEventSubscriber implements EventSubscriber {
 
     public  function getSubscribedEvents()
     {
-        return array('prePersist', 'preUpdate');
+        return array('prePersist','preUpdate');
     }
 
     public function prePersist(LifecycleEventArgs $args) {
-        dump('persist');
-        if ($args->getObject() instanceof Reservation) {
-            $this->setTotal($args->getObject());
-        }
+        $this->setTotal($args);
     }
 
+    public function preUpdate(LifecycleEventArgs $args) {
+        $this->setTotal($args);
+    }
 
-
-    public function setTotal(Reservation $reservation)
+    public function setTotal(LifecycleEventArgs $args)
     {
-        foreach ($reservation->getBillets() as &$billet) {
+        $entity = $args->getObject();
 
-            $montant = $billet->getTarif();
+        if ($entity instanceof Reservation) {
+            $reservation = $entity;
 
-            if($montant != 0 && $billet->getType() =='demiJournee') {
-                $montant = $montant/2;
+            $montantTotal = 0;
+
+            foreach ($reservation->getBillets() as $billet) {
+                $montantTotal += $billet->getMontant();
             }
 
-            $billet->setMontant($montant);
+            $reservation->setTotal($montantTotal);
         }
-        $reservation->setTotal($reservation->getMontantTotal());
     }
 }

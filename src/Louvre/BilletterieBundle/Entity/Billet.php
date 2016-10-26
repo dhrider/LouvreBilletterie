@@ -5,7 +5,6 @@ namespace Louvre\BilletterieBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
  * Billet
  *
@@ -138,7 +137,13 @@ class Billet
      */
     public function setMontant($montant)
     {
-        $this->montant = $montant;
+        if ($this->getType() == 'demiJournee') {
+            $this->montant = $montant / 2;
+        }
+        else {
+            $this->montant = $montant;
+        }
+
     }
 
     /**
@@ -291,5 +296,7 @@ class Billet
     {
         return $this->tarif;
     }
+
+
 }
 

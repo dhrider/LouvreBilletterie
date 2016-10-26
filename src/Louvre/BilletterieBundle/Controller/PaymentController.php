@@ -25,7 +25,7 @@ class PaymentController extends Controller
         $payment->setReservation($reservation);
         $payment->setNumber(uniqid());
         $payment->setCurrencyCode('EUR');
-        $payment->setTotalAmount($reservation->getMontantTotal()*100);
+        $payment->setTotalAmount($reservation->getTotal()*100);
         $payment->setDescription('Billet(s) Louvre');
         $payment->setClientId($reservation->getId());
         $payment->setClientEmail($reservation->getEmail());
@@ -53,6 +53,7 @@ class PaymentController extends Controller
         $payment = $status->getFirstModel();
 
         $reservation->setStatut($reservation::STATUS_PAYER);
+
         $this->getDoctrine()->getManager()->persist($reservation);
         $this->getDoctrine()->getManager()->flush();
 
@@ -71,8 +72,6 @@ class PaymentController extends Controller
             'billets' => $billets
         ));
 
-
-
         $this->get('knp_snappy.pdf')->generateFromHtml($pdfHtml,$pdfPath);
 
         /* @var \Swift_Message $email */
@@ -83,20 +82,16 @@ class PaymentController extends Controller
                 ->setContentType('text/html')
         ;
 
-
-        $email->attach(\Swift_Attachment::fromPath($pdfPath));
         $image = $email->embed(\Swift_Image::fromPath($imagePath.'louvre_logo_frise.png'));
 
-
-        $email->setBody($this->renderView('@LouvreBilletterie/emailBillet.html.twig'
-            ,array(
-                'reservation' => $reservation,
-                'logo' => $image))
+        $email->attach(\Swift_Attachment::fromPath($pdfPath))
+              ->setBody($this->renderView('@LouvreBilletterie/emailBillet.html.twig',
+                        array('reservation' => $reservation,'logo' => $image))
         );
-
 
         $this->get('mailer')->send($email);
 
-        return $this->redirect($this->generateUrl('louvre_billetterie_achat_paiement', ['id' => $payment->getReservation()->getId()]).'#confirmation');
+        return $this->redirect($this->generateUrl('louvre_billetterie_achat_paiement',
+            ['id' => $payment->getReservation()->getId()]).'#confirmation');
     }
 }

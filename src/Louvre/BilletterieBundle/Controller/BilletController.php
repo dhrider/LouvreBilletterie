@@ -27,13 +27,6 @@ class BilletController extends Controller
 
         if ($request->isMethod('POST') && $form->isValid()) {
             // On effectue le traitement en base de données
-
-
-            foreach ($reservation->getBillets() as &$billet) {
-                $billet->setTarif($this->getTarif($billet));
-                dump($billet);
-            }
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($reservation);
             $em->flush();
@@ -90,39 +83,5 @@ class BilletController extends Controller
         $reservation->addBillet(new Billet());
 
         return $reservation;
-    }
-
-    private function getTarif(Billet $billet) {
-        $dateVisite = $billet->getReservation()->getDateReservation();
-        $dateNaissance = $billet->getDateNaissance();
-        $reduit = $billet->getReduit();
-
-        $diffDate = date_diff($dateNaissance,$dateVisite);
-        $age = $diffDate->y;
-
-        if ($reduit == false) { // si "tarif réduit" n'est pas coché
-            if ($age >= 12 && $age < 60) {
-                $tarif = "normal";
-            } elseif ($age >= 4 && $age < 12) {
-                $tarif = "enfant";
-            } elseif ($age >= 60) {
-                $tarif = "senior";
-            } else {
-                $tarif = "gratuit";
-            }
-        }
-        else { // si "tarif réduit" est coché
-            $tarif = "reduit";
-        }
-
-        $repository = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('LouvreBilletterieBundle:Tarif');
-
-        // on appelle la fonction de sélection du tarif
-        $data = $repository->selectionTarif($tarif);
-
-        return $data['tarif'];
     }
 }

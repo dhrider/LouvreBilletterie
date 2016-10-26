@@ -4,3 +4,8 @@ services:
         tags:
             - {name: doctrine.event_subscriber}
 
+    louvre_billetterie.billet_event_subscriber:
+        class: Louvre\BilletterieBundle\EventSubscriber\BilletEventSubscriber
+        tags:
+            - {name: doctrine.event_subscriber}
+

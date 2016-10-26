@@ -151,6 +151,7 @@ $(document).ready(function() {
             '<tr>' +
                 '<td>' + numeroLigne     + '</td>' +
                 '<td>' + element.nom     + '</td>' +
+                '<td>' + element.prenom     + '</td>' +
                 '<td>' + element.type    + '</td>' +
                 '<td>' + element.reduit  + '</td>' +
                 '<td>' + element.montant + '</td>' +
