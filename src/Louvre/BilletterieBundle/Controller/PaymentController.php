@@ -57,19 +57,12 @@ class PaymentController extends Controller
         $this->getDoctrine()->getManager()->persist($reservation);
         $this->getDoctrine()->getManager()->flush();
 
-        $billets = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('LouvreBilletterieBundle:Billet')
-            ->recupReservation($reservation->getId())
-        ;
-
         $pdfPath = __DIR__.'/../../../../web/upload/reservation_'.$reservation->getId().'.pdf';
         $imagePath = __DIR__.'/../../../../web/bundles/louvrebilletterie/image/';
 
         $pdfHtml = $this->renderView('@LouvreBilletterie/pdfBillet.html.twig',array(
             'reservation' => $reservation,
-            'billets' => $billets
+            'billets' => $reservation->getBillets()
         ));
 
         $this->get('knp_snappy.pdf')->generateFromHtml($pdfHtml,$pdfPath);
