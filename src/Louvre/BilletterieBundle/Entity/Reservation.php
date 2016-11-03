@@ -38,11 +38,9 @@ class Reservation
     private $dateReservation;
 
     /**
-     * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="Billet", cascade={"persist"}, mappedBy="reservation")
+     * @ORM\OneToMany(targetEntity="Billet", cascade={"all"}, mappedBy="reservation", fetch="EAGER")
      */
-    protected $billets;
+    private $billets;
 
     /**
      * @var string
@@ -52,8 +50,7 @@ class Reservation
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="total", type="integer")
+     * @ORM\Column(name="total", type="integer", nullable=false)
      */
 
     private $total;
@@ -90,7 +87,6 @@ class Reservation
 
     /**
      * @param int $total
-     * @ORM\prePersist
      */
     public function setTotal($total)
     {
@@ -154,21 +150,28 @@ class Reservation
      */
     public function setBillets($billets)
     {
-        foreach ($billets as $billet) {
-            $this->addBillet($billet);
+
+        foreach ($billets as &$billet) {
+            $billet->setReservation($this);
         }
+
+        $this->billets = $billets;
     }
 
+    /**
+     * @param Billet $billet
+     */
     public function addBillet(Billet $billet)
     {
-        $billet->setReservation($this);
+
         if (!$this->billets->contains($billet)) {
+            $billet->setReservation($this);
             $this->billets[] = $billet;
         }
     }
 
-    public function deleteBillet(Billet $billet)
-    {
+    public function removeBillet(Billet $billet){
+
         $this->billets->removeElement($billet);
     }
 }

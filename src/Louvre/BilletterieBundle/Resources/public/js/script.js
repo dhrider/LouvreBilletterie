@@ -46,14 +46,14 @@ $(document).ready(function() {
     // GESTION DE L'AJOUT DE LA SUPPRESSION D'UN BILLET //
 
     // bouton ajouter Billet
-    var compteurBillet = 1; // compteur servant à identifier le billet
+    var compteurBillet = $('form .billet').length; // compteur servant à identifier le billet
     // à chaque clique du bouton ajouter billet
     $(document).on('click', '.add-billet', function (e) {
         e.preventDefault();
         // on récupère la div d'id Billet
         var billets = $('#Billets');
         // on définit le numéro du billet qui servira pour l'identifier
-        var billet = billets.data('prototype').replace(/__name__/g,(billets.data('index')+compteurBillet));
+        var billet = billets.data('prototype').replace(/__name__/g,(billets.data('index')+ compteurBillet));
         var newBillet = $('<div class="billet"></div>').html(billet);
         var btnDelete = $('<a class="btn btn-danger delete-billet btn-sm" href="#">Supprimer billet</a>');
         compteurBillet++;
@@ -69,6 +69,9 @@ $(document).ready(function() {
         e.preventDefault();
         $(e.target).closest('.billet').remove();
     });
+
+
+
 
 
 
@@ -100,7 +103,6 @@ $(document).ready(function() {
 
 
 
-
     // REQUETES AJAX //
 
     // Affichage du récapitulatif de la réservation dans l'onglet paiement
@@ -116,7 +118,7 @@ $(document).ready(function() {
                 $.each(response, function (index, element) {
                     createLigneTableauRecap(element);
 
-                })
+                });
                 $('#montantTotal').html(totalReservation + " €");
             },
             error: function (response) {
@@ -124,9 +126,6 @@ $(document).ready(function() {
             }
         });
     }
-
-
-
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
@@ -137,7 +136,6 @@ $(document).ready(function() {
     // FONCTIONS DIVERSES //
 
     // function création d'une ligne du tableau de récapitulation des billets
-    var numeroLigne = 1;
     var totalReservation = 0;
     function createLigneTableauRecap(element) {
         if (element.reduit == false) {
@@ -149,16 +147,17 @@ $(document).ready(function() {
 
         $('#ligneTableauRecap').append(
             '<tr>' +
-                '<td>' + numeroLigne     + '</td>' +
+                '<td>' + element.id     + '</td>' +
                 '<td>' + element.nom     + '</td>' +
                 '<td>' + element.prenom     + '</td>' +
+                '<td>' + 'date'     + '</td>' +
                 '<td>' + element.type    + '</td>' +
                 '<td>' + element.reduit  + '</td>' +
                 '<td>' + element.montant + '</td>' +
+                '<td>X</td>' +
             '</tr>'
         );
 
-        numeroLigne++;
         totalReservation = totalReservation + element.montant;
     }
 });

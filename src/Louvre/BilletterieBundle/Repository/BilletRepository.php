@@ -18,7 +18,7 @@ class BilletRepository extends EntityRepository
                 ->where('r.reservation = :pattern')
                 ->setParameter('pattern', $id)
             ;
-
             return $qb->getQuery()->getArrayResult();
+
         }
 }

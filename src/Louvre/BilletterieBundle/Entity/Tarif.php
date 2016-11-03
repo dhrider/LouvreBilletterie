@@ -29,6 +29,28 @@ class Tarif
     private $nom;
 
     /**
+     * @var
+     * @ORM\OneToMany(targetEntity="Billet", mappedBy="Tarif")
+     */
+    private $billets;
+
+    /**
+     * @return mixed
+     */
+    public function getBillets()
+    {
+        return $this->billets;
+    }
+
+    /**
+     * @param mixed $billets
+     */
+    public function setBillets($billets)
+    {
+        $this->billets = $billets;
+    }
+
+    /**
      * @return string
      */
     public function getNom()

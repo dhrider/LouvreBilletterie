@@ -78,6 +78,7 @@ class Billet
     /**
      * @var int
      *
+     * @ORM\ManyToOne(targetEntity="Tarif", inversedBy="Billet")
      */
     private $tarif;
 
@@ -91,7 +92,6 @@ class Billet
     /**
      * @var int
      * @ORM\ManyToOne(targetEntity="Louvre\BilletterieBundle\Entity\Reservation", inversedBy="billets")
-     * @ORM\JoinColumn(name="reservation_id", referencedColumnName="id")
      */
     private $reservation;
 
@@ -111,6 +111,7 @@ class Billet
     public function setReservation(Reservation $reservation)
     {
         $this->reservation = $reservation;
+
 
         return $this;
     }
@@ -279,22 +280,19 @@ class Billet
     }
 
     /**
-     * @param int $tarif
-     * @return Billet
-     */
-    public function setTarif($tarif)
-    {
-        $this->tarif = $tarif;
-
-        return $this;
-    }
-
-    /**
      * @return int
      */
     public function getTarif()
     {
         return $this->tarif;
+    }
+
+    /**
+     * @param int $tarif
+     */
+    public function setTarif($tarif)
+    {
+        $this->tarif = $tarif;
     }
 
 

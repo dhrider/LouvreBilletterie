@@ -20,13 +20,14 @@
 
             <div class="tab-pane" id="billet">
                 <br/>
-                <h4 id="dateChoisie">Réservation pour le : <span class="date" id="dateV">{{ form.vars.value.dateReservation | date('d-m-Y') }}</span> </h4>
+                <h4 id="dateChoisie">Réservation pour le : <span class="date" id="dateV">{{ reservation.dateReservation | date('d-m-Y') }}</span> </h4>
                 <div>
                     <div>
                         <div class="well container-fluid">
                             {{ form_start(form) }}
                             {{ form_widget(form.dateReservation) }}
                             <div id="Billets" data-prototype="{{ form_widget(form.billets.vars.prototype)|e }}" data-index="0">
+
                                 {% for billet in form.billets %}
                                     <div class="billet">
                                         {{ form_row(billet.nom) }}
@@ -40,46 +41,50 @@
                                 {% endfor %}
                             </div>
                             <a class="btn btn-primary add-billet btn-sm" href="#">Ajouter billet</a>
-                            {{ form_end(form) }}
                             {{ form_widget(form.submit)}}
+                            {{ form_end(form) }}
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="tab-pane" id="paiement">
+
                 <br/>
                 <h4>Paiement :</h4>
                 <br/>
                 <div id="corpsPaiement" class="container-fluid col-md-12">
                     {% if (reservation.id is not null) %}
-                    <form method="post" action="{{ path('louvre_payment_prepare',{'id' : reservation.id})}}">
-                        <div id="choixPaiement" class="col-md-6">
-                            <div class="form-inline row">
-                                <label for="email">Votre e-mail : </label>
-                                <input type="email" name="email_reservation" class="form-control" id="email" placeholder="Entrez votre E-mail">
-                                <span class="alert-danger" id="erreurEmail" hidden="hidden"> * Veuillez entrez un Email valide</span>
-                                <h4>Montant total à payer : <span id="montantTotal"></span></h4>
-                                <input id="btnPayer" class="payer pull-left" type="submit" value="PAYER">
+                        <form method="post" action="{{ path('louvre_payment_prepare',{'id' : reservation.id})}}">
+                            <div id="choixPaiement" class="col-md-4">
+                                <div class="form-inline row">
+                                    <label for="email">Votre e-mail : </label>
+                                    <input type="email" name="email_reservation" class="form-control" id="email" placeholder="Entrez votre E-mail">
+                                    <span class="alert-danger" id="erreurEmail" hidden="hidden"> * Veuillez entrez un Email valide</span>
+                                    <h4>Montant total à payer : <span id="montantTotal">{{ reservation.total }}</span></h4>
+                                    <input id="btnPayer" class="payer pull-left" type="submit" value="PAYER">
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
                    {% endif %}
-                    <div id="recapPaiement" class="col-md-6">
+                    <div id="recapPaiement" class="col-md-8">
                         <div class="container-fluid" id="recapReservation">
                             <h4>Récapitulatif de votre réservation de billet(s) :</h4>
                             <table id="tableauRecapReservation">
                                 <thead>
                                     <tr>
-                                        <th>Billet</th>
+                                        <th>N°</th>
                                         <th>Nom</th>
                                         <th>Prénom</th>
-                                        <th>Type</th>
-                                        <th>Réduit</th>
-                                        <th>Montant</th>
+                                        <th>Date de naissance</th>
+                                        <th>Type de billet</th>
+                                        <th>Tarif réduit</th>
+                                        <th>Montant du billet</th>
+                                        <th>Supprimer billet</th>
                                     </tr>
                                 </thead>
-                                <tbody id="ligneTableauRecap"></tbody>
+                                <tbody id="ligneTableauRecap">
+                                </tbody>
                             </table>
                         </div>
                     </div>

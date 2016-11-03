@@ -3,5 +3,11 @@
 {% extends "::layout.html.twig" %}
 
 {% block body %}
-    <h2>Page A propos</h2>
+    <div>
+        {{ reservation.id }}
+        {% for billet in reservation.billets %}
+            {{ billet.id }}
+        {% endfor %}
+    </div>
+    <a class="btn" href="{{ path('louvre_billetterie_achat_paiement', {'id' : reservation.id}) }}">Retour</a>
 {% endblock %}
