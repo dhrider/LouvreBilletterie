@@ -53,45 +53,18 @@ class PaymentController extends Controller
         $gateway->execute($status = new GetHumanStatus($token));
         $payment = $status->getFirstModel();
 
-        /*if($status->isCaptured()){
-            $this->get('event_dispatcher')->dispatch(ReservationEvent::RESERVATION_PAYMENT_SUCCESS);
+        $reservationEvent = new ReservationEvent($reservation);
 
-        }else {
-            $this->get('event_dispatcher')->dispatch(ReservationEvent::RESERVATION_PAYMENT_FAILED);
-
-        }*/
-
-        $reservation->setStatut($reservation::STATUS_PAYER);
-
-        $this->getDoctrine()->getManager()->persist($reservation);
-        $this->getDoctrine()->getManager()->flush();
-
-        $pdfPath = __DIR__.'/../../../../web/upload/reservation_'.$reservation->getId().'.pdf';
-        $imagePath = __DIR__.'/../../../../web/bundles/louvrebilletterie/image/';
-
-        $pdfHtml = $this->renderView('@LouvreBilletterie/pdfBillet.html.twig',array(
-            'reservation' => $reservation,
-            'billets' => $reservation->getBillets()
-        ));
-
-        $this->get('knp_snappy.pdf')->generateFromHtml($pdfHtml,$pdfPath);
-
-        /* @var \Swift_Message $email */
-        $email =  \Swift_Message::newInstance()
-                ->setSubject('Test')
-                ->setFrom('Louvre@test.com')
-                ->setTo('p_bordmann@orange.fr')
-                ->setContentType('text/html')
-        ;
-
-        $image = $email->embed(\Swift_Image::fromPath($imagePath.'louvre_logo_frise.png'));
-
-        $email->attach(\Swift_Attachment::fromPath($pdfPath))
-              ->setBody($this->renderView('@LouvreBilletterie/emailBillet.html.twig',
-                        array('reservation' => $reservation,'logo' => $image))
-        );
-
-        $this->get('mailer')->send($email);
+        if($status->isCaptured())
+        {
+            $this->get('event_dispatcher')
+                ->dispatch(ReservationEvent::RESERVATION_PAYMENT_SUCCESS,$reservationEvent);
+        }
+        else
+        {
+            $this->get('event_dispatcher')
+                ->dispatch(ReservationEvent::RESERVATION_PAYMENT_FAILED, $reservationEvent);
+        }
 
         return $this->redirect($this->generateUrl('louvre_billetterie_achat_paiement',
             ['id' => $payment->getReservation()->getId()]).'#confirmation');

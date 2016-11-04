@@ -103,7 +103,7 @@ knp_snappy:
         options:    []
 
 endroid_qr_code:
-    size: 100
+    size: 90
     padding: 10
     extension: gif
     error_correction_level: high

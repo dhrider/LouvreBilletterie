@@ -3,14 +3,11 @@
 
 namespace Louvre\BilletterieBundle\Controller;
 
-use Louvre\BilletterieBundle\Entity\Billet;
 use Louvre\BilletterieBundle\Entity\Reservation;
 use Louvre\BilletterieBundle\Event\ReservationEvent;
 use Louvre\BilletterieBundle\Form\ReservationType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class BilletController extends Controller
 {
@@ -42,7 +39,6 @@ class BilletController extends Controller
                 $this->get('event_dispatcher')->dispatch(ReservationEvent::RESERVATION_UPDATE, $reservationEvent);
             }
 
-
             $em->persist($reservation);
             $em->flush();
 
@@ -58,36 +54,9 @@ class BilletController extends Controller
         ));
     }
     
-    public function aproposAction($reservation)
+    public function aproposAction()
     {
-        return $this->render('LouvreBilletterieBundle:Billet:apropos.html.twig', array(
-            'reservation' => $reservation
-        ));
-    }
-
-    public function deleteBilletAction(Request $request) {
-
-
-    }
-
-    public function recapReservationAction(Request $request) {
-        if ($request->isXmlHttpRequest()) {
-            $idReservation = $request->request->get('idReservation');
-
-            if ($idReservation !== "") {
-                $repository = $this
-                    ->getDoctrine()
-                    ->getManager()
-                    ->getRepository('LouvreBilletterieBundle:Billet')
-                ;
-
-                $data = $repository->recupReservation($idReservation);
-
-                return new JsonResponse($data);
-            }
-        }
-
-        return new Response('Aucune Réservation trouvée !');
+        return $this->render('LouvreBilletterieBundle:Billet:apropos.html.twig');
     }
 
     private function getReservation(Request $request) {

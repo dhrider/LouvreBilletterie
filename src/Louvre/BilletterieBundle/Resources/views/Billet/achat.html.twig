@@ -59,7 +59,7 @@
                                     <label for="email">Votre e-mail : </label>
                                     <input type="email" name="email_reservation" class="form-control" id="email" placeholder="Entrez votre E-mail">
                                     <span class="alert-danger" id="erreurEmail" hidden="hidden"> * Veuillez entrez un Email valide</span>
-                                    <h4>Montant total à payer : <span id="montantTotal">{{ reservation.total }}</span></h4>
+                                    <h4>Montant total à payer : <span id="montantTotal">{{ reservation.total }} €</span></h4>
                                     <input id="btnPayer" class="payer pull-left" type="submit" value="PAYER">
                                 </div>
                             </div>
@@ -67,7 +67,7 @@
                    {% endif %}
                     <div id="recapPaiement" class="col-md-8">
                         <div class="container-fluid" id="recapReservation">
-                            <h4>Récapitulatif de votre réservation de billet(s) :</h4>
+                            <h4>Récapitulatif de votre réservation :</h4>
                             <table id="tableauRecapReservation">
                                 <thead>
                                     <tr>
@@ -75,9 +75,9 @@
                                         <th>Nom</th>
                                         <th>Prénom</th>
                                         <th>Date de naissance</th>
-                                        <th>Type de billet</th>
+                                        <th>Type</th>
                                         <th>Tarif réduit</th>
-                                        <th>Montant du billet</th>
+                                        <th>Montant en €</th>
                                     </tr>
                                 </thead>
                                 <tbody id="ligneTableauRecap">
@@ -86,9 +86,21 @@
                                             <td>{{ billet.id }}</td>
                                             <td>{{ billet.nom }}</td>
                                             <td>{{ billet.prenom }}</td>
-                                            <td>date</td>
-                                            <td>{{ billet.type }}</td>
-                                            <td>{{ billet.reduit }}</td>
+                                            <td>{{ billet.dateNaissance | date('d-m-Y') }}</td>
+                                            <td>
+                                                {% if billet.type == "journee" %}
+                                                    Journée
+                                                {% else %}
+                                                    Demi-journée
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if billet.reduit == 1 %}
+                                                    Oui
+                                                {% else %}
+                                                    Non
+                                                {% endif %}
+                                            </td>
                                             <td>{{ billet.montant }}</td>
                                         </tr>
                                     {% endfor %}

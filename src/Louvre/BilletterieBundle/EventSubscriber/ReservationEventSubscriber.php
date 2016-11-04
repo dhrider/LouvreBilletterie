@@ -3,16 +3,24 @@
 namespace Louvre\BilletterieBundle\EventSubscriber;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Knp\Bundle\SnappyBundle\Snappy\LoggableGenerator;
 use Louvre\BilletterieBundle\Event\ReservationEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Bundle\TwigBundle\TwigEngine;
 
 class ReservationEventSubscriber implements EventSubscriberInterface {
 
     private $registry;
+    private $twigEngine;
+    private $mailer;
+    private $knpSnappyPdf;
 
-    public function __construct(Registry $registry)
+    public function __construct(Registry $registry, TwigEngine $twigEngine,LoggableGenerator $knpSnappyBundle, \Swift_Mailer $mailer)
     {
         $this->registry = $registry;
+        $this->twigEngine = $twigEngine;
+        $this->mailer = $mailer;
+        $this->knpSnappyPdf = $knpSnappyBundle;
     }
 
     public static function getSubscribedEvents()
@@ -21,20 +29,30 @@ class ReservationEventSubscriber implements EventSubscriberInterface {
             ReservationEvent::RESERVATION_CREATE => array(
                 ['calculTarifBillets', 20], ['setTotal', 10]
             ),
-            ReservationEvent::RESERVATION_UPDATE => array('calculTarifBillets', 'setTotal')
+            ReservationEvent::RESERVATION_UPDATE => array(
+                ['calculTarifBillets', 20], ['setTotal', 10]
+            ),
+            ReservationEvent::RESERVATION_PAYMENT_SUCCESS => array(
+                'pdfAndMail'
+            )
+            /*ReservationEvent::RESERVATION_PAYMENT_FAILED => array(
+
+            )*/
         );
     }
 
     public function calculTarifBillets(ReservationEvent $reservationEvent)
     {
-
         $tarifs = array();
 
-        $tarifsAll = $this->registry->getEntityManager()->getRepository('LouvreBilletterieBundle:Tarif')->findAll();
+        $tarifsAll = $this->registry
+            ->getEntityManager()
+            ->getRepository('LouvreBilletterieBundle:Tarif')
+            ->findAll();
+
         foreach ($tarifsAll as $tarif) {
             $tarifs[$tarif->getNom()] = $tarif;
         }
-
 
         foreach ($reservationEvent->getReservation()->getBillets() as &$billet) {
             $dateReservation = $billet->getReservation()->getDateReservation();
@@ -61,17 +79,12 @@ class ReservationEventSubscriber implements EventSubscriberInterface {
             $billet->setTarif($tarifs[$tarif]);
 
             $billet->setMontant($tarifs[$tarif]->getTarif());
-
         }
-
     }
 
     public function setTotal(ReservationEvent $reservationEvent)
     {
-
-        $entity = $reservationEvent->getReservation();
-
-        $reservation = $entity;
+        $reservation = $reservationEvent->getReservation();
 
         $montantTotal = 0;
 
@@ -80,6 +93,42 @@ class ReservationEventSubscriber implements EventSubscriberInterface {
         }
 
         $reservation->setTotal($montantTotal);
-        dump($entity);
+    }
+
+    public function pdfAndMail(ReservationEvent $reservationEvent)
+    {
+        $reservation = $reservationEvent->getReservation();
+
+        $reservation->setStatut($reservation::STATUS_PAYER);
+
+        $this->registry->getEntityManager()->persist($reservation);
+        $this->registry->getEntityManager()->flush();
+
+        $pdfPath = __DIR__.'/../../../../web/upload/reservation_'.$reservation->getId().'.pdf';
+        $imagePath = __DIR__.'/../../../../web/bundles/louvrebilletterie/image/';
+
+        $pdfHtml = $this->twigEngine->render('@LouvreBilletterie/pdfBillet.html.twig',array(
+            'reservation' => $reservation,
+            'billets' => $reservation->getBillets()
+        ));
+
+        $this->knpSnappyPdf->generateFromHtml($pdfHtml,$pdfPath);
+
+        /* @var \Swift_Message $email */
+        $email =  \Swift_Message::newInstance()
+            ->setSubject('Test')
+            ->setFrom('Louvre@test.com')
+            ->setTo('p_bordmann@orange.fr')
+            ->setContentType('text/html')
+        ;
+
+        $image = $email->embed(\Swift_Image::fromPath($imagePath.'louvre_logo_frise.png'));
+
+        $email->attach(\Swift_Attachment::fromPath($pdfPath))
+            ->setBody($this->twigEngine->render('@LouvreBilletterie/emailBillet.html.twig',
+                array('reservation' => $reservation,'logo' => $image))
+            );
+
+        $this->mailer->send($email);
     }
 }
