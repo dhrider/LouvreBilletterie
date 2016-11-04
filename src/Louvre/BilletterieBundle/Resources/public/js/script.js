@@ -88,7 +88,6 @@ $(document).ready(function() {
         var idReservation = (window.location.pathname).toString().match(/\d+/)[0];
         if (idReservation !== null) {
             $('#ongletPaiement').tab('show');
-            afficheReservation(parseInt(idReservation));
         }
     }
 
@@ -105,27 +104,6 @@ $(document).ready(function() {
 
     // REQUETES AJAX //
 
-    // Affichage du récapitulatif de la réservation dans l'onglet paiement
-    function  afficheReservation(idReservation) {
-        $.ajax({
-            url: '/achat/recapReservation',
-            type: 'POST',
-            data: {
-                idReservation: idReservation
-            },
-            dataType: 'json',
-            success: function (response) {
-                $.each(response, function (index, element) {
-                    createLigneTableauRecap(element);
-
-                });
-                $('#montantTotal').html(totalReservation + " €");
-            },
-            error: function (response) {
-                console.log(response.text);
-            }
-        });
-    }
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
@@ -135,29 +113,5 @@ $(document).ready(function() {
 
     // FONCTIONS DIVERSES //
 
-    // function création d'une ligne du tableau de récapitulation des billets
-    var totalReservation = 0;
-    function createLigneTableauRecap(element) {
-        if (element.reduit == false) {
-            element.reduit = "non";
-        }
-        else {
-            element.reduit = "oui";
-        }
 
-        $('#ligneTableauRecap').append(
-            '<tr>' +
-                '<td>' + element.id     + '</td>' +
-                '<td>' + element.nom     + '</td>' +
-                '<td>' + element.prenom     + '</td>' +
-                '<td>' + 'date'     + '</td>' +
-                '<td>' + element.type    + '</td>' +
-                '<td>' + element.reduit  + '</td>' +
-                '<td>' + element.montant + '</td>' +
-                '<td>X</td>' +
-            '</tr>'
-        );
-
-        totalReservation = totalReservation + element.montant;
-    }
 });

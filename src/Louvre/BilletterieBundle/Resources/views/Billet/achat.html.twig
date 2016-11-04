@@ -27,7 +27,6 @@
                             {{ form_start(form) }}
                             {{ form_widget(form.dateReservation) }}
                             <div id="Billets" data-prototype="{{ form_widget(form.billets.vars.prototype)|e }}" data-index="0">
-
                                 {% for billet in form.billets %}
                                     <div class="billet">
                                         {{ form_row(billet.nom) }}
@@ -49,7 +48,6 @@
             </div>
 
             <div class="tab-pane" id="paiement">
-
                 <br/>
                 <h4>Paiement :</h4>
                 <br/>
@@ -80,10 +78,20 @@
                                         <th>Type de billet</th>
                                         <th>Tarif réduit</th>
                                         <th>Montant du billet</th>
-                                        <th>Supprimer billet</th>
                                     </tr>
                                 </thead>
                                 <tbody id="ligneTableauRecap">
+                                    {% for billet in reservation.billets %}
+                                        <tr>
+                                            <td>{{ billet.id }}</td>
+                                            <td>{{ billet.nom }}</td>
+                                            <td>{{ billet.prenom }}</td>
+                                            <td>date</td>
+                                            <td>{{ billet.type }}</td>
+                                            <td>{{ billet.reduit }}</td>
+                                            <td>{{ billet.montant }}</td>
+                                        </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>

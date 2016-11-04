@@ -5,6 +5,7 @@ namespace Louvre\BilletterieBundle\Controller;
 
 use Louvre\BilletterieBundle\Entity\Billet;
 use Louvre\BilletterieBundle\Entity\Reservation;
+use Louvre\BilletterieBundle\Event\ReservationEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Payum\Core\Request\GetHumanStatus;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,6 +52,14 @@ class PaymentController extends Controller
         // or Payum can fetch the model for you while executing a request (Preferred).
         $gateway->execute($status = new GetHumanStatus($token));
         $payment = $status->getFirstModel();
+
+        /*if($status->isCaptured()){
+            $this->get('event_dispatcher')->dispatch(ReservationEvent::RESERVATION_PAYMENT_SUCCESS);
+
+        }else {
+            $this->get('event_dispatcher')->dispatch(ReservationEvent::RESERVATION_PAYMENT_FAILED);
+
+        }*/
 
         $reservation->setStatut($reservation::STATUS_PAYER);
 
