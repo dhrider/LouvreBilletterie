@@ -3,7 +3,6 @@
 
 namespace Louvre\BilletterieBundle\Controller;
 
-use Louvre\BilletterieBundle\Entity\Billet;
 use Louvre\BilletterieBundle\Entity\Reservation;
 use Louvre\BilletterieBundle\Event\ReservationEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

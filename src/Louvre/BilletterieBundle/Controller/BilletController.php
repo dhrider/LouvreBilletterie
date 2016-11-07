@@ -3,6 +3,7 @@
 
 namespace Louvre\BilletterieBundle\Controller;
 
+use Louvre\BilletterieBundle\Entity\Billet;
 use Louvre\BilletterieBundle\Entity\Reservation;
 use Louvre\BilletterieBundle\Event\ReservationEvent;
 use Louvre\BilletterieBundle\Form\ReservationType;
@@ -74,9 +75,8 @@ class BilletController extends Controller
         }
 
         $reservation = new Reservation();
-        //$reservation->addBillet(new Billet());
+        $reservation->addBillet(new Billet());
+
         return $reservation;
     }
-
-
 }

@@ -5,10 +5,10 @@
 {% block body %}
     <div class="container-fluid col-md-offset-2 col-md-8" id="corpsAchat">
         <ul class="nav nav-tabs" id="tab">
-            <li class="nav col-md-3 active"><a href="#jour" id="ongletJour" data-toggle="tab">Jour de la visite</a></li>
-            <li class="nav col-md-3"><a href="#billet" id="ongletBillet" data-toggle="tab">Vos billets</a></li>
-            <li class="nav col-md-3"><a href="#paiement" id="ongletPaiement" data-toggle="tab">Paiement</a></li>
-            <li class="nav col-md-3"><a href="#confirmation" id="ongletConfirmation" data-toggle="tab">Confirmation</a></li>
+            <li class="nav col-md-3 active" id="liJour"><a href="#jour" id="ongletJour" data-toggle="tab">Jour de la visite</a></li>
+            <li class="nav col-md-3 disabled" id="liBillet"><a href="#billet" id="ongletBillet" data-toggle="tab">Vos billets</a></li>
+            <li class="nav col-md-3 disabled" id="liPaiement"><a href="#paiement" id="ongletPaiement" data-toggle="tab">Paiement</a></li>
+            <li class="nav col-md-3 disabled" id="liConfirmation"><a href="#confirmation" id="ongletConfirmation" data-toggle="tab">Confirmation</a></li>
         </ul>
 
         <div class="tab-content">
@@ -18,7 +18,7 @@
                 <div id="dateVisite" class="datepicker"></div><span class="alert-danger" id="erreurDate"></span>
             </div>
 
-            <div class="tab-pane" id="billet">
+            <div class="tab-pane " id="billet">
                 <br/>
                 <h4 id="dateChoisie">Réservation pour le : <span class="date" id="dateV">{{ reservation.dateReservation | date('d-m-Y') }}</span> </h4>
                 <div>

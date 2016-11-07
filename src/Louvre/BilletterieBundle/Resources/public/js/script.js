@@ -31,6 +31,7 @@ $(document).ready(function() {
             dateSelectionnee = dateText;
             $('.date').val(dateSelectionnee);
             $('#dateV')[0].innerText = dateText; // on l'affiche au dessus du formulaire
+            $('#liBillet').removeClass('disabled');
         }
     });
 
@@ -88,11 +89,16 @@ $(document).ready(function() {
         var idReservation = (window.location.pathname).toString().match(/\d+/)[0];
         if (idReservation !== null) {
             $('#ongletPaiement').tab('show');
+            $('#liPaiement').removeClass('disabled');
+            $('#liBillet').removeClass('disabled');
         }
     }
 
     if (window.location.hash == "#confirmation") {
         $('#ongletConfirmation').tab('show');
+        $('#liJour').addClass('disabled');
+        $('#liBillet').addClass('disabled');
+        $('#liPaiement').addClass('disabled');
     }
 
 
