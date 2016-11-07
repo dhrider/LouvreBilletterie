@@ -1,15 +1,35 @@
 $(document).ready(function() {
     // GESTION DU DATEPICKER //
 
-    // Exclusion des dimanche du datepicker
-    function disableSundayTuesdayDatePicker(date) {
-        // on récupère le jour de la date
+    // Tableau des jours fériés
+    var joursFeries = [
+        "1-1",
+        "1-5",
+        "8-5",
+        "14-7",
+        "15-8",
+        "1-11",
+        "11-11",
+        "25-12"
+    ];
+
+    function disableJoursFeriesDimancheMardi(date) {
+        // on récupère le numéro du jour de la semaine
         var day = date.getDay();
+        var m = date.getMonth();
+        var d = date.getDate();
+        var currentDate = d + '-' + (m+1);
+
         // Si c'est un dimanche OU un mardi
         if (day == 0 || day == 2) {
             return [false]; // on retourne false pour ne pas afficher ces jours
         }
-        else {
+        else { // Sinon on vérifie que ce n'est pas un jour férié
+            for (var i = 0; i < joursFeries.length; i++) {
+                if ($.inArray(currentDate, joursFeries) != -1) {
+                    return [false];
+                }
+            }
             return [true]; // tous les autres jours sont affichés
         }
     }
@@ -18,9 +38,8 @@ $(document).ready(function() {
     var dateSelectionnee = "";
     $('.datepicker').datepicker({
         minDate: new Date(), // pas de date antérieure à celle du jour
-        maxDate: new Date(2017, 12, 31),
         dateFormat: "dd-mm-yy",
-        beforeShowDay: disableSundayTuesdayDatePicker, // on exécute la fonction de désactivation des jours
+        beforeShowDay: disableJoursFeriesDimancheMardi, // on exécute la fonction de désactivation des jours
         // en fonction de la date sélectionnée
         onSelect: function (dateText) {
             // on recherche l'onglet actif
@@ -75,7 +94,6 @@ $(document).ready(function() {
 
 
 
-
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
@@ -85,13 +103,10 @@ $(document).ready(function() {
     // GESTION DU PAIEMENT //
 
     // Affichage de l'onglet paiement après la soumission du formulaire des billets
-    if (window.location.pathname !== "") {
-        var idReservation = (window.location.pathname).toString().match(/\d+/)[0];
-        if (idReservation !== null) {
-            $('#ongletPaiement').tab('show');
-            $('#liPaiement').removeClass('disabled');
-            $('#liBillet').removeClass('disabled');
-        }
+    if (window.location.hash == "#paiement") {
+        $('#ongletPaiement').tab('show');
+        $('#liPaiement').removeClass('disabled');
+        $('#liBillet').removeClass('disabled');
     }
 
     if (window.location.hash == "#confirmation") {
@@ -100,24 +115,4 @@ $(document).ready(function() {
         $('#liBillet').addClass('disabled');
         $('#liPaiement').addClass('disabled');
     }
-
-
-
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-
-
-
-    // REQUETES AJAX //
-
-
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-
-
-
-
-    // FONCTIONS DIVERSES //
-
-
 });
