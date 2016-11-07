@@ -7,6 +7,7 @@ use Knp\Bundle\SnappyBundle\Snappy\LoggableGenerator;
 use Louvre\BilletterieBundle\Event\ReservationEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Bundle\TwigBundle\TwigEngine;
+use Symfony\Component\Routing\Router;
 
 class ReservationEventSubscriber implements EventSubscriberInterface {
 
@@ -14,13 +15,15 @@ class ReservationEventSubscriber implements EventSubscriberInterface {
     private $twigEngine;
     private $mailer;
     private $knpSnappyPdf;
+    private $router;
 
-    public function __construct(Registry $registry, TwigEngine $twigEngine,LoggableGenerator $knpSnappyBundle, \Swift_Mailer $mailer)
+    public function __construct(Registry $registry, TwigEngine $twigEngine,LoggableGenerator $knpSnappyBundle, \Swift_Mailer $mailer, Router $router)
     {
         $this->registry = $registry;
         $this->twigEngine = $twigEngine;
         $this->mailer = $mailer;
         $this->knpSnappyPdf = $knpSnappyBundle;
+        $this->router = $router;
     }
 
     public static function getSubscribedEvents()
@@ -34,10 +37,10 @@ class ReservationEventSubscriber implements EventSubscriberInterface {
             ),
             ReservationEvent::RESERVATION_PAYMENT_SUCCESS => array(
                 'pdfAndMail'
+            ),
+            ReservationEvent::RESERVATION_PAYMENT_FAILED => array(
+                'erreurPaiement'
             )
-            /*ReservationEvent::RESERVATION_PAYMENT_FAILED => array(
-
-            )*/
         );
     }
 
@@ -130,5 +133,10 @@ class ReservationEventSubscriber implements EventSubscriberInterface {
             );
 
         $this->mailer->send($email);
+    }
+
+    public function erreurPaiement( ReservationEvent $reservationEvent) {
+        return $this->router->generate('louvre_billetterie_achat_paiement',
+                ['id' => $reservationEvent->getReservation()->getId()]).'#paiement';
     }
 }
