@@ -12,14 +12,5 @@ use Doctrine\ORM\EntityRepository;
  */
 class BilletRepository extends EntityRepository
 {
-        /*public function recupReservation($id) {
-            $qb = $this->createQueryBuilder('r')
-                ->select('r')
-                ->where('r.reservation = :pattern')
-                ->setParameter('pattern', $id)
-            ;
-            return $qb->getQuery()->getArrayResult();
-
-        }*/
 
 }

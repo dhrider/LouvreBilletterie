@@ -36,21 +36,35 @@ $(document).ready(function() {
 
     // initialisation du DatePicker
     var dateSelectionnee = "";
+    var now = new Date();
+    var heure = now.getHours();
+    var jour = now.getDate();
+    var mois = now.getMonth() + 1;
+    var annee = now.getFullYear();
+    var ceJour = ("0" + (jour + 1)) + "-" + mois + "-" + annee;
+
     $('.datepicker').datepicker({
         minDate: new Date(), // pas de date antérieure à celle du jour
         dateFormat: "dd-mm-yy",
         beforeShowDay: disableJoursFeriesDimancheMardi, // on exécute la fonction de désactivation des jours
         // en fonction de la date sélectionnée
         onSelect: function (dateText) {
-            // on recherche l'onglet actif
-            var ongletActif = $('.nav-tabs > .active').next('li').find('a');
-            // on simule le click sur cet onglet
-            ongletActif.trigger('click');
-            // on récupère la date et on la l'applique au champ caché "date visit" du formulaire
-            dateSelectionnee = dateText;
-            $('.date').val(dateSelectionnee);
-            $('#dateV')[0].innerText = dateText; // on l'affiche au dessus du formulaire
-            $('#liBillet').removeClass('disabled');
+            if (heure >= 14 && dateText == ceJour)
+            {
+                alert('Vous ne pouvez pas choisir un billet pour le jour même après 14H !');
+            }
+            else
+            {
+                // on recherche l'onglet actif
+                var ongletActif = $('.nav-tabs > .active').next('li').find('a');
+                // on simule le click sur cet onglet
+                ongletActif.trigger('click');
+                // on récupère la date et on la l'applique au champ caché "date visit" du formulaire
+                dateSelectionnee = dateText;
+                $('.date').val(dateSelectionnee);
+                $('#dateV')[0].innerText = dateText; // on l'affiche au dessus du formulaire
+                $('#liBillet').removeClass('disabled');
+            }
         }
     });
 
