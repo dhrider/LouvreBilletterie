@@ -98,6 +98,22 @@ $(document).ready(function() {
     ////////////////////////////////////////////////////////////////////////////
 
 
+    // Message d'avertissement lors de la sélection du choix réduit
+    $(document).on('click', '.choixReduit', function (e) {
+        console.log($(e.target).is(':checked'));
+        if ($(e.target).is(':checked')) {
+            $('#checkReduit').removeClass('hidden');
+        }
+        else {
+            $('#checkReduit').addClass('hidden');
+        }
+    });
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+
+
 
 
     // GESTION DU PAIEMENT //

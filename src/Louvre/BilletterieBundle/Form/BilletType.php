@@ -60,6 +60,9 @@ class BilletType extends AbstractType
             ))
             ->add('reduit',         CheckboxType::class, array(
                 'label' => 'Tarif Réduit',
+                'label_attr' => array(
+                  'id' => 'labelReduit'
+                ),
                 'required' => false,
                 'attr' => array(
                     'class' => 'choixReduit'

@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class BilletRepository extends EntityRepository
 {
-        public function recupReservation($id) {
+        /*public function recupReservation($id) {
             $qb = $this->createQueryBuilder('r')
                 ->select('r')
                 ->where('r.reservation = :pattern')
@@ -20,5 +20,6 @@ class BilletRepository extends EntityRepository
             ;
             return $qb->getQuery()->getArrayResult();
 
-        }
+        }*/
+
 }

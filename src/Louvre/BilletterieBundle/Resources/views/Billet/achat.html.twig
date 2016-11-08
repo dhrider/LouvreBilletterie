@@ -35,7 +35,10 @@
                                         {{ form_row(billet.dateNaissance) }}
                                         {{ form_row(billet.type) }}
                                         {{ form_row(billet.reduit) }}
-                                        <a class="btn btn-danger delete-billet btn-sm" href="#">Supprimer billet</a>
+                                        <p class="alert-danger hidden reduit" id="checkReduit">Un document certifiant l'accès au
+                                            tarif réduit vous sera demandez à la présentation de votre billet !
+                                        </p>
+                                    <a class="btn btn-danger delete-billet btn-sm" href="#">Supprimer billet</a>
                                     </div>
                                 {% endfor %}
                             </div>

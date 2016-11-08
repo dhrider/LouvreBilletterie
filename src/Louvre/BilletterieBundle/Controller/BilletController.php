@@ -23,8 +23,6 @@ class BilletController extends Controller
 
         $form = $this->get('form.factory')->create(ReservationType::class, $reservation);
 
-
-
         $form->handleRequest($request);
 
         if ($request->isMethod('POST') && $form->isValid()) {
