@@ -41,7 +41,7 @@ $(document).ready(function() {
     var jour = now.getDate();
     var mois = now.getMonth() + 1;
     var annee = now.getFullYear();
-    var ceJour = ("0" + (jour + 1)) + "-" + mois + "-" + annee;
+    var ceJour = ("0" + jour) + "-" + mois + "-" + annee;
 
     $('.datepicker').datepicker({
         minDate: new Date(), // pas de date antérieure à celle du jour
@@ -114,7 +114,6 @@ $(document).ready(function() {
 
     // Message d'avertissement lors de la sélection du choix réduit
     $(document).on('click', '.choixReduit', function (e) {
-        console.log($(e.target).is(':checked'));
         if ($(e.target).is(':checked')) {
             $('#checkReduit').removeClass('hidden');
         }
