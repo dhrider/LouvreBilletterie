@@ -1,6 +1,6 @@
 services:
     louvre_billetterie.reservation_event_subscriber:
         class: Louvre\BilletterieBundle\EventSubscriber\ReservationEventSubscriber
-        arguments: ['@doctrine', '@templating', '@knp_snappy.pdf', '@mailer']
+        arguments: ['@doctrine', '@templating', '@knp_snappy.pdf', '@mailer', '@router']
         tags:
             - {name: kernel.event_subscriber}
