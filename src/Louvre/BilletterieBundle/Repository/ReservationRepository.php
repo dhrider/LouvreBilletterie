@@ -12,17 +12,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class ReservationRepository extends EntityRepository
 {
-    public function recupReservation($id) {
-        $qb = $this->createQueryBuilder('r')
-            ->select('r')
-            ->where('r.id = :pattern')
-            ->setParameter('pattern', $id)
+    public function nombreReservation($date) {
+        $qb = $this
+            ->createQueryBuilder('r')
+            ->where('r.dateReservation = :pattern')
+            ->setParameter('pattern', $date)
         ;
 
-        return $qb->getQuery()->getArrayResult();
-    }
-
-    public function nombreBillets($date) {
-        return 999;
+        return $qb->getQuery()->getResult();
     }
 }

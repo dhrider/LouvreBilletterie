@@ -57,18 +57,23 @@ $(document).ready(function() {
             {
                 // on recherche l'onglet actif
                 var ongletActif = $('.nav-tabs > .active').next('li').find('a');
+
                 // on simule le click sur cet onglet
                 $('#liBillet').removeClass('disabled');
+
+                // on rend d'abord l'onglet cliquable
                 ongletActif.trigger('click');
+
                 // on récupère la date et on la l'applique au champ caché "date visit" du formulaire
                 dateSelectionnee = dateText;
                 $('.date').val(dateSelectionnee);
-                $('#dateV')[0].innerText = dateText; // on l'affiche au dessus du formulaire
+
+                // on l'affiche au dessus du formulaire
+                $('#dateV')[0].innerText = dateText;
 
             }
         }
     });
-
 
 
 
@@ -134,7 +139,7 @@ $(document).ready(function() {
 
 
 
-    // GESTION DU PAIEMENT //
+    // GESTION DES ONGLETS //
 
     // Affichage de l'onglet paiement après la soumission du formulaire des billets
     if (window.location.hash == "#paiement") {
@@ -143,6 +148,7 @@ $(document).ready(function() {
         $('#liBillet').removeClass('disabled');
     }
 
+    // Affichage de l'onglet confirmation après validation et succès du paiement
     if (window.location.hash == "#confirmation") {
         $('#ongletConfirmation').tab('show');
         $('#liJour').addClass('disabled');
@@ -150,6 +156,12 @@ $(document).ready(function() {
         $('#liPaiement').addClass('disabled');
     }
 
+    // On oblige à revalider le formulaire si on revient sur l'onglet billet
+    $(document).on('click', $('#liBillet'), function () {
+        $('#liPaiement').addClass('disabled');
+    });
+
+    // On empêche le click sur les onglet non disponible
     $('li').click(function(){
         if($(this).hasClass("disabled"))
             return false;

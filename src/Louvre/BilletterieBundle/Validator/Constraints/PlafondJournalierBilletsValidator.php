@@ -18,9 +18,17 @@ class PlafondJournalierBilletsValidator extends ConstraintValidator {
 
     public function validate($value, Constraint $constraint)
     {
-        $nbBillets = $this->registry->getRepository('LouvreBilletterieBundle:Reservation')->nombreBillets($value);
+        $nbReservations = $this->registry->getRepository('LouvreBilletterieBundle:Reservation')->nombreReservation($value);
 
-        if ($nbBillets > 1000) {
+        $nbBilletsTotal = 0;
+
+        foreach ($nbReservations as $nbReservation) {
+            foreach ($nbReservation->getBillets() as $nbBillets){
+                $nbBilletsTotal++;
+            }
+        }
+
+        if ($nbBilletsTotal >= 1000) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();
         }

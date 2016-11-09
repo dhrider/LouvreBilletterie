@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class PlafondJournalierBillets extends Constraint
 {
-    public $message = "Le plafond journalier de billets est dépassé !";
+    public $message = "Le plafond journalier de billets est dépassé, veuillez sélectionner une autre date !";
 
     public function validatedBy()
     {
