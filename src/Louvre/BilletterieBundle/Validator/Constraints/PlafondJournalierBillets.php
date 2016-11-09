@@ -1,14 +1,19 @@
 <?php
 // src BilletterieBundle\Validator\Constraints\PlafondJournalierBillets.php
 
-namespace BilletterieBundle\Validator\Constraints;
+namespace Louvre\BilletterieBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
 /**
  * @Annotation
  */
-class PlafondJournalierBillet extends Constraint
+class PlafondJournalierBillets extends Constraint
 {
     public $message = "Le plafond journalier de billets est dépassé !";
+
+    public function validatedBy()
+    {
+        return get_class($this).'Validator';
+    }
 }

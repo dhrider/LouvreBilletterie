@@ -5,6 +5,7 @@ namespace Louvre\BilletterieBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Louvre\BilletterieBundle\Validator\Constraints\PlafondJournalierBillets;
 
 /**
  * Class Reservation
@@ -34,6 +35,7 @@ class Reservation
     /**
      * @var \DateTime
      * @ORM\Column(name="dateVisite", type="datetime")
+     * @PlafondJournalierBillets
      */
     private $dateReservation;
 

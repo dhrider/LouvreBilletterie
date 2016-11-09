@@ -16,6 +16,7 @@
                 <br/>
                 <label for="date">Date de la visite :</label>
                 <div id="dateVisite" class="datepicker"></div>
+                {{ form_errors(form.dateReservation) }}
             </div>
 
             <div class="tab-pane " id="billet">
@@ -35,10 +36,10 @@
                                         {{ form_row(billet.dateNaissance) }}
                                         {{ form_row(billet.type) }}
                                         {{ form_row(billet.reduit) }}
-                                        <p class="alert-danger hidden reduit" id="checkReduit">Un document certifiant l'accès au
-                                            tarif réduit vous sera demandez à la présentation de votre billet !
+                                        <p class="alert-danger hidden reduit" id="checkReduit_0">Un document confirmant le droit au
+                                            tarif réduit vous sera demandé à la présentation de votre billet !
                                         </p>
-                                    <a class="btn btn-danger delete-billet btn-sm" href="#">Supprimer billet</a>
+                                        <a class="btn btn-danger delete-billet btn-sm" href="#">Supprimer billet</a>
                                     </div>
                                 {% endfor %}
                             </div>

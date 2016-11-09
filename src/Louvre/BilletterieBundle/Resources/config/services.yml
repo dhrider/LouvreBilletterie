@@ -4,3 +4,9 @@ services:
         arguments: ['@doctrine', '@templating', '@knp_snappy.pdf', '@mailer', '@router']
         tags:
             - {name: kernel.event_subscriber}
+
+    louvre_billetterie.reservation_validator:
+        class: Louvre\BilletterieBundle\Validator\Constraints\PlafondJournalierBilletsValidator
+        arguments: ['@doctrine']
+        tags:
+            - {name: validator.constraint_validator}

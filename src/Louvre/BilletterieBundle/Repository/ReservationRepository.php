@@ -21,4 +21,8 @@ class ReservationRepository extends EntityRepository
 
         return $qb->getQuery()->getArrayResult();
     }
+
+    public function nombreBillets($date) {
+        return 1001;
+    }
 }
