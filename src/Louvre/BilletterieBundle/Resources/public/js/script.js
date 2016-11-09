@@ -58,12 +58,13 @@ $(document).ready(function() {
                 // on recherche l'onglet actif
                 var ongletActif = $('.nav-tabs > .active').next('li').find('a');
                 // on simule le click sur cet onglet
+                $('#liBillet').removeClass('disabled');
                 ongletActif.trigger('click');
                 // on récupère la date et on la l'applique au champ caché "date visit" du formulaire
                 dateSelectionnee = dateText;
                 $('.date').val(dateSelectionnee);
                 $('#dateV')[0].innerText = dateText; // on l'affiche au dessus du formulaire
-                $('#liBillet').removeClass('disabled');
+
             }
         }
     });
@@ -148,4 +149,9 @@ $(document).ready(function() {
         $('#liBillet').addClass('disabled');
         $('#liPaiement').addClass('disabled');
     }
+
+    $('li').click(function(){
+        if($(this).hasClass("disabled"))
+            return false;
+    });
 });

@@ -17,14 +17,14 @@
                 <label for="date">Date de la visite :</label>
                 <div id="dateVisite" class="datepicker"></div>
             </div>
-
+            {{ form_errors(form.dateReservation) }}
             <div class="tab-pane " id="billet">
                 <br/>
                 <h4 id="dateChoisie">Réservation pour le : <span class="date" id="dateV">{{ reservation.dateReservation | date('d-m-Y') }}</span> </h4>
                 <div>
                     <div>
+
                         <div class="well container-fluid">
-                            {{ form_errors(form.dateReservation) }}
                             {{ form_start(form) }}
                             {{ form_widget(form.dateReservation) }}
                             <div id="Billets" data-prototype="{{ form_widget(form.billets.vars.prototype)|e }}" data-index="0">

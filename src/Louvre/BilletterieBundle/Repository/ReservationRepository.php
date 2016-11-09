@@ -23,6 +23,6 @@ class ReservationRepository extends EntityRepository
     }
 
     public function nombreBillets($date) {
-        return 1001;
+        return 999;
     }
 }

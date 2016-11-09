@@ -8,25 +8,15 @@ louvre_billetterie_achat:
     path:    /achat
     defaults: { _controller: LouvreBilletterieBundle:Billet:achat }
 
-louvre_billetterie_apropos:
-    path:    /apropos
-    defaults: { _controller: LouvreBilletterieBundle:Billet:apropos }
-
 louvre_billetterie_achat_paiement:
     path:    /achat/{id}
     defaults: { _controller: LouvreBilletterieBundle:Billet:achat }
     requirements:
         id: '\d+'
 
-louvre_billetterie_achat_paiement_recapReservation:
-    path:    /achat/recapReservation
-    defaults: { _controller: LouvreBilletterieBundle:Billet:recapReservation }
-
-louvre_billetterie_achat_paiement_deletebillet:
-    path:    /achat/deleteBillet/{id}
-    defaults: { _controller: LouvreBilletterieBundle:Billet:deleteBillet }
-    requirements:
-        id: '\d+'
+louvre_billetterie_achat_paiement_erreur:
+    path:    /achat
+    defaults: { _controller: LouvreBilletterieBundle:Billet:achat }
 
 louvre_payment_prepare:
     path:    /payment/prepare/{id}
