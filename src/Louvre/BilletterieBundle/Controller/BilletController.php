@@ -50,11 +50,6 @@ class BilletController extends Controller
             'reservation' => $reservation
         ));
     }
-    
-    public function aproposAction()
-    {
-        return $this->render('LouvreBilletterieBundle:Billet:apropos.html.twig');
-    }
 
     private function getReservation(Request $request) {
         if ($request->attributes->has('id')){

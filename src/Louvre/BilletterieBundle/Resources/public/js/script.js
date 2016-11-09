@@ -114,6 +114,7 @@ $(document).ready(function() {
     ////////////////////////////////////////////////////////////////////////////
 
 
+
     // Message d'avertissement lors de la sélection du choix réduit
     $(document).on('click', '.choixReduit', function (e) {
         if ($(e.target).is(':checked')) {
@@ -123,6 +124,7 @@ $(document).ready(function() {
             $(e.target).closest('.billet').find('p').addClass('hidden');
         }
     });
+
 
 
     ////////////////////////////////////////////////////////////////////////////
