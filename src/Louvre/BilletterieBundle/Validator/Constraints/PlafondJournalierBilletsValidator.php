@@ -1,4 +1,5 @@
 <?php
+// src BilletterieBundle\Validator\Constraints\PlafondJournalierBilletsValidator.php
 
 namespace Louvre\BilletterieBundle\Validator\Constraints;
 
@@ -18,17 +19,10 @@ class PlafondJournalierBilletsValidator extends ConstraintValidator {
 
     public function validate($value, Constraint $constraint)
     {
-        $nbReservations = $this->registry->getRepository('LouvreBilletterieBundle:Reservation')->nombreReservation($value);
+        $nbBilletsTotal = $this->registry->getRepository('LouvreBilletterieBundle:Billet')->nombreBilletsPourUneDate($value);
 
-        $nbBilletsTotal = 0;
 
-        foreach ($nbReservations as $nbReservation) {
-            foreach ($nbReservation->getBillets() as $nbBillets){
-                $nbBilletsTotal++;
-            }
-        }
-
-        if ($nbBilletsTotal >= 1000) {
+        if ($nbBilletsTotal >= 2) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();
         }

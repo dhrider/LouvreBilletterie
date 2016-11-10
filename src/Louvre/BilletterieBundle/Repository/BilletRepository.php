@@ -12,5 +12,16 @@ use Doctrine\ORM\EntityRepository;
  */
 class BilletRepository extends EntityRepository
 {
+    public function nombreBilletsPourUneDate($date)
+    {
+        $qb = $this->createQueryBuilder('b');
 
+        $qb
+            ->select('COUNT(b.id)')
+            ->leftJoin('b.reservation', 'reservation')
+            ->where('reservation.dateReservation = :date')
+            ->setParameter('date', $date);
+
+        return $qb->getQuery()->getSingleResult();
+    }
 }

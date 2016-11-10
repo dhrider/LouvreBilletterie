@@ -36,12 +36,6 @@ $(document).ready(function() {
 
     // initialisation du DatePicker
     var dateSelectionnee = "";
-    var now = new Date();
-    var heure = now.getHours();
-    var jour = now.getDate();
-    var mois = now.getMonth() + 1;
-    var annee = now.getFullYear();
-    var ceJour = ("0" + jour) + "-" + mois + "-" + annee;
 
     $('.datepicker').datepicker({
         minDate: new Date(), // pas de date antérieure à celle du jour
@@ -49,29 +43,21 @@ $(document).ready(function() {
         beforeShowDay: disableJoursFeriesDimancheMardi, // on exécute la fonction de désactivation des jours
         // en fonction de la date sélectionnée
         onSelect: function (dateText) {
-            if (heure >= 14 && dateText == ceJour)
-            {
-                alert('Vous ne pouvez pas choisir un billet pour le jour même après 14H !');
-            }
-            else
-            {
-                // on recherche l'onglet actif
-                var ongletActif = $('.nav-tabs > .active').next('li').find('a');
+            // on recherche l'onglet actif
+            var ongletActif = $('.nav-tabs > .active').next('li').find('a');
 
-                // on simule le click sur cet onglet
-                $('#liBillet').removeClass('disabled');
+            // on simule le click sur cet onglet
+            $('#liBillet').removeClass('disabled');
 
-                // on rend d'abord l'onglet cliquable
-                ongletActif.trigger('click');
+            // on rend d'abord l'onglet cliquable
+            ongletActif.trigger('click');
 
-                // on récupère la date et on la l'applique au champ caché "date visit" du formulaire
-                dateSelectionnee = dateText;
-                $('.date').val(dateSelectionnee);
+            // on récupère la date et on la l'applique au champ caché "date visit" du formulaire
+            dateSelectionnee = dateText;
+            $('.date').val(dateSelectionnee);
 
-                // on l'affiche au dessus du formulaire
-                $('#dateV')[0].innerText = dateText;
-
-            }
+            // on l'affiche au dessus du formulaire
+            $('#dateV')[0].innerText = dateText;
         }
     });
 

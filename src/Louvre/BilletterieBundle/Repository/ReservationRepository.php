@@ -12,13 +12,5 @@ use Doctrine\ORM\EntityRepository;
  */
 class ReservationRepository extends EntityRepository
 {
-    public function nombreReservation($date) {
-        $qb = $this
-            ->createQueryBuilder('r')
-            ->where('r.dateReservation = :pattern')
-            ->setParameter('pattern', $date)
-        ;
 
-        return $qb->getQuery()->getResult();
-    }
 }
