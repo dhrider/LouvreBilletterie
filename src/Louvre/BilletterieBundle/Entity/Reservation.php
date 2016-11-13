@@ -17,6 +17,7 @@ class Reservation
 {
     const STATUTS_DU = "du";
     const STATUS_PAYER = "payer";
+
     /**
      * @var int
      *
@@ -26,11 +27,15 @@ class Reservation
      */
     private $id;
 
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
      * @var string
      * @ORM\Column(name="statut", type="string")
      */
     private $statut;
+
+    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * @var \DateTime
@@ -39,16 +44,22 @@ class Reservation
      */
     private $dateReservation;
 
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
      * @ORM\OneToMany(targetEntity="Billet", cascade={"all"}, mappedBy="reservation", fetch="EAGER")
      */
     private $billets;
+
+    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * @var string
      * @ORM\Column(name="email", type="string", nullable=true)
      */
     private $email;
+
+    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * @var int
@@ -57,11 +68,15 @@ class Reservation
 
     private $total;
 
+    ////////////////////////////////////////////////////////////////////////////
+
     public function __construct()
     {
         $this->statut = self::STATUTS_DU;
         $this->billets = new ArrayCollection();
     }
+
+    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * @return mixed
@@ -71,6 +86,7 @@ class Reservation
         return $this->email;
     }
 
+
     /**
      * @param mixed $email
      */
@@ -78,6 +94,8 @@ class Reservation
     {
         $this->email = $email;
     }
+
+    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * @return int
@@ -87,6 +105,7 @@ class Reservation
         return $this->total;
     }
 
+
     /**
      * @param int $total
      */
@@ -94,6 +113,8 @@ class Reservation
     {
         $this->total = $total;
     }
+
+    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * @return int
@@ -103,6 +124,8 @@ class Reservation
         return $this->id;
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
      * @return string
      */
@@ -110,6 +133,7 @@ class Reservation
     {
         return $this->statut;
     }
+
 
     /**
      * @param string $statut
@@ -121,6 +145,8 @@ class Reservation
         return $this;
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
      * @return \DateTime
      */
@@ -128,6 +154,7 @@ class Reservation
     {
         return $this->dateReservation;
     }
+
 
     /**
      * @param \DateTime $dateVisite
@@ -139,6 +166,8 @@ class Reservation
         return $this;
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
      * @return ArrayCollection
      */
@@ -146,6 +175,7 @@ class Reservation
     {
         return $this->billets;
     }
+
 
     /**
      * @param ArrayCollection $billets
@@ -160,6 +190,8 @@ class Reservation
         $this->billets = $billets;
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
      * @param Billet $billet
      */
@@ -171,6 +203,8 @@ class Reservation
             $this->billets[] = $billet;
         }
     }
+
+    ////////////////////////////////////////////////////////////////////////////
 
     public function removeBillet(Billet $billet){
 

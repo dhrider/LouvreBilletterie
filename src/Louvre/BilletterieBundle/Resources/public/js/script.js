@@ -82,9 +82,11 @@ $(document).ready(function() {
         var billet = billets.data('prototype').replace(/__name__/g,(billets.data('index')+ compteurBillet));
         var newBillet = $('<div class="billet"></div>').html(billet);
         var btnDelete = $('<a class="btn btn-danger delete-billet btn-sm" href="#">Supprimer billet</a>');
-        var pAlertReduit = $('<p class="alert-danger hidden reduit" id="checkReduit">Un document certifiant l\'accès au tarif réduit vous sera demandez à la présentation de votre billet !</p>');
+        var pAlertTypeHoraire = $('<p class="alert-danger hidden horaire">Vous ne pouvez choisir un billet "Journée" après 14 H !</p>');
+        var pAlertReduit = $('<p class="alert-danger hidden reduit">Un document certifiant l\'accès au tarif réduit vous sera demandez à la présentation de votre billet !</p>');
         compteurBillet++;
 
+        newBillet.append(pAlertTypeHoraire);
         newBillet.append(pAlertReduit);
         newBillet.append(btnDelete); // on ajoute le bouton supprimer au nouveau billet
         newBillet.appendTo(billets); // on ajoute le nouveau billet à la liste des billets
@@ -110,10 +112,10 @@ $(document).ready(function() {
     // Message d'avertissement lors de la sélection du choix réduit
     $(document).on('click', '.choixReduit', function (e) {
         if ($(e.target).is(':checked')) {
-            $(e.target).closest('.billet').find('p:hidden').removeClass('hidden');
+            $(e.target).closest('.billet').find('.reduit').removeClass('hidden');
         }
         else {
-            $(e.target).closest('.billet').find('p').addClass('hidden');
+            $(e.target).closest('.billet').find('.reduit').addClass('hidden');
         }
     });
 
@@ -122,6 +124,15 @@ $(document).ready(function() {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
+    var $date = new Date();
+    var $heure = $date.getHours();
+
+    $(document).on('change', '.choixType', function (e) {
+        if ($(e.target).val() === 'demiJournee' && $heure > 8) {
+            $(e.target).val('journee');
+            $(e.target).closest('.billet').find('.horaire').removeClass('hidden');
+        }
+    });
 
 
 

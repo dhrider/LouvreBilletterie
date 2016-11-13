@@ -16,84 +16,89 @@ class Billet
 {
     /**
      * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
-
+    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * @var string
-     *
      * @ORM\Column(name="nom", type="string", length=255)
-     *
      * @Assert\NotBlank()
      */
     private $nom;
 
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
      * @var string
-     *
      * @ORM\Column(name="prenom", type="string", length=255)
-     *
      * @Assert\NotBlank()
      */
     private $prenom;
 
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
      * @var string
-     *
      * @ORM\Column(name="pays", type="string", length=255)
      */
     private $pays;
 
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
      * @var \DateTime
-     *
      * @ORM\Column(name="date_naissance", type="date")
-     *
      * @Assert\Date()
      */
     private $dateNaissance;
 
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
      * @var string
-     * 
      * @ORM\Column(name="type", type="string", length=255)
-     *
      * @Assert\NotBlank()
      */
     private $type;
 
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
      * @var bool
-     * 
      * @ORM\Column(name="reduit", type="boolean")
      */
     private $reduit;
 
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
      * @var int
-     *
      * @ORM\ManyToOne(targetEntity="Tarif", inversedBy="Billet")
      */
     private $tarif;
 
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
      * @var int
-     *
      * @ORM\Column(name="montant", type="integer")
      */
     private $montant;
+
+    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * @var int
      * @ORM\ManyToOne(targetEntity="Louvre\BilletterieBundle\Entity\Reservation", inversedBy="billets")
      */
     private $reservation;
+
+    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * @return mixed
@@ -103,9 +108,9 @@ class Billet
         return $this->reservation;
     }
 
+
     /**
      * @param mixed $reservation
-     *
      * @return Billet
      */
     public function setReservation(Reservation $reservation)
@@ -116,6 +121,7 @@ class Billet
         return $this;
     }
 
+    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * @return string
@@ -125,6 +131,17 @@ class Billet
         return $this->type;
     }
 
+
+    /**
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
      * @return int
      */
@@ -132,6 +149,7 @@ class Billet
     {
         return $this->montant;
     }
+
 
     /**
      * @param int $montant
@@ -147,13 +165,7 @@ class Billet
 
     }
 
-    /**
-     * @param string $type
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-    }
+    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * @return mixed
@@ -163,6 +175,7 @@ class Billet
         return $this->reduit;
     }
 
+
     /**
      * @param mixed $reduit
      */
@@ -170,10 +183,11 @@ class Billet
     {
         $this->reduit = $reduit;
     }
+
+    ////////////////////////////////////////////////////////////////////////////
     
     /**
      * Get id
-     *
      * @return int
      */
     public function getId()
@@ -181,13 +195,11 @@ class Billet
         return $this->id;
     }
 
-
+    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * Set nom
-     *
      * @param string $nom
-     *
      * @return Billet
      */
     public function setNom($nom)
@@ -197,9 +209,9 @@ class Billet
         return $this;
     }
 
+
     /**
      * Get nom
-     *
      * @return string
      */
     public function getNom()
@@ -207,11 +219,11 @@ class Billet
         return $this->nom;
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
      * Set prenom
-     *
      * @param string $prenom
-     *
      * @return Billet
      */
     public function setPrenom($prenom)
@@ -221,9 +233,9 @@ class Billet
         return $this;
     }
 
+
     /**
      * Get prenom
-     *
      * @return string
      */
     public function getPrenom()
@@ -231,11 +243,11 @@ class Billet
         return $this->prenom;
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
      * Set pays
-     *
      * @param string $pays
-     *
      * @return Billet
      */
     public function setPays($pays)
@@ -245,9 +257,9 @@ class Billet
         return $this;
     }
 
+
     /**
      * Get pays
-     *
      * @return string
      */
     public function getPays()
@@ -255,11 +267,11 @@ class Billet
         return $this->pays;
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
      * Set dateNaissance
-     *
      * @param \DateTime $dateNaissance
-     *
      * @return Billet
      */
     public function setDateNaissance($dateNaissance)
@@ -269,15 +281,17 @@ class Billet
         return $this;
     }
 
+
     /**
      * Get dateNaissance
-     *
      * @return \DateTime
      */
     public function getDateNaissance()
     {
         return $this->dateNaissance;
     }
+
+    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * @return int
@@ -287,6 +301,7 @@ class Billet
         return $this->tarif;
     }
 
+
     /**
      * @param int $tarif
      */
@@ -294,7 +309,5 @@ class Billet
     {
         $this->tarif = $tarif;
     }
-
-
 }
 
