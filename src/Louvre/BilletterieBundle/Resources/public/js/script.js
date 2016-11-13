@@ -109,7 +109,10 @@ $(document).ready(function() {
 
 
 
+    // GESTION DES ALERTS //
+
     // Message d'avertissement lors de la sélection du choix réduit
+    // On cache le message si "non réduit"
     $(document).on('click', '.choixReduit', function (e) {
         if ($(e.target).is(':checked')) {
             $(e.target).closest('.billet').find('.reduit').removeClass('hidden');
@@ -120,19 +123,24 @@ $(document).ready(function() {
     });
 
 
-
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-
+    // Message d'avetissement si on choisit un billet "demi-journée" après 14H
+    // On empêche la sélection "demiJournee"
     var $date = new Date();
     var $heure = $date.getHours();
 
     $(document).on('change', '.choixType', function (e) {
-        if ($(e.target).val() === 'demiJournee' && $heure > 8) {
+        if ($(e.target).val() === 'demiJournee' && $heure >= 14) {
             $(e.target).val('journee');
             $(e.target).closest('.billet').find('.horaire').removeClass('hidden');
         }
     });
+
+
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+
 
 
 
