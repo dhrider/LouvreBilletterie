@@ -5,8 +5,15 @@ services:
         tags:
             - {name: kernel.event_subscriber}
 
+    louvre_billetterie.billet_validator:
+        class: Louvre\BilletterieBundle\Validator\Constraints\HoraireMaxPMValidator
+        tags:
+            - {name: validator.constraint_validator}
+
     louvre_billetterie.reservation_validator:
         class: Louvre\BilletterieBundle\Validator\Constraints\PlafondJournalierBilletsValidator
         arguments: ['@doctrine']
         tags:
             - {name: validator.constraint_validator}
+
+

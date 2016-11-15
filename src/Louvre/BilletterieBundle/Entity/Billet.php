@@ -4,6 +4,7 @@ namespace Louvre\BilletterieBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Louvre\BilletterieBundle\Validator\Constraints\HoraireMaxPM;
 
 /**
  * Billet
@@ -63,6 +64,7 @@ class Billet
      * @var string
      * @ORM\Column(name="type", type="string", length=255)
      * @Assert\NotBlank()
+     * @HoraireMaxPM
      */
     private $type;
 

@@ -44,9 +44,6 @@ class BilletController extends Controller
             return $this->redirect($this->generateUrl('louvre_billetterie_achat_paiement',
                     ['id' => $reservation->getId()]).'#paiement');
         }
-        /*elseif ($request->isMethod('POST') && !$form->isValid()) {
-            return $this->redirect($this->generateUrl('louvre_billetterie_achat_paiement_erreur').'#erreur');
-        }*/
 
         return $this->render('LouvreBilletterieBundle:Billet:achat.html.twig', array(
             'form' => $form->createView(),

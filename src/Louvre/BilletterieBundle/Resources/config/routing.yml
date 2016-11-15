@@ -14,10 +14,6 @@ louvre_billetterie_achat_paiement:
     requirements:
         id: '\d+'
 
-louvre_billetterie_achat_paiement_erreur:
-    path:    /achat
-    defaults: { _controller: LouvreBilletterieBundle:Billet:achat }
-
 louvre_payment_prepare:
     path:    /payment/prepare/{id}
     defaults: { _controller: LouvreBilletterieBundle:Payment:prepare }

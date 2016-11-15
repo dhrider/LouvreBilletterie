@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Valid;
 
 class ReservationType extends AbstractType
 {
@@ -28,7 +29,8 @@ class ReservationType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-                'label' => false
+                'label' => false,
+                'constraints' => array(new Valid()),
             ])
             ->add('submit', SubmitType::class, array(
                 'attr' => array(
