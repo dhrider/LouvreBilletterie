@@ -5,22 +5,36 @@
 {% block body %}
     <div class="container-fluid col-md-offset-2 col-md-8" id="corpsAchat">
         <ul class="nav nav-tabs" id="tab">
-            <li class="nav col-md-3 active" id="liJour"><a href="#jour" id="ongletJour" data-toggle="tab">Jour de la visite</a></li>
-            <li class="nav col-md-3 disabled" id="liBillet"><a href="#billet" id="ongletBillet" data-toggle="tab">Vos billets</a></li>
+            {% if form.vars.valid == false %}
+                <li class="nav col-md-3 disabled" id="liJour"><a href="#jour" id="ongletJour" data-toggle="tab">Date de Réservation</a></li>
+                <li class="nav col-md-3 active" id="liBillet"><a href="#billet" id="ongletBillet" data-toggle="tab">Choix des billets</a></li>
+            {% else %}
+                <li class="nav col-md-3 active" id="liJour"><a href="#jour" id="ongletJour" data-toggle="tab">Date de Réservation</a></li>
+                <li class="nav col-md-3 disabled" id="liBillet"><a href="#billet" id="ongletBillet" data-toggle="tab">Choix des billets</a></li>
+            {% endif %}
             <li class="nav col-md-3 disabled" id="liPaiement"><a href="#paiement" id="ongletPaiement" data-toggle="tab">Paiement</a></li>
-            <li class="nav col-md-3 disabled" id="liConfirmation"><a href="#confirmation" id="ongletConfirmation" data-toggle="tab">Confirmation</a></li>
+            <li class="nav col-md-3 disabled" id="liConfirmation"><a href="#confirmation" id="ongletConfirmation" data-toggle="tab">Réservation validée</a></li>
         </ul>
 
         <div class="tab-content">
-            {{ form_errors(form.dateReservation) }}
-            <div class="tab-pane active" id="jour">
+            {% if form.vars.valid == false %}
+                <div class="tab-pane" id="jour">
+            {% else %}
+                <div class="tab-pane active" id="jour">
+            {% endif %}
                 <br/>
-                <label for="date">Date de la visite :</label>
+                <label for="date">CHoisissez la date de votre venue :</label>
                 <div id="dateVisite" class="datepicker"></div>
             </div>
-            <div class="tab-pane " id="billet">
+
+            {% if form.vars.valid == false %}
+                <div class="tab-pane active" id="billet">
+            {% else %}
+                <div class="tab-pane" id="billet">
+            {% endif %}
                 <br/>
-                <h4 id="dateChoisie">Réservation pour le : <span class="date" id="dateV">{{ reservation.dateReservation | date('d-m-Y') }}</span> </h4>
+                <h4 id="dateChoisie">Réservation de billet(s) pour le : <span class="date" id="dateV">{{ reservation.dateReservation | date('d-m-Y') }}</span> </h4>
+                {{ form_errors(form.dateReservation, {'attr': {'class': 'alert-danger'}}) }}
                 <div>
                     <div>
                         <div class="well container-fluid">
@@ -35,15 +49,17 @@
                                         {{ form_row(billet.dateNaissance) }}
                                         {{ form_row(billet.type) }}
                                         {{ form_row(billet.reduit) }}
-                                        <p class="alert-danger hidden horaire">Vous ne pouvez choisir un billet "Journée" après 14 H !</p>
-                                        <p class="alert-danger hidden reduit">Un document confirmant le droit au
-                                            tarif réduit vous sera demandé à la présentation de votre billet !
-                                        </p>
-                                        <a class="btn btn-danger delete-billet btn-sm" href="#">Supprimer billet</a>
+                                        <p class="alert-danger hidden horaire">Vous ne pouvez pas choisir un billet "Journée" après 14 H !</p>
+                                        <p class="alert-danger hidden reduit">Un document validant l'accès au tarif réduit vous sera demandé à la présentation de votre billet !</p>
+                                        <a class="btn btn-danger delete-billet btn-sm" href="#">Supprimez le billet</a>
                                     </div>
                                 {% endfor %}
                             </div>
-                            <a class="btn btn-primary add-billet btn-sm" href="#">Ajouter billet</a>
+                            <a class="btn btn-primary add-billet btn-sm" href="#">Ajoutez un billet</a>
+                            <br/><br/>
+                            <div class="row">
+                                {{ form_row(form.email) }}
+                            </div>
                             {{ form_widget(form.submit)}}
                             {{ form_end(form) }}
                         </div>
@@ -53,64 +69,58 @@
 
             <div class="tab-pane" id="paiement">
                 <br/>
-                <h4>Paiement :</h4>
+                <h4>Récapitulatif de votre réservation :</h4>
                 <br/>
                 <div id="corpsPaiement" class="container-fluid col-md-12">
-                    {% if (reservation.id is not null) %}
-                        <form method="post" action="{{ path('louvre_payment_prepare',{'id' : reservation.id})}}">
-                            <div id="choixPaiement" class="col-md-4">
-                                <div class="form-inline row">
-                                    <label for="email">Votre e-mail : </label>
-                                    <input type="email" name="email_reservation" class="form-control" id="email" placeholder="Entrez votre E-mail">
-                                    <span class="alert-danger" id="erreurEmail" hidden="hidden"> * Veuillez entrez un Email valide</span>
-                                    <h4>Montant total à payer : <span id="montantTotal">{{ reservation.total }} €</span></h4>
-                                    <input id="btnPayer" class="payer pull-left" type="submit" value="PAYER">
-                                </div>
-                            </div>
-                        </form>
-                   {% endif %}
-                    <div id="recapPaiement" class="col-md-8">
-                        <div class="container-fluid" id="recapReservation">
-                            <h4>Récapitulatif de votre réservation :</h4>
+                    <div id="recapPaiement" class="row">
+                        <div class="container-fluid" id="recapReservation" style="overflow-x:auto;">
                             <table id="tableauRecapReservation">
                                 <thead>
-                                    <tr>
-                                        <th>N°</th>
-                                        <th>Nom</th>
-                                        <th>Prénom</th>
-                                        <th>Date de naissance</th>
-                                        <th>Type</th>
-                                        <th>Tarif réduit</th>
-                                        <th>Montant en €</th>
-                                    </tr>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Date de naissance</th>
+                                    <th>Type</th>
+                                    <th>Tarif réduit</th>
+                                    <th>Montant en €</th>
+                                </tr>
                                 </thead>
                                 <tbody id="ligneTableauRecap">
-                                    {% for billet in reservation.billets %}
-                                        <tr>
-                                            <td>{{ billet.id }}</td>
-                                            <td>{{ billet.nom }}</td>
-                                            <td>{{ billet.prenom }}</td>
-                                            <td>{{ billet.dateNaissance | date('d-m-Y') }}</td>
-                                            <td>
-                                                {% if billet.type == "journee" %}
-                                                    Journée
-                                                {% else %}
-                                                    Demi-journée
-                                                {% endif %}
-                                            </td>
-                                            <td>
-                                                {% if billet.reduit == 1 %}
-                                                    Oui
-                                                {% else %}
-                                                    Non
-                                                {% endif %}
-                                            </td>
-                                            <td>{{ billet.montant }}</td>
-                                        </tr>
-                                    {% endfor %}
+                                {% for billet in reservation.billets %}
+                                    <tr>
+                                        <td>{{ billet.id }}</td>
+                                        <td>{{ billet.nom }}</td>
+                                        <td>{{ billet.prenom }}</td>
+                                        <td>{{ billet.dateNaissance | date('d-m-Y') }}</td>
+                                        <td>
+                                            {% if billet.type == "journee" %}
+                                                Journée
+                                            {% else %}
+                                                Demi-journée
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if billet.reduit == 1 %}
+                                                Oui
+                                            {% else %}
+                                                Non
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ billet.montant }}</td>
+                                    </tr>
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                    <div id="validerPaiement" class="row">
+                    {% if (reservation.id is not null) %}
+                        <form method="post" action="{{ path('louvre_payment_prepare',{'id' : reservation.id})}}">
+                            <h4>Montant total à payer : <span id="montantTotal"><strong>{{ reservation.total }} €</strong></span></h4>
+                            <input type="submit" class="btn-primary" value="PAYEZ AVEC STRIPE">
+                        </form>
+                    {% endif %}
                     </div>
                 </div>
             </div>
@@ -119,7 +129,8 @@
                 <br/>
                 <h4>Merci !</h4>
                 <h5>Votre réservation a bien été validée et vous recevrez vos billets à l'email suivant :</h5>
-                <p id="email_envoi_billet">{{ reservation.email }}</p>
+                <br/><br/>
+                <p id="email_envoi_billet"><strong>{{ reservation.email }}</strong></p>
             </div>
         </div>
     </div>

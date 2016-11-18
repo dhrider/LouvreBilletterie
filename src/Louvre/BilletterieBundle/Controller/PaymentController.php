@@ -3,6 +3,7 @@
 
 namespace Louvre\BilletterieBundle\Controller;
 
+use Louvre\BilletterieBundle\Form\EmailUserType;
 use Louvre\BilletterieBundle\Entity\Reservation;
 use Louvre\BilletterieBundle\Event\ReservationEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,10 +14,6 @@ class PaymentController extends Controller
 {
     public function prepareAction(Request $request, Reservation $reservation)
     {
-        $reservation->setEmail($request->request->get('email_reservation'));
-        $this->getDoctrine()->getManager()->persist($reservation);
-        $this->getDoctrine()->getManager()->flush();
-
         $gatewayName = 'stripe';
 
         $storage = $this->get('payum')->getStorage('Louvre\BilletterieBundle\Entity\Payment');
@@ -25,7 +22,7 @@ class PaymentController extends Controller
         $payment->setReservation($reservation);
         $payment->setNumber(uniqid());
         $payment->setCurrencyCode('EUR');
-        $payment->setTotalAmount($reservation->getTotal()*100);
+        $payment->setTotalAmount($reservation->getTotal() * 100);
         $payment->setDescription('Billet(s) Louvre');
         $payment->setClientId($reservation->getId());
         $payment->setClientEmail($reservation->getEmail());

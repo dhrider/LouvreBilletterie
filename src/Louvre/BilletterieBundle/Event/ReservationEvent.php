@@ -5,7 +5,8 @@ namespace Louvre\BilletterieBundle\Event;
 use Louvre\BilletterieBundle\Entity\Reservation;
 use Symfony\Component\EventDispatcher\Event;
 
-class ReservationEvent extends Event {
+class ReservationEvent extends Event
+{
     const RESERVATION_CREATE = 'reservation.create';
     const RESERVATION_UPDATE = 'reservation.update';
     const RESERVATION_PAYMENT_SUCCESS = 'reservation.payment.success';

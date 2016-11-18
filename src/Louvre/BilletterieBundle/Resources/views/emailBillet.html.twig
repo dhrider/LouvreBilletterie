@@ -4,8 +4,13 @@
     </head>
     <body>
         <img id="logo" src="{{ logo }}"/>
-        </br>
-        <h2>Votre réservation n° : {{ reservation.id }} d'un montant de {{ reservation.total }} € a bien été validée.</h2>
+        <br/><br/>
+        <h2>Merci pour votre commande</h2>
+        <h3>Ci-dessous le détail de votre réservation :</h3>
+        <p>Réservation n° : <strong>{{ reservation.id }}</strong></p>
+        <p>Pour le : <strong>{{ reservation.dateReservation | date('d-m-Y') }}</strong></p>
+        <p>Montant total : <strong>{{ reservation.total }} €</strong></p>
+        <p>Vous trouverez vos billets dans le pdf joint à ce mail.</p>
     </body>
 </html>
 

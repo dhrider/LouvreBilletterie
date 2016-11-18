@@ -6,7 +6,7 @@
 
     <body>
         <h1>Votre réservation de billet(s) :</h1>
-        <h3>Reservation n° {{ reservation.id }}</h3>
+        <h3>Reservation n° {{ reservation.id }} pour le {{ reservation.dateReservation | date('d-m-Y') }}</h3>
 
         {% for billet in billets %}
             <div id="conteneur">
@@ -25,15 +25,19 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td></td>
-                            <td>{{ billet.type }}</td>
+                            <td>{{ reservation.dateReservation | date('d-m-Y') }}</td>
+                            {% if billet.type == 'journee' %}
+                                <td>Journée</td>
+                            {% else %}
+                                <td>Demi-Journée</td>
+                            {% endif %}
                             <td>{{ billet.nom }} {{ billet.prenom }}</td>
                             {% if billet.reduit == 0 %}
-                                <td>NON</td>
+                                <td>non</td>
                             {% else %}
-                                <td>OUI</td>
+                                <td>oui</td>
                             {% endif %}
-                            <td>{{ billet.montant }}</td>
+                            <td>{{ billet.montant }} €</td>
                         </tr>
                     </tbody>
                 </table>

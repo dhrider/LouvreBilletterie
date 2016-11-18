@@ -5,6 +5,8 @@ namespace Louvre\BilletterieBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -32,11 +34,19 @@ class ReservationType extends AbstractType
                 'label' => false,
                 'constraints' => array(new Valid()),
             ])
+            ->add('email', RepeatedType::class, array(
+                'type' => EmailType::class,
+                'invalid_message' => 'Les Emails ne correspondent pas !',
+                'required' => true,
+                'options' => array('attr' => array('class' => 'email')),
+                'first_options' => array('label' => 'Entrez votre email'),
+                'second_options' => array('label' => 'Répétez l\'email')
+            ))
             ->add('submit', SubmitType::class, array(
                 'attr' => array(
                     'class' => 'btn-primary pull-right'
                 ),
-                'label' => 'Validez le ou les billets'
+                'label' => 'RESERVEZ'
             ))
         ;
         

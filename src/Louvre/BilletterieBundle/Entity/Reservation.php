@@ -47,7 +47,7 @@ class Reservation
     ////////////////////////////////////////////////////////////////////////////
 
     /**
-     * @ORM\OneToMany(targetEntity="Billet", cascade={"all"}, mappedBy="reservation", fetch="EAGER")
+     * @ORM\OneToMany(targetEntity="Billet", cascade={"all"}, mappedBy="reservation", fetch="EAGER", orphanRemoval=true)
      */
     private $billets;
 
@@ -67,6 +67,13 @@ class Reservation
      */
 
     private $total;
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @ORM\OneToMany(targetEntity="Payment", mappedBy="reservation")
+     */
+    private $payments;
 
     ////////////////////////////////////////////////////////////////////////////
 
@@ -164,6 +171,24 @@ class Reservation
     {
         $this->dateReservation = $dateVisite;
         return $this;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @return mixed
+     */
+    public function getPayments()
+    {
+        return $this->payments;
+    }
+
+    /**
+     * @param mixed $payments
+     */
+    public function setPayments($payments)
+    {
+        $this->payments = $payments;
     }
 
     ////////////////////////////////////////////////////////////////////////////

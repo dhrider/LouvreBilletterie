@@ -1,25 +1,26 @@
 #conteneur {
     width: auto;
-    height: 150px;
+    height: 105px;
     border: 2px solid black;
-    padding: 10px;
+    padding: 15px;
     margin-bottom: 10px;
 }
 
 #logo {
     display: inline-block;
     vertical-align: center;
+    width: 10%;
 }
 
 #img_logo {
-    width: 100px;
+    height: 100px;
 }
 
 
 table {
     display: inline-block;
     width: 65%;
-    margin-top: 0;
+    margin-left: 20px;
 }
 
 th {
@@ -36,10 +37,11 @@ td {
 
 #qrCode {
     display: inline-block;
-    margin: 0;
+    width: 8%;
+    margin-left: 60px;
 }
 
 #qr_image {
-    width: 80%;
+    width: 50%;
 }
 

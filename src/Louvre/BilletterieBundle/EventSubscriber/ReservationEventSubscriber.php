@@ -17,6 +17,8 @@ class ReservationEventSubscriber implements EventSubscriberInterface {
     private $knpSnappyPdf;
     private $router;
 
+    ///////////////////////////////////////////////////////////////////////////////
+
     public function __construct(Registry $registry, TwigEngine $twigEngine,LoggableGenerator $knpSnappyBundle, \Swift_Mailer $mailer, Router $router)
     {
         $this->registry = $registry;
@@ -26,17 +28,19 @@ class ReservationEventSubscriber implements EventSubscriberInterface {
         $this->router = $router;
     }
 
+    ///////////////////////////////////////////////////////////////////////////////
+
     public static function getSubscribedEvents()
     {
         return array(
             ReservationEvent::RESERVATION_CREATE => array(
-                ['calculTarifBillets', 20], ['setTotal', 10]
+                ['calculTarifBillets', 20], ['setTotal', 10] // on définit les priorités d'appel des fonctions
             ),
             ReservationEvent::RESERVATION_UPDATE => array(
                 ['calculTarifBillets', 20], ['setTotal', 10]
             ),
             ReservationEvent::RESERVATION_PAYMENT_SUCCESS => array(
-                'pdfAndMail'
+                ['createPdf', 20], ['sendEmail', 10]
             ),
             ReservationEvent::RESERVATION_PAYMENT_FAILED => array(
                 'erreurPaiement'
@@ -44,28 +48,40 @@ class ReservationEventSubscriber implements EventSubscriberInterface {
         );
     }
 
+    ///////////////////////////////////////////////////////////////////////////////
+
+    // fonction de calcul du tarif du billet en fonction des données du visiteur
     public function calculTarifBillets(ReservationEvent $reservationEvent)
     {
         $tarifs = array();
 
+        // on récupère tous les tarifs existants
         $tarifsAll = $this->registry
             ->getEntityManager()
             ->getRepository('LouvreBilletterieBundle:Tarif')
             ->findAll();
 
+        // on les mets dans un tableau
         foreach ($tarifsAll as $tarif) {
             $tarifs[$tarif->getNom()] = $tarif;
         }
 
+        // Pour chaque billet de la réservation
         foreach ($reservationEvent->getReservation()->getBillets() as &$billet) {
+            // on récupère la date de réservation
             $dateReservation = $billet->getReservation()->getDateReservation();
+            // la date de naissance
             $dateNaissance = $billet->getDateNaissance();
+            // si on a sélectionné le tarif réduit
             $reduit = $billet->getReduit();
 
+            // on calcule l'âge du visiteur
             $diffDate = date_diff($dateNaissance, $dateReservation);
             $age = $diffDate->y;
 
+            // si on n'a pas sélectionné le tarif réduit
             if ($reduit == false) { // si "tarif réduit" n'est pas coché
+                // on affecte le nom du tarif en fonction de l'âge
                 if ($age >= 12 && $age < 60) {
                     $tarif = "normal";
                 } elseif ($age >= 4 && $age < 12) {
@@ -75,30 +91,42 @@ class ReservationEventSubscriber implements EventSubscriberInterface {
                 } else {
                     $tarif = "gratuit";
                 }
-            } else { // si "tarif réduit" est coché
+            }
+            else { // si "tarif réduit" est coché
                 $tarif = "reduit";
             }
 
+            // on affecte l'id du tarif au billet
             $billet->setTarif($tarifs[$tarif]);
-
+            // on affecte le montant du montant
             $billet->setMontant($tarifs[$tarif]->getTarif());
         }
     }
 
+    ///////////////////////////////////////////////////////////////////////////////
+
+    // fonction de calcul du montant total de la réservation
     public function setTotal(ReservationEvent $reservationEvent)
     {
+        // on récupère la réservation
         $reservation = $reservationEvent->getReservation();
 
         $montantTotal = 0;
 
+        // on boucle sur chaque billet de la réservation
         foreach ($reservation->getBillets() as $billet) {
+            // on incrémente le montant total en récupérant le montant du billet
             $montantTotal += $billet->getMontant();
         }
 
+        // on affecte le montant total
         $reservation->setTotal($montantTotal);
     }
 
-    public function pdfAndMail(ReservationEvent $reservationEvent)
+    ///////////////////////////////////////////////////////////////////////////////
+
+    // fonction de création du pdf contenant les billets
+    public function createPdf(ReservationEvent $reservationEvent)
     {
         $reservation = $reservationEvent->getReservation();
 
@@ -108,7 +136,6 @@ class ReservationEventSubscriber implements EventSubscriberInterface {
         $this->registry->getEntityManager()->flush();
 
         $pdfPath = __DIR__.'/../../../../web/upload/reservation_'.$reservation->getId().'.pdf';
-        $imagePath = __DIR__.'/../../../../web/bundles/louvrebilletterie/image/';
 
         $pdfHtml = $this->twigEngine->render('@LouvreBilletterie/pdfBillet.html.twig',array(
             'reservation' => $reservation,
@@ -116,6 +143,16 @@ class ReservationEventSubscriber implements EventSubscriberInterface {
         ));
 
         $this->knpSnappyPdf->generateFromHtml($pdfHtml,$pdfPath);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+
+    // fonction d'envoi des billets par email
+    public function sendEmail(ReservationEvent $reservationEvent) {
+        $reservation = $reservationEvent->getReservation();
+
+        $imagePath = __DIR__.'/../../../../web/bundles/louvrebilletterie/image/';
+        $pdfPath = __DIR__.'/../../../../web/upload/reservation_'.$reservation->getId().'.pdf';
 
         /* @var \Swift_Message $email */
         $email =  \Swift_Message::newInstance()
@@ -135,6 +172,9 @@ class ReservationEventSubscriber implements EventSubscriberInterface {
         $this->mailer->send($email);
     }
 
+    ///////////////////////////////////////////////////////////////////////////////
+
+    // fonction renvoyant à l'onglet de validation du paiement si ce dernier c'est mal passé
     public function erreurPaiement( ReservationEvent $reservationEvent) {
         return $this->router->generate('louvre_billetterie_achat_paiement',
                 ['id' => $reservationEvent->getReservation()->getId()]).'#paiement';

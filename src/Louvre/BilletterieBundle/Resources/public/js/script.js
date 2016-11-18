@@ -82,8 +82,8 @@ $(document).ready(function() {
         var billet = billets.data('prototype').replace(/__name__/g,(billets.data('index')+ compteurBillet));
         var newBillet = $('<div class="billet"></div>').html(billet);
         var btnDelete = $('<a class="btn btn-danger delete-billet btn-sm" href="#">Supprimer billet</a>');
-        var pAlertTypeHoraire = $('<p class="alert-danger hidden horaire">Vous ne pouvez choisir un billet "Journée" après 14 H !</p>');
-        var pAlertReduit = $('<p class="alert-danger hidden reduit">Un document certifiant l\'accès au tarif réduit vous sera demandez à la présentation de votre billet !</p>');
+        var pAlertTypeHoraire = $('<p class="alert-danger hidden horaire">Vous ne pouvez pas choisir un billet "Journée" après 14 H !</p>');
+        var pAlertReduit = $('<p class="alert-danger hidden reduit">Un document validant l\'accès au tarif réduit vous sera demandé à la présentation de votre billet !</p>');
         compteurBillet++;
 
         newBillet.append(pAlertTypeHoraire);
@@ -129,9 +129,12 @@ $(document).ready(function() {
     var $heure = $date.getHours();
 
     $(document).on('change', '.choixType', function (e) {
-        if ($(e.target).val() === 'demiJournee' && $heure >= 14) {
+        if ($(e.target).val() === 'journee' && $heure >= 14) {
             $(e.target).val('journee');
             $(e.target).closest('.billet').find('.horaire').removeClass('hidden');
+        }
+        else {
+            $(e.target).closest('.billet').find('.horaire').addClass('hidden');
         }
     });
 
@@ -171,4 +174,6 @@ $(document).ready(function() {
         if($(this).hasClass("disabled"))
             return false;
     });
+
+
 });

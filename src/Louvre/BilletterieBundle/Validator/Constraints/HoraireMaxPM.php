@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class HoraireMaxPM extends Constraint
 {
-    public $message = "Vous ne pouvez choisir un billet Journée après 14H !";
+    public $message = "Vous ne pouvez pas choisir un billet de type \"Journée\" après 14H !";
 
     public function validatedBy()
     {

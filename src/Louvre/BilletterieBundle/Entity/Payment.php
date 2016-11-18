@@ -22,10 +22,14 @@ class Payment extends BasePayment
      */
     protected $id;
 
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
-     * @ORM\ManyToOne(targetEntity="Reservation", inversedBy="Payment")
+     * @ORM\ManyToOne(targetEntity="Reservation", inversedBy="payments")
      */
     protected $reservation;
+
+    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * @return mixed
@@ -34,6 +38,7 @@ class Payment extends BasePayment
     {
         return $this->reservation;
     }
+
 
     /**
      * @param mixed $reservation

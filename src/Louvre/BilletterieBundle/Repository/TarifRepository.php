@@ -12,6 +12,4 @@ use Doctrine\ORM\EntityRepository;
  */
 class TarifRepository extends EntityRepository
 {
-
-
 }

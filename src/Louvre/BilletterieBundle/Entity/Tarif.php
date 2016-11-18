@@ -21,6 +21,8 @@ class Tarif
      */
     private $id;
 
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
      * @var string
      *
@@ -28,11 +30,24 @@ class Tarif
      */
     private $nom;
 
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
      * @var
-     * @ORM\OneToMany(targetEntity="Billet", mappedBy="Tarif")
+     * @ORM\OneToMany(targetEntity="Billet", mappedBy="tarif")
      */
     private $billets;
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="tarif", type="integer")
+     */
+    private $tarif;
+
+    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * @return mixed
@@ -42,6 +57,7 @@ class Tarif
         return $this->billets;
     }
 
+
     /**
      * @param mixed $billets
      */
@@ -49,6 +65,8 @@ class Tarif
     {
         $this->billets = $billets;
     }
+
+    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * @return string
@@ -58,6 +76,7 @@ class Tarif
         return $this->nom;
     }
 
+
     /**
      * @param string $nom
      */
@@ -65,13 +84,8 @@ class Tarif
     {
         $this->nom = $nom;
     }
-    
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="tarif", type="integer")
-     */
-    private $tarif;
+
+    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * @return int
@@ -81,6 +95,7 @@ class Tarif
         return $this->tarif;
     }
 
+
     /**
      * @param int $tarif
      */
@@ -88,6 +103,8 @@ class Tarif
     {
         $this->tarif = $tarif;
     }
+
+    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * Get id
@@ -98,11 +115,5 @@ class Tarif
     {
         return $this->id;
     }
-
-    /*public function __toString()
-    {
-       return $this->tarif;
-    }*/
-
 }
 

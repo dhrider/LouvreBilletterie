@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class BilletRepository extends EntityRepository
 {
+    // fonction calculant le nombre total de billet pour une date donnée
     public function nombreBilletsPourUneDate($date)
     {
         $qb = $this->createQueryBuilder('b');

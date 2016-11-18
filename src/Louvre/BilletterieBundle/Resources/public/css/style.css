@@ -52,6 +52,10 @@ p {
     margin-bottom: 50px;
 }
 
+.paraHomepage {
+    text-align: justify;
+}
+
 #corpsAchat {
     margin-top: 50px;
     margin-bottom: 50px;
@@ -156,5 +160,9 @@ input[type=checkbox]
 
 p {
    text-align: center;
+}
+
+#validerPaiement {
+    margin-top: 50px;
 }
 

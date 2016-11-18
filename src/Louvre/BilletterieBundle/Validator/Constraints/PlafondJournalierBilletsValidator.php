@@ -17,6 +17,7 @@ class PlafondJournalierBilletsValidator extends ConstraintValidator {
         $this->registry = $registry;
     }
 
+    // on vérifié qu'on ne dépasse pas le nombre total de billets pour la date de réservation choisie
     public function validate($value, Constraint $constraint)
     {
         $requete = $this->registry->getRepository('LouvreBilletterieBundle:Billet')->nombreBilletsPourUneDate($value);

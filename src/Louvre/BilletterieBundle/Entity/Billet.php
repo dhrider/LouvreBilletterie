@@ -80,7 +80,7 @@ class Billet
 
     /**
      * @var int
-     * @ORM\ManyToOne(targetEntity="Tarif", inversedBy="Billet")
+     * @ORM\ManyToOne(targetEntity="Tarif", inversedBy="billets")
      */
     private $tarif;
 
