@@ -24,7 +24,7 @@ class PlafondJournalierBilletsValidator extends ConstraintValidator {
 
         $nbBilletsTotal = (int)$requete[1];
 
-        if ($nbBilletsTotal > 1000) {
+        if ($nbBilletsTotal > $constraint->nombreBilletParJourMax) {
             $this->context
                 ->buildViolation($constraint->message)
                 ->addViolation();

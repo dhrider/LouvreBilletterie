@@ -12,6 +12,8 @@ class PlafondJournalierBillets extends Constraint
 {
     public $message = "Le plafond journalier de billets est dépassé, veuillez sélectionner une autre date !";
 
+    public $nombreBilletParJourMax = 1000;
+
     public function validatedBy()
     {
         return get_class($this).'Validator';

@@ -12,6 +12,8 @@ class HoraireMaxPM extends Constraint
 {
     public $message = "Vous ne pouvez pas choisir un billet de type \"Journée\" après 14H !";
 
+    public $heure = 14;
+
     public function validatedBy()
     {
         return get_class($this).'Validator';

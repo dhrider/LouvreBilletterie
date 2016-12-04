@@ -156,9 +156,9 @@ class ReservationEventSubscriber implements EventSubscriberInterface {
 
         /* @var \Swift_Message $email */
         $email =  \Swift_Message::newInstance()
-            ->setSubject('Test')
-            ->setFrom('Louvre@test.com')
-            ->setTo('p_bordmann@orange.fr')
+            ->setSubject('Confirmation de votre réservation')
+            ->setFrom('billetterie@louvrebilletterie.com')
+            ->setTo($reservation->getEmail())
             ->setContentType('text/html')
         ;
 
