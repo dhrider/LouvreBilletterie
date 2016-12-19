@@ -55,11 +55,17 @@ class PaymentController extends Controller
         {
             $this->get('event_dispatcher')
                 ->dispatch(ReservationEvent::RESERVATION_PAYMENT_SUCCESS,$reservationEvent);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($reservation->setStatut($reservation::STATUS_PAYER));
+            $em->flush();
         }
         else
         {
             $this->get('event_dispatcher')
                 ->dispatch(ReservationEvent::RESERVATION_PAYMENT_FAILED, $reservationEvent);
+
+            ;
         }
 
         return $this->redirect($this->generateUrl('louvre_billetterie_achat_paiement',

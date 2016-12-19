@@ -19,7 +19,8 @@ class ReservationEvent extends Event
         $this->reservation = $reservation;
     }
 
-    public function getReservation() {
+    public function getReservation()
+    {
         return $this->reservation;
     }
 }

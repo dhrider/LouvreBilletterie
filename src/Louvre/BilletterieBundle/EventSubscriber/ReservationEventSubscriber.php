@@ -4,13 +4,14 @@ namespace Louvre\BilletterieBundle\EventSubscriber;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Knp\Bundle\SnappyBundle\Snappy\LoggableGenerator;
+use Louvre\BilletterieBundle\Entity\Tarif;
 use Louvre\BilletterieBundle\Event\ReservationEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Bundle\TwigBundle\TwigEngine;
 use Symfony\Component\Routing\Router;
 
-class ReservationEventSubscriber implements EventSubscriberInterface {
-
+class ReservationEventSubscriber implements EventSubscriberInterface
+{
     private $registry;
     private $twigEngine;
     private $mailer;
@@ -50,51 +51,80 @@ class ReservationEventSubscriber implements EventSubscriberInterface {
 
     ///////////////////////////////////////////////////////////////////////////////
 
-    // fonction de calcul du tarif du billet en fonction des données du visiteur
-    public function calculTarifBillets(ReservationEvent $reservationEvent)
+    public function getListeTarif()
     {
-        $tarifs = array();
-
         // on récupère tous les tarifs existants
         $tarifsAll = $this->registry
-            ->getEntityManager()
             ->getRepository('LouvreBilletterieBundle:Tarif')
             ->findAll();
 
-        // on les mets dans un tableau
-        foreach ($tarifsAll as $tarif) {
+        // On crée un tableau vide qui recevra la liste des tarifs
+        $tarifs = array();
+        // on boucle sur les tarifs récupérés et on remplit le tableau
+        foreach ($tarifsAll as $tarif)
+        {
             $tarifs[$tarif->getNom()] = $tarif;
         }
 
+        return $tarifs;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+
+    public function getNomTarif($age, $reduit)
+    {
+        if ($reduit == false) // si "tarif réduit" n'est pas coché
+        {
+            // on affecte le nom du tarif en fonction de l'âge
+            if ($age >= 12 && $age < 60)
+            {
+                $tarif = "normal";
+            }
+            elseif ($age >= 4 && $age < 12)
+            {
+                $tarif = "enfant";
+            }
+            elseif ($age >= 60)
+            {
+                $tarif = "senior";
+            }
+            else
+            {
+                $tarif = "gratuit";
+            }
+        }
+        else // si "tarif réduit" est coché
+        {
+            $tarif = "reduit";
+        }
+
+        return $tarif;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+
+    // fonction de calcul du tarif du billet en fonction des données du visiteur
+    public function calculTarifBillets(ReservationEvent $reservationEvent)
+    {
+        // on récupère la liste des tarifs
+        $tarifs = $this->getListeTarif();
+
+        // on récupère la date de réservation
+        $dateReservation = $reservationEvent->getReservation()->getDateReservation();
+
         // Pour chaque billet de la réservation
-        foreach ($reservationEvent->getReservation()->getBillets() as &$billet) {
-            // on récupère la date de réservation
-            $dateReservation = $billet->getReservation()->getDateReservation();
-            // la date de naissance
+        foreach ($reservationEvent->getReservation()->getBillets() as &$billet)
+        {
+            // on récupère la date de naissance
             $dateNaissance = $billet->getDateNaissance();
-            // si on a sélectionné le tarif réduit
-            $reduit = $billet->getReduit();
 
             // on calcule l'âge du visiteur
-            $diffDate = date_diff($dateNaissance, $dateReservation);
-            $age = $diffDate->y;
+            $age = date_diff($dateNaissance, $dateReservation)->y;
+            // si on a sélectionné le tarif réduit ou non
+            $reduit = $billet->getReduit();
 
-            // si on n'a pas sélectionné le tarif réduit
-            if ($reduit == false) { // si "tarif réduit" n'est pas coché
-                // on affecte le nom du tarif en fonction de l'âge
-                if ($age >= 12 && $age < 60) {
-                    $tarif = "normal";
-                } elseif ($age >= 4 && $age < 12) {
-                    $tarif = "enfant";
-                } elseif ($age >= 60) {
-                    $tarif = "senior";
-                } else {
-                    $tarif = "gratuit";
-                }
-            }
-            else { // si "tarif réduit" est coché
-                $tarif = "reduit";
-            }
+            // on stocke le tarif correspondant
+            $tarif = $this->getNomTarif($age,$reduit);
 
             // on affecte l'id du tarif au billet
             $billet->setTarif($tarifs[$tarif]);
@@ -114,7 +144,8 @@ class ReservationEventSubscriber implements EventSubscriberInterface {
         $montantTotal = 0;
 
         // on boucle sur chaque billet de la réservation
-        foreach ($reservation->getBillets() as $billet) {
+        foreach ($reservation->getBillets() as $billet)
+        {
             // on incrémente le montant total en récupérant le montant du billet
             $montantTotal += $billet->getMontant();
         }
@@ -130,11 +161,6 @@ class ReservationEventSubscriber implements EventSubscriberInterface {
     {
         $reservation = $reservationEvent->getReservation();
 
-        $reservation->setStatut($reservation::STATUS_PAYER);
-
-        $this->registry->getEntityManager()->persist($reservation);
-        $this->registry->getEntityManager()->flush();
-
         $pdfPath = __DIR__.'/../../../../web/upload/reservation_'.$reservation->getId().'.pdf';
 
         $pdfHtml = $this->twigEngine->render('@LouvreBilletterie/pdfBillet.html.twig',array(
@@ -148,7 +174,8 @@ class ReservationEventSubscriber implements EventSubscriberInterface {
     ///////////////////////////////////////////////////////////////////////////////
 
     // fonction d'envoi des billets par email
-    public function sendEmail(ReservationEvent $reservationEvent) {
+    public function sendEmail(ReservationEvent $reservationEvent)
+    {
         $reservation = $reservationEvent->getReservation();
 
         $imagePath = __DIR__.'/../../../../web/bundles/louvrebilletterie/image/';
@@ -175,7 +202,8 @@ class ReservationEventSubscriber implements EventSubscriberInterface {
     ///////////////////////////////////////////////////////////////////////////////
 
     // fonction renvoyant à l'onglet de validation du paiement si ce dernier c'est mal passé
-    public function erreurPaiement( ReservationEvent $reservationEvent) {
+    public function erreurPaiement( ReservationEvent $reservationEvent)
+    {
         return $this->router->generate('louvre_billetterie_achat_paiement',
                 ['id' => $reservationEvent->getReservation()->getId()]).'#paiement';
     }

@@ -89,7 +89,7 @@ class BilletController extends Controller
         // On ajoute un 1er billet vide
         $reservation->addBillet(new Billet());
 
-        // on renvoi la réservation créee
+        // on renvoi la réservation crée
         return $reservation;
     }
 }

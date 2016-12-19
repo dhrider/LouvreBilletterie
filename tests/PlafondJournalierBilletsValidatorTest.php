@@ -2,7 +2,9 @@
 
 use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
 use Louvre\BilletterieBundle\Repository\BilletRepository;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Louvre\BilletterieBundle\Validator\Constraints\PlafondJournalierBilletsValidator;
+use Louvre\BilletterieBundle\Validator\Constraints\PlafondJournalierBillets;
 
 class PlafondJournalierBilletsValidatorTest extends AbstractConstraintValidatorTest
 {
@@ -21,14 +23,14 @@ class PlafondJournalierBilletsValidatorTest extends AbstractConstraintValidatorT
 
     public function createValidator()
     {
-        $registry = $this->getMockBuilder(\Doctrine\Bundle\DoctrineBundle\Registry::class)
+        $registry = $this->getMockBuilder(Registry::class)
             ->disableOriginalConstructor()
             ->getMock()
         ;
 
         $registry->method('getRepository')->willReturn($this->billetRepository);
 
-        $validator = new \Louvre\BilletterieBundle\Validator\Constraints\PlafondJournalierBilletsValidator($registry);
+        $validator = new PlafondJournalierBilletsValidator($registry);
 
         return $validator;
     }
@@ -40,7 +42,7 @@ class PlafondJournalierBilletsValidatorTest extends AbstractConstraintValidatorT
             ->willReturn([1 => 1001])
         ;
 
-        $this->validator->validate('10-10-2016', new \Louvre\BilletterieBundle\Validator\Constraints\PlafondJournalierBillets());
+        $this->validator->validate('10-10-2016', new PlafondJournalierBillets());
 
         $this->assertEquals(1, count($this->context->getViolations()));
     }
@@ -52,7 +54,7 @@ class PlafondJournalierBilletsValidatorTest extends AbstractConstraintValidatorT
             ->willReturn([1 => 999])
         ;
 
-        $this->validator->validate('10-10-2016', new \Louvre\BilletterieBundle\Validator\Constraints\PlafondJournalierBillets());
+        $this->validator->validate('10-10-2016', new PlafondJournalierBillets());
 
         $this->assertEquals(0, count($this->context->getViolations()));
     }
