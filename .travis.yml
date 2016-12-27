@@ -6,8 +6,22 @@ php:
   - 5.6
   - 7.0
 
+addons:
+  apt:
+      packages:
+        - wkhtmltopdf
+        - xvfb
+
 before_script:
-  - composer install
+
+  - export DISPLAY=:99
+  - sh -e /etc/init.d/xvfb start
+  - firefox --version
+  - wget http://selenium-release.storage.googleapis.com/2.47/selenium-server-standalone-2.47.1.jar
+  - java -jar selenium-server-standalone-2.47.1.jar > /dev/null 2>&1 &
+  - sleep 5
+
+  - composer install --no-interaction --prefer-dist
   - php bin/console doctrine:database:create --env=test
   - php bin/console doctrine:schema:create --env=test
   - php bin/console server:start --env=test
