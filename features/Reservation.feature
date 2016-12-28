@@ -5,4 +5,5 @@ Feature: Reservation
   Scenario: Reservation de billets
     Given I am on the homepage
     Then I wait for 1 seconds
-    Then I should see "Visites guidées"
+    Then I click on "pageAchat"
+    Then I should see "ongletJour"
