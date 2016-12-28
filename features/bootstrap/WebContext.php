@@ -21,7 +21,7 @@ class WebContext extends MinkContext
     public function iSelect($arg1)
     {
         $page = $this->getSession()->getPage();
-        $findClass = $page->find('css', $arg1);
+        $findClass = $page->find('xpath', '//a[@id="pageAchat"]');
 
         $findClass->click();
     }

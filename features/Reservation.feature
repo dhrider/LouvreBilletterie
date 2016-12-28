@@ -4,6 +4,5 @@ Feature: Reservation
   @javascript
   Scenario: Reservation de billets
     Given I am on the homepage
-    Then I wait for 1 seconds
-    Then I click on "pageAchat"
+    Then I select "pageAchat"
     Then I should see "Choisissez la date de votre réservation"
