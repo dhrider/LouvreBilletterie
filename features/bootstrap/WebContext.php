@@ -10,7 +10,7 @@ class WebContext extends MinkContext
     public function iClickOn($arg1)
     {
         $page = $this->getSession()->getPage();
-        $findClass = $page->find('xpath', $arg1);
+        $findClass = $page->findById($arg1);
 
         $findClass->click();
     }

@@ -5,5 +5,4 @@ Feature: Reservation
   Scenario: Reservation de billets
     Given I am on the homepage
     Then I click on "pageAchat"
-    Then I fill in "dateVisite" with "29"
-    Then I should see "reservation"
+    Then I should see "datePicker"
