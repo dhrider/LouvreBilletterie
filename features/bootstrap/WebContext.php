@@ -9,19 +9,17 @@ class WebContext extends MinkContext
      */
     public function iClickOn($arg1)
     {
-        $page = $this->getSession()->getPage();
-        $findId = $page->findById($arg1);
+        if ($arg1 === "Achetez de billets")
+        {
+            $xpath = '//a[@id="pageAchat"]';
+        }
+        elseif ($arg1 === "Date active")
+        {
+            $xpath = '//a[@class="ui-state-active"]';
+        }
 
-        $findId->click();
-    }
-
-    /**
-     * @When I select :arg1
-     */
-    public function iSelect($arg1)
-    {
         $page = $this->getSession()->getPage();
-        $findClass = $page->find('xpath', '//a[@id="'.$arg1.'"]');
+        $findClass = $page->find('xpath', $xpath);
 
         $findClass->click();
     }
