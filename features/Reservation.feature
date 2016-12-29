@@ -4,6 +4,6 @@ Feature: Reservation
   @javascript
   Scenario: Reservation de billets
     Given I am on the homepage
-    Then I click on "AchetezDesBillets"
+    Then I click on "pageAchat"
     Then I fill in "dateVisite" with "29"
     Then I should see "reservation"
