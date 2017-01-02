@@ -11,7 +11,6 @@ class WebContext extends MinkContext
     {
         $page = $this->getSession()->getPage();
         $findClass = $page->findById($arg1);
-
         $findClass->click();
     }
 
@@ -23,5 +22,26 @@ class WebContext extends MinkContext
         $this->getSession()->wait($arg1 * 1000);
     }
 
+    /**
+     * @Then I select the date :arg1
+     */
+    public function iSelectTheDate($arg1)
+    {
+        $page = $this->getSession()->getPage();
+        $date = $page->findById("dateVisite")->find('css', 'a:contains("'.$arg1.'")');
+        $date->click();
+
+    }
+
+    /**
+     * @Then I submit the form :arg1
+     */
+    public function iSubmitTheForm($arg1)
+    {
+        $page = $this->getSession()->getPage();
+        $form = $page->find('css', 'form');
+        //dump($form->find('css', 'button')->getHtml());
+        $form->find('css', 'button')->click();
+    }
 
 }
