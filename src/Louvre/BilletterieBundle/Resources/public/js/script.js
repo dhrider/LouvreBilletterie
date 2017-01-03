@@ -65,7 +65,7 @@ $(document).ready(function() {
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
-
+    $('.naissance').datepicker();
 
 
 
@@ -90,7 +90,7 @@ $(document).ready(function() {
         newBillet.append(pAlertReduit);
         newBillet.append(btnDelete); // on ajoute le bouton supprimer au nouveau billet
         newBillet.appendTo(billets); // on ajoute le nouveau billet à la liste des billets
-
+        $('.naissance').datepicker();
 
     });
 

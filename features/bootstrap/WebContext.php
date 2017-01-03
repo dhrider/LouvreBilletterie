@@ -40,7 +40,6 @@ class WebContext extends MinkContext
     {
         $page = $this->getSession()->getPage();
         $form = $page->find('css', 'form');
-        //dump($form->find('css', 'button')->getHtml());
         $form->find('css', 'button')->click();
     }
 

@@ -7,6 +7,7 @@ php:
   - 7.0
 
 addons:
+  firefox: "45.6"
   apt:
       packages:
         - wkhtmltopdf
@@ -17,8 +18,8 @@ before_script:
   - export DISPLAY=:99
   - sh -e /etc/init.d/xvfb start
   - firefox --version
-  - wget http://selenium-release.storage.googleapis.com/2.47/selenium-server-standalone-2.47.1.jar
-  - java -jar selenium-server-standalone-2.47.1.jar > /dev/null 2>&1 &
+  - wget http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.1.jar
+  - java -jar selenium-server-standalone-2.53.1.jar > /dev/null 2>&1 &
   - sleep 5
 
   - composer install --no-interaction --prefer-dist
