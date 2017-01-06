@@ -1,6 +1,8 @@
 $(document).ready(function() {
     // GESTION DU DATEPICKER //
 
+    $('.naissance').datepicker();// On attache le datepicker à chaque champ date de naissance à l'ouverture de la page
+
     // Tableau des jours fériés
     var joursFeries = [
         "1-1",
@@ -65,7 +67,7 @@ $(document).ready(function() {
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
-    $('.naissance').datepicker();
+
 
 
 
@@ -90,6 +92,8 @@ $(document).ready(function() {
         newBillet.append(pAlertReduit);
         newBillet.append(btnDelete); // on ajoute le bouton supprimer au nouveau billet
         newBillet.appendTo(billets); // on ajoute le nouveau billet à la liste des billets
+
+        // On attache le datepicker à chaque champ date de naissance à chaque billet crée
         $('.naissance').datepicker();
 
     });
